@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Importer;
 
-use League\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 
 /**
  * An importer that never imports any stylesheets.

@@ -13,7 +13,7 @@
 namespace Flames\Transpiler\Scss\Ast\Sass;
 
 use Flames\Transpiler\Scss\Parser\InterpolationBuffer;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * Plain text interpolated with Sass expressions.

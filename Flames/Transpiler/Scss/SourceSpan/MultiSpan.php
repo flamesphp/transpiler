@@ -12,11 +12,11 @@
 
 namespace Flames\Transpiler\Scss\SourceSpan;
 
-use League\Uri\Contracts\UriInterface;
-use SourceSpan\FileLocation;
-use SourceSpan\FileSpan;
-use SourceSpan\SourceFile;
-use SourceSpan\SourceSpan;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Span\FileLocation;
+use Flames\Transpiler\Scss\Span\FileSpan;
+use Flames\Transpiler\Scss\Span\SourceFile;
+use Flames\Transpiler\Scss\Span\SourceSpan;
 
 /**
  * A FileSpan wrapper that with secondary spans attached, so that

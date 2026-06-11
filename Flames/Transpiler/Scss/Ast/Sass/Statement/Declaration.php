@@ -17,7 +17,7 @@ use Flames\Transpiler\Scss\Ast\Sass\Expression\StringExpression;
 use Flames\Transpiler\Scss\Ast\Sass\Interpolation;
 use Flames\Transpiler\Scss\Ast\Sass\Statement;
 use Flames\Transpiler\Scss\Visitor\StatementVisitor;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A declaration (that is, a `name: value` pair).

@@ -12,9 +12,9 @@
 
 namespace Flames\Transpiler\Scss\Util;
 
-use League\Uri\Contracts\UriInterface;
-use League\Uri\Uri;
-use League\Uri\UriString;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Uri;
+use Flames\Transpiler\Scss\Uri\UriString;
 
 /**
  * @internal

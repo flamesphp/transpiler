@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Parser;
 
-use League\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 use Flames\Transpiler\Scss\Exception\MultiSpanSassFormatException;
 use Flames\Transpiler\Scss\Exception\SassFormatException;
 use Flames\Transpiler\Scss\Exception\SimpleSassFormatException;
@@ -21,8 +21,8 @@ use Flames\Transpiler\Scss\Logger\QuietLogger;
 use Flames\Transpiler\Scss\SourceSpan\LazyFileSpan;
 use Flames\Transpiler\Scss\Util\Character;
 use Flames\Transpiler\Scss\Util\ParserUtil;
-use SourceSpan\FileLocation;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileLocation;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * @internal

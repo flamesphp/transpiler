@@ -13,7 +13,7 @@
 namespace Flames\Transpiler\Scss\Ast\Css;
 
 use Flames\Transpiler\Scss\Visitor\ModifiableCssVisitor;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A modifiable version of {@see CssImport} for use in the evaluation step.

@@ -12,11 +12,11 @@
 
 namespace Flames\Transpiler\Scss\Ast\Sass\Import;
 
-use League\Uri\Contracts\UriInterface;
-use League\Uri\Uri;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Uri;
 use Flames\Transpiler\Scss\Ast\Sass\Expression\StringExpression;
 use Flames\Transpiler\Scss\Ast\Sass\Import;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * An import that will load a Sass file at runtime.

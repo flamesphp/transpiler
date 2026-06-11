@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Ast\Selector;
 
-use League\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 use Flames\Transpiler\Scss\Ast\Css\CssValue;
 use Flames\Transpiler\Scss\Exception\MultiSpanSassException;
 use Flames\Transpiler\Scss\Exception\SassFormatException;
@@ -29,7 +29,7 @@ use Flames\Transpiler\Scss\Value\ListSeparator;
 use Flames\Transpiler\Scss\Value\SassList;
 use Flames\Transpiler\Scss\Value\SassString;
 use Flames\Transpiler\Scss\Visitor\SelectorVisitor;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A selector list.

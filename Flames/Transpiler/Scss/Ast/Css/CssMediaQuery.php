@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Ast\Css;
 
-use League\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 use Flames\Transpiler\Scss\Exception\SassFormatException;
 use Flames\Transpiler\Scss\Logger\LoggerInterface;
 use Flames\Transpiler\Scss\Parser\InterpolationMap;

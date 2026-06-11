@@ -13,7 +13,7 @@
 namespace Flames\Transpiler\Scss\Exception;
 
 use Flames\Transpiler\Scss\StackTrace\Trace;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * @internal

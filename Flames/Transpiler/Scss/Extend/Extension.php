@@ -15,7 +15,7 @@ namespace Flames\Transpiler\Scss\Extend;
 use Flames\Transpiler\Scss\Ast\Css\CssMediaQuery;
 use Flames\Transpiler\Scss\Ast\Selector\ComplexSelector;
 use Flames\Transpiler\Scss\Ast\Selector\SimpleSelector;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * The state of an extension for a given extender.

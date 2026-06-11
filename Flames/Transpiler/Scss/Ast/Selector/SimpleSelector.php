@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Ast\Selector;
 
-use League\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 use Flames\Transpiler\Scss\Exception\MultiSpanSassException;
 use Flames\Transpiler\Scss\Exception\SassException;
 use Flames\Transpiler\Scss\Exception\SassFormatException;

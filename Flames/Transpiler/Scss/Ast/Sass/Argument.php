@@ -14,7 +14,7 @@ namespace Flames\Transpiler\Scss\Ast\Sass;
 
 use Flames\Transpiler\Scss\Util;
 use Flames\Transpiler\Scss\Util\SpanUtil;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * An argument declared as part of an {@see ArgumentDeclaration}.

@@ -15,7 +15,7 @@ namespace Flames\Transpiler\Scss\Ast\Selector;
 use Flames\Transpiler\Scss\Util;
 use Flames\Transpiler\Scss\Util\EquatableUtil;
 use Flames\Transpiler\Scss\Visitor\SelectorVisitor;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A pseudo-class or pseudo-element selector.

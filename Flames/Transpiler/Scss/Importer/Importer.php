@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Importer;
 
-use League\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 
 /**
  * A base class for importers that resolves URLs in `@import`s to the contents

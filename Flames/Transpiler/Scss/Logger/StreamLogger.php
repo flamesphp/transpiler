@@ -16,8 +16,8 @@ use Flames\Transpiler\Scss\Deprecation;
 use Flames\Transpiler\Scss\StackTrace\Trace;
 use Flames\Transpiler\Scss\Util;
 use Flames\Transpiler\Scss\Util\Path;
-use SourceSpan\FileSpan;
-use SourceSpan\SourceSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
+use Flames\Transpiler\Scss\Span\SourceSpan;
 
 /**
  * A logger that prints to a PHP stream (for instance stderr)

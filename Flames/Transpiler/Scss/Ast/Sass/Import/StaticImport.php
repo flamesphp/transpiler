@@ -14,7 +14,7 @@ namespace Flames\Transpiler\Scss\Ast\Sass\Import;
 
 use Flames\Transpiler\Scss\Ast\Sass\Import;
 use Flames\Transpiler\Scss\Ast\Sass\Interpolation;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * An import that produces a plain CSS `@import` rule.

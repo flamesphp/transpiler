@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Ast\Sass;
 
-use League\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 use Flames\Transpiler\Scss\Ast\Css\CssAtRule;
 use Flames\Transpiler\Scss\Ast\Css\CssMediaRule;
 use Flames\Transpiler\Scss\Ast\Css\CssParentNode;

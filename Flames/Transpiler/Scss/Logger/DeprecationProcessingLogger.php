@@ -17,8 +17,8 @@ use Flames\Transpiler\Scss\Exception\SassScriptException;
 use Flames\Transpiler\Scss\Exception\SimpleSassException;
 use Flames\Transpiler\Scss\Exception\SimpleSassRuntimeException;
 use Flames\Transpiler\Scss\StackTrace\Trace;
-use SourceSpan\FileSpan;
-use SourceSpan\SourceSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
+use Flames\Transpiler\Scss\Span\SourceSpan;
 
 /**
  * A logger that wraps an inner logger to have special handling for

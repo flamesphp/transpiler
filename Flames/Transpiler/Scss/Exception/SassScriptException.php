@@ -2,7 +2,7 @@
 
 namespace Flames\Transpiler\Scss\Exception;
 
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * An exception thrown by SassScript.

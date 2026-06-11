@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Ast;
 
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A node in an abstract syntax tree.

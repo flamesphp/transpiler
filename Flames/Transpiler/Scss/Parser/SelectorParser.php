@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Parser;
 
-use League\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 use Flames\Transpiler\Scss\Ast\Css\CssValue;
 use Flames\Transpiler\Scss\Ast\Selector\AttributeOperator;
 use Flames\Transpiler\Scss\Ast\Selector\AttributeSelector;

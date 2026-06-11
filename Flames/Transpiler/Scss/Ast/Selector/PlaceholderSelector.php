@@ -14,7 +14,7 @@ namespace Flames\Transpiler\Scss\Ast\Selector;
 
 use Flames\Transpiler\Scss\Util\Character;
 use Flames\Transpiler\Scss\Visitor\SelectorVisitor;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A placeholder selector.

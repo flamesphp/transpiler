@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\SourceMap\Builder;
 
-use SourceSpan\SourceLocation;
+use Flames\Transpiler\Scss\Span\SourceLocation;
 
 /**
  * An entry in the source map builder.

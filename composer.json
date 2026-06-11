@@ -1,14 +1,11 @@
 {
     "name": "flamesphp/transpiler",
-    "description": "Flames transpiler (SCSS and related asset compilation)",
+    "description": "Flames: Transpiler",
     "type": "library",
     "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": ">=8.5"
-    },
-    "autoload": {
-        "psr-4": {
-            "Flames\\Transpiler\\": "Flames/Transpiler/"
-        }
     }
 }

@@ -16,7 +16,7 @@ use Flames\Transpiler\Scss\Ast\AstNode;
 use Flames\Transpiler\Scss\Ast\Selector\Combinator;
 use Flames\Transpiler\Scss\Util\Equatable;
 use Flames\Transpiler\Scss\Util\EquatableUtil;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A value in a plain CSS tree.

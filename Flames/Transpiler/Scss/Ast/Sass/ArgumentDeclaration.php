@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Ast\Sass;
 
-use League\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 use Flames\Transpiler\Scss\Exception\MultiSpanSassScriptException;
 use Flames\Transpiler\Scss\Exception\SassFormatException;
 use Flames\Transpiler\Scss\Exception\SassScriptException;
@@ -21,7 +21,7 @@ use Flames\Transpiler\Scss\Parser\ScssParser;
 use Flames\Transpiler\Scss\Util\Character;
 use Flames\Transpiler\Scss\Util\SpanUtil;
 use Flames\Transpiler\Scss\Util\StringUtil;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * An argument declaration, as for a function or mixin definition.

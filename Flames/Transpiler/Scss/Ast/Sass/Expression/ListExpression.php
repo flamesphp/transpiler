@@ -15,7 +15,7 @@ namespace Flames\Transpiler\Scss\Ast\Sass\Expression;
 use Flames\Transpiler\Scss\Ast\Sass\Expression;
 use Flames\Transpiler\Scss\Value\ListSeparator;
 use Flames\Transpiler\Scss\Visitor\ExpressionVisitor;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A list literal.

@@ -14,7 +14,7 @@ namespace Flames\Transpiler\Scss\Ast\Sass;
 
 use Flames\Transpiler\Scss\Ast\Sass\Expression\ListExpression;
 use Flames\Transpiler\Scss\Value\ListSeparator;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A set of arguments passed in to a function or mixin.

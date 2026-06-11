@@ -16,7 +16,7 @@ use Flames\Transpiler\Scss\Ast\Selector\SelectorList;
 use Flames\Transpiler\Scss\Util\Box;
 use Flames\Transpiler\Scss\Util\EquatableUtil;
 use Flames\Transpiler\Scss\Visitor\ModifiableCssVisitor;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A modifiable version of {@see CssStyleRule} for use in the evaluation step.

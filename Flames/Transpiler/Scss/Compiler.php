@@ -12,8 +12,8 @@
 
 namespace Flames\Transpiler\Scss;
 
-use League\Uri\Contracts\UriInterface;
-use League\Uri\Uri;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Uri;
 use Flames\Transpiler\Scss\Ast\Css\CssParentNode;
 use Flames\Transpiler\Scss\Ast\Sass\Statement\Stylesheet;
 use Flames\Transpiler\Scss\Collection\Map;

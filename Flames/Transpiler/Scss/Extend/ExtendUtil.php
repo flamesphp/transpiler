@@ -29,7 +29,7 @@ use Flames\Transpiler\Scss\Util\EquatableUtil;
 use Flames\Transpiler\Scss\Util\IterableUtil;
 use Flames\Transpiler\Scss\Util\ListUtil;
 use Flames\Transpiler\Scss\Util\SpanUtil;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * @internal

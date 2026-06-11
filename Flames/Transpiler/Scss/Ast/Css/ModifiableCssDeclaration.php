@@ -16,7 +16,7 @@ use Flames\Transpiler\Scss\StackTrace\Trace;
 use Flames\Transpiler\Scss\Value\SassString;
 use Flames\Transpiler\Scss\Value\Value;
 use Flames\Transpiler\Scss\Visitor\ModifiableCssVisitor;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A modifiable version of {@see CssDeclaration} for use in the evaluation step.

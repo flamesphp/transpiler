@@ -12,10 +12,10 @@
 
 namespace Flames\Transpiler\Scss\Parser;
 
-use League\Uri\Contracts\UriInterface;
-use SourceSpan\FileLocation;
-use SourceSpan\FileSpan;
-use SourceSpan\SourceFile;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Span\FileLocation;
+use Flames\Transpiler\Scss\Span\FileSpan;
+use Flames\Transpiler\Scss\Span\SourceFile;
 
 /**
  * A port of Dart's string_scanner package to be used by the parser.

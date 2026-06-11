@@ -1,19 +1,21 @@
-# Flames Transpiler
+<p align="center">
+    <a href="https://flamesphp.com" target="_blank">
+<img src="https://i.postimg.cc/PJKG2cXC/flames.png" width="400" alt="Flames Logo"></a></p>
 
-Asset transpilation for Flames (SCSS → CSS, and related compilers).
+<p align="center">
+    <a href="https://packagist.org/packages/flamesphp/framework">
+        <img src="https://img.shields.io/packagist/dt/flamesphp/framework" alt="Total Downloads">
+        <img src="https://img.shields.io/packagist/v/flamesphp/framework" alt="Latest Stable Version">
+        <img src="https://img.shields.io/packagist/l/flamesphp/framework" alt="License">
+    </a>
+</p>
 
-## SCSS
+<h3 align="center">The first PHP Framework cross side.</h3>
+<p align="center">
+    <a href="https://flamesphp.com/docs" target="_blank">
+        <img src="https://img.shields.io/badge/GO_TO-DOCUMENTATION-blue">
+    </a>
+</p>
 
-Mesh templates use `{% asset '/assets/foo.scss' %}`, which delegates to `Flames\Transpiler\Scss\Parser`.
-
-### Third-party sources
-
-The SCSS engine bundles vendored dependencies under `ThirdParty/` (SourceSpan, League Uri).
-
-Run once after clone:
-
-```bash
-php vendor/flamesphp/transpiler/integrate-third-party.php
-```
-
-Optional: place zip files in `vendor/flamesphp/transpiler/bundles/` to avoid downloads.
+## About Flames
+**Flames** is a **PHP framework** for frontend, backend, console applications and a set of **PHP components**.

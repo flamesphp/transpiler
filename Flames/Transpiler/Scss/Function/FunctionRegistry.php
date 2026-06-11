@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Function;
 
-use League\Uri\Uri;
+use Flames\Transpiler\Scss\Uri\Uri;
 use Flames\Transpiler\Scss\SassCallable\BuiltInCallable;
 use Flames\Transpiler\Scss\Value\Value;
 

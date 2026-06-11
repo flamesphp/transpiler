@@ -12,8 +12,8 @@
 
 namespace Flames\Transpiler\Scss\Importer;
 
-use League\Uri\Contracts\UriInterface;
-use League\Uri\Uri;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Uri;
 use Flames\Transpiler\Scss\Syntax;
 
 final class ImporterResult

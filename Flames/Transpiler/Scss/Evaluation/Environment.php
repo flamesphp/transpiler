@@ -16,7 +16,7 @@ use Flames\Transpiler\Scss\Ast\AstNode;
 use Flames\Transpiler\Scss\SassCallable\SassCallable;
 use Flames\Transpiler\Scss\SassCallable\UserDefinedCallable;
 use Flames\Transpiler\Scss\Value\Value;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * The lexical environment in which Sass is executed.

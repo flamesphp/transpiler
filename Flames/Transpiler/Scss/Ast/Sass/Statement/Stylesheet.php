@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Ast\Sass\Statement;
 
-use League\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 use Flames\Transpiler\Scss\Ast\Sass\Statement;
 use Flames\Transpiler\Scss\Exception\SassFormatException;
 use Flames\Transpiler\Scss\Logger\LoggerInterface;
@@ -21,7 +21,7 @@ use Flames\Transpiler\Scss\Parser\SassParser;
 use Flames\Transpiler\Scss\Parser\ScssParser;
 use Flames\Transpiler\Scss\Syntax;
 use Flames\Transpiler\Scss\Visitor\StatementVisitor;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A Sass stylesheet.

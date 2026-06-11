@@ -15,7 +15,7 @@ namespace Flames\Transpiler\Scss\Ast\Sass\SupportsCondition;
 use Flames\Transpiler\Scss\Ast\Sass\Expression;
 use Flames\Transpiler\Scss\Ast\Sass\Expression\StringExpression;
 use Flames\Transpiler\Scss\Ast\Sass\SupportsCondition;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A condition that selects for browsers where a given declaration is

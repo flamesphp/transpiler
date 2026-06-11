@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Evaluation;
 
-use League\Uri\Uri;
+use Flames\Transpiler\Scss\Uri\Uri;
 use Flames\Transpiler\Scss\Ast\AstNode;
 use Flames\Transpiler\Scss\Ast\Css\CssAtRule;
 use Flames\Transpiler\Scss\Ast\Css\CssComment;
@@ -152,9 +152,9 @@ use Flames\Transpiler\Scss\Value\Value;
 use Flames\Transpiler\Scss\Visitor\ExpressionVisitor;
 use Flames\Transpiler\Scss\Visitor\StatementVisitor;
 use Flames\Transpiler\Scss\Warn;
-use SourceSpan\FileSpan;
-use SourceSpan\SourceFile;
-use SourceSpan\SimpleSourceLocation;
+use Flames\Transpiler\Scss\Span\FileSpan;
+use Flames\Transpiler\Scss\Span\SourceFile;
+use Flames\Transpiler\Scss\Span\SimpleSourceLocation;
 
 /**
  * A visitor that executes Sass code to produce a CSS tree.

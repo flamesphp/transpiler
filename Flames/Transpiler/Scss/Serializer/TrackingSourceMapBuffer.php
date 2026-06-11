@@ -15,11 +15,11 @@ namespace Flames\Transpiler\Scss\Serializer;
 use Flames\Transpiler\Scss\SourceMap\Builder\Entry;
 use Flames\Transpiler\Scss\SourceMap\SingleMapping;
 use Flames\Transpiler\Scss\Util\ListUtil;
-use SourceSpan\FileLocation;
-use SourceSpan\FileSpan;
-use SourceSpan\SimpleSourceLocation;
-use SourceSpan\SourceLocation;
-use SourceSpan\SourceSpan;
+use Flames\Transpiler\Scss\Span\FileLocation;
+use Flames\Transpiler\Scss\Span\FileSpan;
+use Flames\Transpiler\Scss\Span\SimpleSourceLocation;
+use Flames\Transpiler\Scss\Span\SourceLocation;
+use Flames\Transpiler\Scss\Span\SourceSpan;
 
 /**
  * A {@see SourceMapBuffer} that builds a source map.

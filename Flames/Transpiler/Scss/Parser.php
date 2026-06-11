@@ -9,7 +9,6 @@ namespace Flames\Transpiler\Scss;
  */
 final class Parser
 {
-    private static bool $booted = false;
 
     /**
      * Compiles $scssPath to CSS when the output is missing or stale.
@@ -18,8 +17,6 @@ final class Parser
      */
     public static function parse(string $scssPath, ?string $cssPath = null): string
     {
-        self::boot();
-
         $scssPath = self::resolveFilesystemPath($scssPath);
         if (!is_file($scssPath)) {
             throw new \RuntimeException('SCSS file not found: ' . $scssPath);
@@ -99,13 +96,4 @@ final class Parser
         return $path;
     }
 
-    private static function boot(): void
-    {
-        if (self::$booted) {
-            return;
-        }
-
-        require_once dirname(__DIR__) . '/autoload.php';
-        self::$booted = true;
-    }
 }

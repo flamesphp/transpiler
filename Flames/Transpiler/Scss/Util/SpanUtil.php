@@ -13,8 +13,8 @@
 namespace Flames\Transpiler\Scss\Util;
 
 use Flames\Transpiler\Scss\Parser\StringScanner;
-use SourceSpan\FileSpan;
-use SourceSpan\SourceFile;
+use Flames\Transpiler\Scss\Span\FileSpan;
+use Flames\Transpiler\Scss\Span\SourceFile;
 
 /**
  * @internal

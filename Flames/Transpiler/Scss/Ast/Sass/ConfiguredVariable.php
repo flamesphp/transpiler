@@ -13,7 +13,7 @@
 namespace Flames\Transpiler\Scss\Ast\Sass;
 
 use Flames\Transpiler\Scss\Util\SpanUtil;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A variable configured by a `with` clause in a `@use` or `@forward` rule.

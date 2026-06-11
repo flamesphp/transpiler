@@ -16,7 +16,7 @@ use Flames\Transpiler\Scss\Deprecation;
 use Flames\Transpiler\Scss\Logger\DeprecationProcessingLogger;
 use Flames\Transpiler\Scss\Logger\LoggerInterface;
 use Flames\Transpiler\Scss\StackTrace\Trace;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * @internal

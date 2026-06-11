@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Importer;
 
-use League\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 use Flames\Transpiler\Scss\Util\Path;
 
 /**

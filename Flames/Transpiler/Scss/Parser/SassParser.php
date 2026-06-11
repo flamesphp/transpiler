@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Parser;
 
-use League\Uri\Exceptions\SyntaxError;
+use Flames\Transpiler\Scss\Uri\Exceptions\SyntaxError;
 use Flames\Transpiler\Scss\Ast\Sass\Import;
 use Flames\Transpiler\Scss\Ast\Sass\Import\DynamicImport;
 use Flames\Transpiler\Scss\Ast\Sass\Import\StaticImport;

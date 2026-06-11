@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\SassCallable;
 
-use League\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 use Flames\Transpiler\Scss\Ast\Sass\ArgumentDeclaration;
 use Flames\Transpiler\Scss\Exception\SassFormatException;
 use Flames\Transpiler\Scss\Value\SassNull;

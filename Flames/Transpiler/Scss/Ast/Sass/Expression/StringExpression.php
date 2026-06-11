@@ -17,7 +17,7 @@ use Flames\Transpiler\Scss\Ast\Sass\Interpolation;
 use Flames\Transpiler\Scss\Parser\InterpolationBuffer;
 use Flames\Transpiler\Scss\Util\Character;
 use Flames\Transpiler\Scss\Visitor\ExpressionVisitor;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A string literal.

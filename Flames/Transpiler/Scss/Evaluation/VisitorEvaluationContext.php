@@ -14,7 +14,7 @@ namespace Flames\Transpiler\Scss\Evaluation;
 
 use Flames\Transpiler\Scss\Ast\AstNode;
 use Flames\Transpiler\Scss\Deprecation;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * @internal

@@ -14,7 +14,7 @@ namespace Flames\Transpiler\Scss\Ast\Css;
 
 use Flames\Transpiler\Scss\StackTrace\Trace;
 use Flames\Transpiler\Scss\Value\Value;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A plain CSS declaration (that is, a `name: value` pair).

@@ -14,7 +14,7 @@ namespace Flames\Transpiler\Scss\Parser;
 
 use Flames\Transpiler\Scss\Ast\Sass\Expression;
 use Flames\Transpiler\Scss\Ast\Sass\Interpolation;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A buffer that iteratively builds up an {@see Interpolation}.

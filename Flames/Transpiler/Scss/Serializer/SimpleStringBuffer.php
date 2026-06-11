@@ -13,7 +13,7 @@
 namespace Flames\Transpiler\Scss\Serializer;
 
 use Flames\Transpiler\Scss\SourceMap\SingleMapping;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A buffer that doesn't actually build a source map.

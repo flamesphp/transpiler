@@ -14,7 +14,7 @@ namespace Flames\Transpiler\Scss\Ast\Sass\Statement;
 
 use Flames\Transpiler\Scss\Ast\Sass\ArgumentDeclaration;
 use Flames\Transpiler\Scss\Ast\Sass\Statement;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * An abstract class for callables (functions or mixins) that are declared in

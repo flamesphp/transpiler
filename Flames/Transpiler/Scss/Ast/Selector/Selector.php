@@ -19,7 +19,7 @@ use Flames\Transpiler\Scss\Serializer\Serializer;
 use Flames\Transpiler\Scss\Util\Equatable;
 use Flames\Transpiler\Scss\Visitor\SelectorVisitor;
 use Flames\Transpiler\Scss\Warn;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A node in the abstract syntax tree for a selector.

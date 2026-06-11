@@ -15,7 +15,7 @@ namespace Flames\Transpiler\Scss\Ast\Sass\Statement;
 use Flames\Transpiler\Scss\Ast\Sass\SassDeclaration;
 use Flames\Transpiler\Scss\Util\SpanUtil;
 use Flames\Transpiler\Scss\Visitor\StatementVisitor;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A function declaration.

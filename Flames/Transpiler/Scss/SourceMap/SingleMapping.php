@@ -13,8 +13,8 @@
 namespace Flames\Transpiler\Scss\SourceMap;
 
 use Flames\Transpiler\Scss\SourceMap\Builder\Entry;
-use SourceSpan\FileLocation;
-use SourceSpan\SourceFile;
+use Flames\Transpiler\Scss\Span\FileLocation;
+use Flames\Transpiler\Scss\Span\SourceFile;
 
 /**
  * @internal

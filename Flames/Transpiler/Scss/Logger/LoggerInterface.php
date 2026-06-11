@@ -14,8 +14,8 @@ namespace Flames\Transpiler\Scss\Logger;
 
 use Flames\Transpiler\Scss\Deprecation;
 use Flames\Transpiler\Scss\StackTrace\Trace;
-use SourceSpan\FileSpan;
-use SourceSpan\SourceSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
+use Flames\Transpiler\Scss\Span\SourceSpan;
 
 /**
  * Interface implemented by loggers for warnings and debug messages.

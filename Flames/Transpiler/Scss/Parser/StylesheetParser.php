@@ -12,9 +12,9 @@
 
 namespace Flames\Transpiler\Scss\Parser;
 
-use League\Uri\Contracts\UriInterface;
-use League\Uri\Exceptions\SyntaxError;
-use League\Uri\Uri;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Exceptions\SyntaxError;
+use Flames\Transpiler\Scss\Uri\Uri;
 use Flames\Transpiler\Scss\Ast\Sass\Argument;
 use Flames\Transpiler\Scss\Ast\Sass\ArgumentDeclaration;
 use Flames\Transpiler\Scss\Ast\Sass\ArgumentInvocation;
@@ -87,7 +87,7 @@ use Flames\Transpiler\Scss\Util\StringUtil;
 use Flames\Transpiler\Scss\Value\ListSeparator;
 use Flames\Transpiler\Scss\Value\SassColor;
 use Flames\Transpiler\Scss\Value\SpanColorFormat;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * @internal

@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Ast\Sass;
 
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A common interface for any node that references a Sass member.

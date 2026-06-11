@@ -15,7 +15,7 @@ namespace Flames\Transpiler\Scss\Ast\Sass\Expression;
 use Flames\Transpiler\Scss\Ast\Sass\Expression;
 use Flames\Transpiler\Scss\Util\SpanUtil;
 use Flames\Transpiler\Scss\Visitor\ExpressionVisitor;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A binary operator, as in `1 + 2` or `$this and $other`.

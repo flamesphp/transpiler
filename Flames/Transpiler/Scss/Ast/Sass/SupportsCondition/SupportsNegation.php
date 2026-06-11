@@ -13,7 +13,7 @@
 namespace Flames\Transpiler\Scss\Ast\Sass\SupportsCondition;
 
 use Flames\Transpiler\Scss\Ast\Sass\SupportsCondition;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A negated condition.

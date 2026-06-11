@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Ast\Selector;
 
-use League\Uri\Contracts\UriInterface;
+use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 use Flames\Transpiler\Scss\Ast\Css\CssValue;
 use Flames\Transpiler\Scss\Exception\SassFormatException;
 use Flames\Transpiler\Scss\Extend\ExtendUtil;
@@ -21,7 +21,7 @@ use Flames\Transpiler\Scss\Parser\SelectorParser;
 use Flames\Transpiler\Scss\Util\EquatableUtil;
 use Flames\Transpiler\Scss\Util\ListUtil;
 use Flames\Transpiler\Scss\Visitor\SelectorVisitor;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A complex selector.

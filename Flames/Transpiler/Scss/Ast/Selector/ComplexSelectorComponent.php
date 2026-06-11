@@ -15,7 +15,7 @@ namespace Flames\Transpiler\Scss\Ast\Selector;
 use Flames\Transpiler\Scss\Ast\Css\CssValue;
 use Flames\Transpiler\Scss\Util\Equatable;
 use Flames\Transpiler\Scss\Util\EquatableUtil;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * A component of a {@see ComplexSelector}.

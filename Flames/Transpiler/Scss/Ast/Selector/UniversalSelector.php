@@ -14,7 +14,7 @@ namespace Flames\Transpiler\Scss\Ast\Selector;
 
 use Flames\Transpiler\Scss\Extend\ExtendUtil;
 use Flames\Transpiler\Scss\Visitor\SelectorVisitor;
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * Matches any element in the given namespace.

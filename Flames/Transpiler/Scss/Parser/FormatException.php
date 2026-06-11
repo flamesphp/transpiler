@@ -12,7 +12,7 @@
 
 namespace Flames\Transpiler\Scss\Parser;
 
-use SourceSpan\FileSpan;
+use Flames\Transpiler\Scss\Span\FileSpan;
 
 /**
  * @phpstan-sealed MultiSourceFormatException

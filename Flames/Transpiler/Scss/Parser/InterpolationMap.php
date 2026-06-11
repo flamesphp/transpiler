@@ -16,9 +16,9 @@ use Flames\Transpiler\Scss\Ast\Sass\Expression;
 use Flames\Transpiler\Scss\Ast\Sass\Interpolation;
 use Flames\Transpiler\Scss\Util\Character;
 use Flames\Transpiler\Scss\Util\IterableUtil;
-use SourceSpan\FileLocation;
-use SourceSpan\FileSpan;
-use SourceSpan\SourceLocation;
+use Flames\Transpiler\Scss\Span\FileLocation;
+use Flames\Transpiler\Scss\Span\FileSpan;
+use Flames\Transpiler\Scss\Span\SourceLocation;
 
 /**
  * A class that can map locations in a string generated from an {@see Interpolation}
