@@ -31,9 +31,9 @@ use const JSON_PRESERVE_ZERO_FRACTION;
 use const PHP_QUERY_RFC1738;
 use const PHP_QUERY_RFC3986;
 
-final class Converter
+final readonly class Converter
 {
-    private const REGEXP_INVALID_CHARS = '/[\x00-\x1f\x7f]/';
+    private const string REGEXP_INVALID_CHARS = '/[\x00-\x1f\x7f]/';
 
     /**
      * @param non-empty-string $separator the query string separator
@@ -41,9 +41,9 @@ final class Converter
      * @param array<string> $toEncoding contains all the expected encoded characters
      */
     private function __construct(
-        private readonly string $separator,
-        private readonly array $fromRfc3986 = [],
-        private readonly array $toEncoding = [],
+        private string $separator,
+        private array $fromRfc3986 = [],
+        private array $toEncoding = [],
     ) {
         if ('' === $this->separator) {
             throw new SyntaxError('The separator character must be a non empty string.');

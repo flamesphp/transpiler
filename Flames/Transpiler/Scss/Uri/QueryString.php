@@ -33,8 +33,8 @@ use const PHP_QUERY_RFC3986;
  */
 final class QueryString
 {
-    private const PAIR_VALUE_DECODED = 1;
-    private const PAIR_VALUE_PRESERVED = 2;
+    private const int PAIR_VALUE_DECODED = 1;
+    private const int PAIR_VALUE_PRESERVED = 2;
 
     /**
      * @codeCoverageIgnore

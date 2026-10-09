@@ -32,7 +32,7 @@ final class FeatureDetection
     public static function supportsFileDetection(): void
     {
         static $isSupported = null;
-        $isSupported = $isSupported ?? class_exists(finfo::class);
+        $isSupported ??= class_exists(finfo::class);
 
         $isSupported || throw new MissingFeature('Support for file type detection requires the `fileinfo` extension.');
 
@@ -41,7 +41,7 @@ final class FeatureDetection
     public static function supportsIdn(): void
     {
         static $isSupported = null;
-        $isSupported = $isSupported ?? (function_exists('\idn_to_ascii') && defined('\INTL_IDNA_VARIANT_UTS46'));
+        $isSupported ??= function_exists('\idn_to_ascii') && defined('\INTL_IDNA_VARIANT_UTS46');
 
         $isSupported || throw new MissingFeature('Support for IDN host requires the `intl` extension for best performance or run "composer require symfony/polyfill-intl-idn" to install a polyfill.');
 
@@ -50,7 +50,7 @@ final class FeatureDetection
     public static function supportsIPv4Conversion(): void
     {
         static $isSupported = null;
-        $isSupported = $isSupported ?? (extension_loaded('gmp') || extension_loaded('bcmath') || (4 < PHP_INT_SIZE));
+        $isSupported ??= extension_loaded('gmp') || extension_loaded('bcmath') || (4 < PHP_INT_SIZE);
 
         $isSupported || throw new MissingFeature('A '.Calculator::class.' implementation could not be automatically loaded. To perform IPv4 conversion use a x.64 PHP build or install one of the following extension GMP or BCMath. You can also ship your own implementation.');
     }
@@ -58,7 +58,7 @@ final class FeatureDetection
     public static function supportsDom(): void
     {
         static $isSupported = null;
-        $isSupported = $isSupported ?? extension_loaded('dom');
+        $isSupported ??= extension_loaded('dom');
 
         $isSupported || throw new MissingFeature('To use a DOM related feature, the DOM extension must be installed in your system.');
     }

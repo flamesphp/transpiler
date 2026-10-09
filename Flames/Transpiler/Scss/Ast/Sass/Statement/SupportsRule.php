@@ -26,17 +26,11 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 final class SupportsRule extends ParentStatement
 {
-    private readonly SupportsCondition $condition;
-
-    private readonly FileSpan $span;
-
     /**
      * @param Statement[] $children
      */
-    public function __construct(SupportsCondition $condition, array $children, FileSpan $span)
+    public function __construct(private readonly SupportsCondition $condition, array $children, private readonly FileSpan $span)
     {
-        $this->condition = $condition;
-        $this->span = $span;
         parent::__construct($children);
     }
 

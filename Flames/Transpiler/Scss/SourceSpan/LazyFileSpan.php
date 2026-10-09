@@ -27,12 +27,6 @@ use Flames\Transpiler\Scss\Span\SourceSpan;
 class LazyFileSpan implements FileSpan
 {
     /**
-     * @var \Closure(): FileSpan
-     * @readonly
-     */
-    private readonly \Closure $builder;
-
-    /**
      * @var FileSpan|null
      */
     private ?FileSpan $span = null;
@@ -40,16 +34,18 @@ class LazyFileSpan implements FileSpan
     /**
      * @param \Closure(): FileSpan $builder
      */
-    public function __construct(\Closure $builder)
+    public function __construct(
+        /**
+         * @readonly
+         */
+        private readonly \Closure $builder
+    )
     {
-        $this->builder = $builder;
     }
 
     public function getSpan(): FileSpan
     {
-        if ($this->span === null) {
-            $this->span = ($this->builder)();
-        }
+        $this->span ??= ($this->builder)();
 
         return $this->span;
     }

@@ -26,13 +26,6 @@ use Flames\Transpiler\Scss\Util\UriUtil;
 final class ImportCache
 {
     /**
-     * @var list<Importer>
-     */
-    private readonly array $importers;
-
-    private readonly LoggerInterface $logger;
-
-    /**
      * The canonicalized URLs for each non-canonical URL.
      *
      * The `forImport` in each key is true when this canonicalization is for an
@@ -75,10 +68,8 @@ final class ImportCache
     /**
      * @param list<Importer> $importers
      */
-    public function __construct(array $importers, LoggerInterface $logger)
+    public function __construct(private readonly array $importers, private readonly LoggerInterface $logger)
     {
-        $this->importers = $importers;
-        $this->logger = $logger;
         $this->perImporterCanonicalizeCache = new \SplObjectStorage();
     }
 

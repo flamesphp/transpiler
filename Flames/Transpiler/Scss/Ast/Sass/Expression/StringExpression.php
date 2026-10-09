@@ -24,16 +24,10 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class StringExpression implements Expression
+final readonly class StringExpression implements Expression
 {
-    private readonly Interpolation $text;
-
-    private readonly bool $quotes;
-
-    public function __construct(Interpolation $text, bool $quotes = false)
+    public function __construct(private Interpolation $text, private bool $quotes = false)
     {
-        $this->text = $text;
-        $this->quotes = $quotes;
     }
 
     /**
@@ -93,7 +87,7 @@ final class StringExpression implements Expression
             return $this->text;
         }
 
-        $quote = $quote ?? self::bestQuote($this->text->getContents());
+        $quote ??= self::bestQuote($this->text->getContents());
         $buffer = new InterpolationBuffer();
 
         $buffer->write($quote);
@@ -134,7 +128,7 @@ final class StringExpression implements Expression
                     $buffer .= '\\';
                 }
 
-                if (\ord($char) < 0x80) {
+                if (\ord($char[0]) < 0x80) {
                     $buffer .= $char;
                 } else {
                     if (!preg_match('/./usA', $value, $m, 0, $i)) {

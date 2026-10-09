@@ -4,39 +4,20 @@
  * @see less-2.5.3.js#Anonymous.prototype
  */
 class Less_Tree_Anonymous extends Less_Tree implements Less_Tree_HasValueProperty {
-	/** @var string */
-	public $value;
 	/** @var string|null */
 	public $quote;
-	/** @var int|null */
-	public $index;
-	/** @var bool|null */
-	public $mapLines;
-	/** @var array|null */
-	public $currentFileInfo;
-	/** @var bool */
-	public $rulesetLike;
-	/** @var bool */
-	public $isReferenced;
 
 	/**
-	 * @param string $value
-	 * @param int|null $index
-	 * @param array|null $currentFileInfo
-	 * @param bool|null $mapLines
-	 * @param bool $rulesetLike
-	 * @param bool $referenced
-	 */
-	public function __construct( $value, $index = null, $currentFileInfo = null, $mapLines = null, $rulesetLike = false, $referenced = false ) {
-		$this->value = $value;
-		$this->index = $index;
-		$this->mapLines = $mapLines;
-		$this->currentFileInfo = $currentFileInfo;
-		$this->rulesetLike = $rulesetLike;
-		// TODO: remove isReferenced and implement $visibilityInfo
-		// https://github.com/less/less.js/commit/ead3e29f7b79390ad3ac798bf42195b24919107d
-		$this->isReferenced = $referenced;
-	}
+     * @param string $value
+     * @param int|null $index
+     * @param array|null $currentFileInfo
+     * @param bool|null $mapLines
+     * @param bool $rulesetLike
+     * @param bool $isReferenced
+     */
+    public function __construct(public $value, public $index = null, public $currentFileInfo = null, public $mapLines = null, public $rulesetLike = false, public $isReferenced = false)
+    {
+    }
 
 	public function compile( $env ) {
 		return new self( $this->value, $this->index, $this->currentFileInfo, $this->mapLines, $this->rulesetLike, $this->isReferenced );

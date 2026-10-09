@@ -19,14 +19,7 @@ final class Highlighter
      * We don't want to render raw tabs, because they'll mess up our character
      * alignment.
      */
-    private const SPACES_PER_TAB = 4;
-
-    /**
-     * The lines to display, including context around the highlighted spans.
-     *
-     * @var list<Line>
-     */
-    private array $lines;
+    private const int SPACES_PER_TAB = 4;
 
     /**
      * The number of characters before the bar in the sidebar.
@@ -82,17 +75,19 @@ final class Highlighter
     /**
      * @param list<Line> $lines
      */
-    private function __construct(array $lines)
+    private function __construct(/**
+     * The lines to display, including context around the highlighted spans.
+     */
+    private array $lines)
     {
-        $this->lines = $lines;
         $this->paddingBeforeSidebar = 1 + max(
-            \strlen((string) (Util::listLast($lines)->number + 1)),
+            \strlen((string) (Util::listLast($this->lines)->number + 1)),
             // If $lines aren't contiguous, we'll write "..." in place of a
             // line number.
-            self::contiguous($lines) ? 0 : 3
+            self::contiguous($this->lines) ? 0 : 3
         );
-        $this->maxMultilineSpans = array_reduce(array_map(fn (Line $line) => \count(array_filter($line->highlights, fn (Highlight $highlight) => Util::isMultiline($highlight->span))), $lines), 'max', 0);
-        $this->multipleFiles = !Util::isAllTheSame(array_map(fn (Line $line) => $line->url, $lines));
+        $this->maxMultilineSpans = array_reduce(array_map(fn (Line $line) => \count(array_filter($line->highlights, fn (Highlight $highlight) => Util::isMultiline($highlight->span))), $this->lines), max(...), 0);
+        $this->multipleFiles = !Util::isAllTheSame(array_map(fn (Line $line) => $line->url, $this->lines));
     }
 
     /**

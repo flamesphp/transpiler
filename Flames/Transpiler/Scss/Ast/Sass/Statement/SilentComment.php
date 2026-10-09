@@ -21,16 +21,10 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class SilentComment implements Statement
+final readonly class SilentComment implements Statement
 {
-    private readonly string $text;
-
-    private readonly FileSpan $span;
-
-    public function __construct(string $text, FileSpan $span)
+    public function __construct(private string $text, private FileSpan $span)
     {
-        $this->text = $text;
-        $this->span = $span;
     }
 
     public function getText(): string

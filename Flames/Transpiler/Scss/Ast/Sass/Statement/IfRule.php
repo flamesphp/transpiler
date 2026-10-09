@@ -23,25 +23,13 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class IfRule implements Statement
+final readonly class IfRule implements Statement
 {
-    /**
-     * @var list<IfClause>
-     */
-    private readonly array $clauses;
-
-    private readonly ?ElseClause $lastClause;
-
-    private readonly FileSpan $span;
-
     /**
      * @param list<IfClause> $clauses
      */
-    public function __construct(array $clauses, FileSpan $span, ?ElseClause $lastClause = null)
+    public function __construct(private array $clauses, private FileSpan $span, private ?ElseClause $lastClause = null)
     {
-        $this->clauses = $clauses;
-        $this->span = $span;
-        $this->lastClause = $lastClause;
     }
 
     /**

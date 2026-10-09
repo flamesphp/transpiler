@@ -48,10 +48,10 @@ use function substr;
 class BaseUri implements Stringable, JsonSerializable, UriAccess
 {
     /** @var array<string,int> */
-    final protected const WHATWG_SPECIAL_SCHEMES = ['ftp' => 1, 'http' => 1, 'https' => 1, 'ws' => 1, 'wss' => 1];
+    final protected const array WHATWG_SPECIAL_SCHEMES = ['ftp' => 1, 'http' => 1, 'https' => 1, 'ws' => 1, 'wss' => 1];
 
     /** @var array<string,int> */
-    final protected const DOT_SEGMENTS = ['.' => 1, '..' => 1];
+    final protected const array DOT_SEGMENTS = ['.' => 1, '..' => 1];
 
     protected readonly Psr7UriInterface|UriInterface|null $origin;
     protected readonly ?string $nullValue;
@@ -511,7 +511,7 @@ class BaseUri implements Stringable, JsonSerializable, UriAccess
     final protected static function formatPathWithEmptyBaseQuery(string $path): string
     {
         $targetSegments = static::getSegments($path);
-        $basename = $targetSegments[array_key_last($targetSegments)];
+        $basename = array_last($targetSegments);
 
         return '' === $basename ? './' : $basename;
     }
@@ -565,7 +565,7 @@ class BaseUri implements Stringable, JsonSerializable, UriAccess
 
         $oldSegments = explode('/', $path);
         $newPath = implode('/', array_reduce($oldSegments, $reducer(...), []));
-        if (isset(static::DOT_SEGMENTS[$oldSegments[array_key_last($oldSegments)]])) {
+        if (isset(static::DOT_SEGMENTS[array_last($oldSegments)])) {
             $newPath .= '/';
         }
 

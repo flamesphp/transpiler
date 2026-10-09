@@ -21,25 +21,20 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class SupportsFunction implements SupportsCondition
+final readonly class SupportsFunction implements SupportsCondition
 {
-    /**
-     * The name of the function.
-     */
-    private readonly Interpolation $name;
-
-    /**
-     * The arguments of the function.
-     */
-    private readonly Interpolation $arguments;
-
-    private readonly FileSpan $span;
-
-    public function __construct(Interpolation $name, Interpolation $arguments, FileSpan $span)
+    public function __construct(
+        /**
+         * The name of the function.
+         */
+        private Interpolation $name,
+        /**
+         * The arguments of the function.
+         */
+        private Interpolation $arguments,
+        private FileSpan $span
+    )
     {
-        $this->name = $name;
-        $this->arguments = $arguments;
-        $this->span = $span;
     }
 
     public function getName(): Interpolation

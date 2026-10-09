@@ -13,14 +13,14 @@ use Flames\Transpiler\Scss\Span\Util;
  *
  * @internal
  */
-final class Highlight
+final readonly class Highlight
 {
     /**
      * The section of the source file to highlight.
      *
      * This is normalized to make it easier for {@see Highlighter} to work with.
      */
-    public readonly SourceSpanWithContext $span;
+    public SourceSpanWithContext $span;
 
     /**
      * The label to include inline when highlighting {@see $span}.
@@ -28,11 +28,11 @@ final class Highlight
      * This helps distinguish clarify what each highlight means when multiple are
      * used in the same message.
      */
-    public readonly ?string $label;
+    public ?string $label;
 
     public function __construct(
         SourceSpan $span,
-        private readonly bool $primary = false,
+        private bool $primary = false,
         ?string $label = null,
     ) {
         $this->span = self::normalizeSpan($span);

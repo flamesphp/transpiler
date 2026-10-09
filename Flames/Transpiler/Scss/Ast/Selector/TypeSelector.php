@@ -25,14 +25,11 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 final class TypeSelector extends SimpleSelector
 {
-    /**
+    public function __construct(/**
      * The element name being selected.
      */
-    private readonly QualifiedName $name;
-
-    public function __construct(QualifiedName $name, FileSpan $span)
+    private readonly QualifiedName $name, FileSpan $span)
     {
-        $this->name = $name;
         parent::__construct($span);
     }
 

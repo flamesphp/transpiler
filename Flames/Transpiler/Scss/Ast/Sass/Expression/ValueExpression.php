@@ -25,16 +25,10 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class ValueExpression implements Expression
+final readonly class ValueExpression implements Expression
 {
-    private readonly Value $value;
-
-    private readonly FileSpan $span;
-
-    public function __construct(Value $value, FileSpan $span)
+    public function __construct(private Value $value, private FileSpan $span)
     {
-        $this->value = $value;
-        $this->span = $span;
     }
 
     public function getValue(): Value

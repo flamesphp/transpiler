@@ -32,9 +32,9 @@ use const FILTER_FLAG_IPV4;
 use const FILTER_FLAG_IPV6;
 use const FILTER_VALIDATE_IP;
 
-final class Converter
+final readonly class Converter
 {
-    private const REGEXP_IPV4_HOST = '/
+    private const string REGEXP_IPV4_HOST = '/
         (?(DEFINE) # . is missing as it is used to separate labels
             (?<hexadecimal>0x[[:xdigit:]]*)
             (?<octal>0[0-7]*)
@@ -43,19 +43,19 @@ final class Converter
         )
         ^(?:(?&ipv4_part)\.){0,3}(?&ipv4_part)\.?$
     /x';
-    private const REGEXP_IPV4_NUMBER_PER_BASE = [
+    private const array REGEXP_IPV4_NUMBER_PER_BASE = [
         '/^0x(?<number>[[:xdigit:]]*)$/' => 16,
         '/^0(?<number>[0-7]*)$/' => 8,
         '/^(?<number>\d+)$/' => 10,
     ];
 
-    private const IPV6_6TO4_PREFIX = '2002:';
-    private const IPV4_MAPPED_PREFIX = '::ffff:';
+    private const string IPV6_6TO4_PREFIX = '2002:';
+    private const string IPV4_MAPPED_PREFIX = '::ffff:';
 
-    private readonly mixed $maxIPv4Number;
+    private mixed $maxIPv4Number;
 
     public function __construct(
-        private readonly Calculator $calculator
+        private Calculator $calculator
     ) {
         $this->maxIPv4Number = $calculator->sub($calculator->pow(2, 32), 1);
     }

@@ -15,20 +15,18 @@ namespace Flames\Transpiler\Scss\StackTrace;
 /**
  * A stack trace, comprised of a list of stack frames.
  */
-final class Trace
+final readonly class Trace
 {
-    /**
-     * @var list<Frame>
-     * @readonly
-     */
-    private readonly array $frames;
-
     /**
      * @param list<Frame> $frames
      */
-    public function __construct(array $frames)
+    public function __construct(
+        /**
+         * @readonly
+         */
+        private array $frames
+    )
     {
-        $this->frames = $frames;
     }
 
     /**
@@ -48,6 +46,6 @@ final class Trace
             $longest = max($longest, $length);
         }
 
-        return implode(array_map(fn(Frame $frame) => str_pad($frame->getLocation(), $longest) . '  ' . $frame->getMember() . "\n", $this->frames));
+        return implode('', array_map(fn(Frame $frame) => str_pad($frame->getLocation(), $longest) . '  ' . $frame->getMember() . "\n", $this->frames));
     }
 }

@@ -21,9 +21,9 @@ use Flames\Transpiler\Scss\Util\NumberUtil;
  */
 final class SingleUnitSassNumber extends SassNumber
 {
-    private const COMPATIBLE_LENGTH_UNITS = ['em', 'rem', 'ex', 'rex', 'cap', 'rcap', 'ch', 'rch', 'ic', 'ric', 'lh', 'rlh', 'vw', 'lvw', 'svw', 'dvw', 'vh', 'lvh', 'svh', 'dvh', 'vi', 'lvi', 'svi', 'dvi', 'vb', 'lvb', 'svb', 'dvb', 'vmin', 'lvmin', 'svmin', 'dvmin', 'vmax', 'lvmax', 'svmax', 'dvmax', 'cqw', 'cqh', 'cqi', 'cqb', 'cqmin', 'cqmax', 'cm', 'mm', 'q', 'in', 'pc', 'pt', 'px'];
+    private const array COMPATIBLE_LENGTH_UNITS = ['em', 'rem', 'ex', 'rex', 'cap', 'rcap', 'ch', 'rch', 'ic', 'ric', 'lh', 'rlh', 'vw', 'lvw', 'svw', 'dvw', 'vh', 'lvh', 'svh', 'dvh', 'vi', 'lvi', 'svi', 'dvi', 'vb', 'lvb', 'svb', 'dvb', 'vmin', 'lvmin', 'svmin', 'dvmin', 'vmax', 'lvmax', 'svmax', 'dvmax', 'cqw', 'cqh', 'cqi', 'cqb', 'cqmin', 'cqmax', 'cm', 'mm', 'q', 'in', 'pc', 'pt', 'px'];
 
-    private const KNOWN_COMPATIBILITIES_BY_UNIT = [
+    private const array KNOWN_COMPATIBILITIES_BY_UNIT = [
         // length
         'em' => self::COMPATIBLE_LENGTH_UNITS,
         'rem' => self::COMPATIBLE_LENGTH_UNITS,
@@ -91,15 +91,12 @@ final class SingleUnitSassNumber extends SassNumber
         'dppx' => ['dpi', 'dpcm', 'dppx'],
     ];
 
-    private readonly string $unit;
-
     /**
      * @param array{SassNumber, SassNumber}|null $asSlash
      */
-    public function __construct(float $value, string $unit, ?array $asSlash = null)
+    public function __construct(float $value, private readonly string $unit, ?array $asSlash = null)
     {
         parent::__construct($value, $asSlash);
-        $this->unit = $unit;
     }
 
     public function getNumeratorUnits(): array
@@ -129,7 +126,7 @@ final class SingleUnitSassNumber extends SassNumber
 
     public function withSlash(SassNumber $numerator, SassNumber $denominator): SassNumber
     {
-        return new self($this->getValue(), $this->unit, array($numerator, $denominator));
+        return new self($this->getValue(), $this->unit, [$numerator, $denominator]);
     }
 
     public function hasUnit(string $unit): bool

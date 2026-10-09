@@ -34,7 +34,7 @@ abstract class SimpleSelector extends Selector
      *
      * For example, `.foo` is a superselector of `:matches(.foo)`.
      */
-    private const SUBSELECTOR_PSEUDOS = [
+    private const array SUBSELECTOR_PSEUDOS = [
         'is',
         'matches',
         'where',
@@ -54,7 +54,7 @@ abstract class SimpleSelector extends Selector
      */
     public static function parse(string $contents, ?LoggerInterface $logger = null, ?UriInterface $url = null, bool $allowParent = true): SimpleSelector
     {
-        return (new SelectorParser($contents, $logger, $url, $allowParent))->parseSimpleSelector();
+        return new SelectorParser($contents, $logger, $url, $allowParent)->parseSimpleSelector();
     }
 
     /**

@@ -20,22 +20,13 @@ use Flames\Transpiler\Scss\Ast\Css\CssStylesheet;
  *
  * @internal
  */
-final class EvaluateResult
+final readonly class EvaluateResult
 {
-    private readonly CssStylesheet $stylesheet;
-
-    /**
-     * @var list<string>
-     */
-    private readonly array $loadedUrls;
-
     /**
      * @param list<string> $loadedUrls
      */
-    public function __construct(CssStylesheet $stylesheet, array $loadedUrls)
+    public function __construct(private CssStylesheet $stylesheet, private array $loadedUrls)
     {
-        $this->stylesheet = $stylesheet;
-        $this->loadedUrls = $loadedUrls;
     }
 
     public function getStylesheet(): CssStylesheet

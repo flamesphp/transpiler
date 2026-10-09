@@ -4,12 +4,12 @@
  */
 class Less_Tree_UnicodeDescriptor extends Less_Tree implements Less_Tree_HasValueProperty {
 
-	/** @var string */
-	public $value;
-
-	public function __construct( $value ) {
-		$this->value = $value;
-	}
+	/**
+     * @param string $value
+     */
+    public function __construct(public $value)
+    {
+    }
 
 	/**
 	 * @see Less_Tree::genCSS

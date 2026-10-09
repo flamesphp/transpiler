@@ -30,19 +30,16 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 final class IfExpression implements Expression, CallableInvocation
 {
-    /**
-     * The arguments passed to `if()`.
-     */
-    private readonly ArgumentInvocation $arguments;
-
-    private readonly FileSpan $span;
-
     private static ?ArgumentDeclaration $declaration = null;
 
-    public function __construct(ArgumentInvocation $arguments, FileSpan $span)
+    public function __construct(
+        /**
+         * The arguments passed to `if()`.
+         */
+        private readonly ArgumentInvocation $arguments,
+        private readonly FileSpan $span
+    )
     {
-        $this->span = $span;
-        $this->arguments = $arguments;
     }
 
     /**
@@ -50,9 +47,7 @@ final class IfExpression implements Expression, CallableInvocation
      */
     public static function getDeclaration(): ArgumentDeclaration
     {
-        if (self::$declaration === null) {
-            self::$declaration = ArgumentDeclaration::parse('@function if($condition, $if-true, $if-false) {');
-        }
+        self::$declaration ??= ArgumentDeclaration::parse('@function if($condition, $if-true, $if-false) {');
 
         return self::$declaration;
     }

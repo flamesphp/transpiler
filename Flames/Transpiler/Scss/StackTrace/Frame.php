@@ -18,40 +18,33 @@ use Flames\Transpiler\Scss\Util\Path;
 /**
  * A single stack frame. Each frame points to a precise location in Sass code.
  */
-final class Frame
+final readonly class Frame
 {
-    /**
-     * The URI of the file in which the code is located.
-     */
-    private readonly UriInterface $url;
-
-    /**
-     * The line number on which the code location is located.
-     *
-     * This can be null, indicating that the line number is unknown or
-     * unimportant.
-     */
-    private readonly ?int $line;
-
-    /**
-     * The column number of the code location.
-     *
-     * This can be null, indicating that the column number is unknown or
-     * unimportant.
-     */
-    private readonly ?int $column;
-
-    /**
-     * The name of the member in which the code location occurs.
-     */
-    private readonly ?string $member;
-
-    public function __construct(UriInterface $url, ?int $line, ?int $column, ?string $member)
+    public function __construct(
+        /**
+         * The URI of the file in which the code is located.
+         */
+        private UriInterface $url,
+        /**
+         * The line number on which the code location is located.
+         *
+         * This can be null, indicating that the line number is unknown or
+         * unimportant.
+         */
+        private ?int $line,
+        /**
+         * The column number of the code location.
+         *
+         * This can be null, indicating that the column number is unknown or
+         * unimportant.
+         */
+        private ?int $column,
+        /**
+         * The name of the member in which the code location occurs.
+         */
+        private ?string $member
+    )
     {
-        $this->url = $url;
-        $this->line = $line;
-        $this->column = $column;
-        $this->member = $member;
     }
 
     /**

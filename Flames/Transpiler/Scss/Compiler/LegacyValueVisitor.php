@@ -56,12 +56,12 @@ final class LegacyValueVisitor implements ValueVisitor
         return [Type::T_COLOR, $value->getRed(), $value->getGreen(), $value->getBlue(), $value->getAlpha()];
     }
 
-    public function visitFunction(SassFunction $value)
+    public function visitFunction(SassFunction $value): never
     {
         throw new SassScriptException('Functions are not supported by the legacy value API. Migrate your custom function to the new API to accept mixins as arguments.');
     }
 
-    public function visitMixin(SassMixin $value)
+    public function visitMixin(SassMixin $value): never
     {
         throw new SassScriptException('Mixins are not supported by the legacy value API. Migrate your custom function to the new API to accept mixins as arguments.');
     }

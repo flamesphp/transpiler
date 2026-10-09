@@ -40,9 +40,9 @@ use const FILTER_VALIDATE_IP;
 
 final class Encoder
 {
-    private const REGEXP_CHARS_INVALID = '/[\x00-\x1f\x7f]/';
-    private const REGEXP_CHARS_ENCODED = ',%[A-Fa-f0-9]{2},';
-    private const REGEXP_CHARS_PREVENTS_DECODING = ',%
+    private const string REGEXP_CHARS_INVALID = '/[\x00-\x1f\x7f]/';
+    private const string REGEXP_CHARS_ENCODED = ',%[A-Fa-f0-9]{2},';
+    private const string REGEXP_CHARS_PREVENTS_DECODING = ',%
      	2[A-F|1-2|4-9]|
         3[0-9|B|D]|
         4[1-9|A-F]|
@@ -50,16 +50,16 @@ final class Encoder
         6[1-9|A-F]|
         7[0-9|E]
     ,ix';
-    private const REGEXP_PART_SUBDELIM = "\!\$&'\(\)\*\+,;\=%";
-    private const REGEXP_PART_UNRESERVED = 'A-Za-z\d_\-.~';
-    private const REGEXP_PART_ENCODED = '%(?![A-Fa-f\d]{2})';
+    private const string REGEXP_PART_SUBDELIM = "\!\$&'\(\)\*\+,;\=%";
+    private const string REGEXP_PART_UNRESERVED = 'A-Za-z\d_\-.~';
+    private const string REGEXP_PART_ENCODED = '%(?![A-Fa-f\d]{2})';
 
     /**
      * Unreserved characters.
      *
      * @see https://www.rfc-editor.org/rfc/rfc3986.html#section-2.3
      */
-    private const REGEXP_UNRESERVED_CHARACTERS = ',%(2[1-9A-Fa-f]|[3-7][0-9A-Fa-f]|61|62|64|65|66|7[AB]|5F),';
+    private const string REGEXP_UNRESERVED_CHARACTERS = ',%(2[1-9A-Fa-f]|[3-7][0-9A-Fa-f]|61|62|64|65|66|7[AB]|5F),';
 
     /**
      * Tell whether the user component is correctly encoded.

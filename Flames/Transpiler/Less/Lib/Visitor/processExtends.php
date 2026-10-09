@@ -50,7 +50,7 @@ class Less_Visitor_processExtends extends Less_Visitor {
 				$targetExtend = $extendsListTarget[$targetExtendIndex];
 
 				// Optimisation: Explicit reference, <https://github.com/wikimedia/less.php/pull/14>
-				if ( \array_key_exists( $targetExtend->object_id, $extend->parent_ids ) ) {
+				if ( \array_key_exists( (string) $targetExtend->object_id, $extend->parent_ids ) ) {
 					// ignore circular references
 					continue;
 				}
@@ -102,7 +102,7 @@ class Less_Visitor_processExtends extends Less_Visitor {
 				try {
 					$selectorOne = $extendsToAdd[0]->selfSelectors[0]->toCSS();
 					$selectorTwo = $extendsToAdd[0]->selector->toCSS();
-				} catch ( Exception $e ) {
+				} catch ( Exception ) {
 					$selectorOne = "{unable to calculate}";
 					$selectorTwo = "{unable to calculate}";
 				}
@@ -265,7 +265,7 @@ class Less_Visitor_processExtends extends Less_Visitor {
 			}
 
 			// Optimisation: Explicit reference, <https://github.com/wikimedia/less.php/pull/14>
-			if ( \array_key_exists( $first_el, $hackstackSelector->_oelements_assoc ) ) {
+			if ( \array_key_exists( (string) $first_el, $hackstackSelector->_oelements_assoc ) ) {
 				return true;
 			}
 		}

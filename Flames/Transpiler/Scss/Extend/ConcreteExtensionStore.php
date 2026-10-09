@@ -38,49 +38,6 @@ use Flames\Transpiler\Scss\Span\FileSpan;
 final class ConcreteExtensionStore implements ExtensionStore
 {
     /**
-     * A map from all simple selectors in the stylesheet to the selector lists
-     * that contain them.
-     *
-     * This is used to find which selectors an `@extend` applies to and adjust
-     * them.
-     *
-     * @var SimpleSelectorMap<ObjectSet<ModifiableBox<SelectorList>>>
-     */
-    private readonly SimpleSelectorMap $selectors;
-    /**
-     * A map from all extended simple selectors to the sources of those
-     * extensions.
-     *
-     * @var SimpleSelectorMap<ComplexSelectorMap<Extension>>
-     */
-    private SimpleSelectorMap $extensions;
-    /**
-     * A map from all simple selectors in extenders to the extensions that those
-     * extenders define.
-     *
-     * @var SimpleSelectorMap<list<Extension>>
-     */
-    private SimpleSelectorMap $extensionsByExtender;
-    /**
-     * A map from CSS selectors to the media query contexts they're defined in.
-     *
-     * This tracks the contexts in which each selector's style rule is defined.
-     * If a rule is defined at the top level, it doesn't have an entry.
-     *
-     * @var \SplObjectStorage<ModifiableBox<SelectorList>, list<CssMediaQuery>>
-     */
-    private readonly \SplObjectStorage $mediaContexts;
-    /**
-     * @var \SplObjectStorage<SimpleSelector, int>
-     */
-    private \SplObjectStorage $sourceSpecificity;
-    /**
-     * @var \SplObjectStorage<ComplexSelector, mixed>
-     */
-    private readonly \SplObjectStorage $originals;
-    private readonly ExtendMode $mode;
-
-    /**
      * Extends $selector with $source extender and $targets extendees.
      *
      * This works as though `source {@extend target}` were written in the
@@ -146,21 +103,36 @@ final class ConcreteExtensionStore implements ExtensionStore
      * @param \SplObjectStorage<ComplexSelector, mixed> $originals
      */
     private function __construct(
-        SimpleSelectorMap $selectors,
-        SimpleSelectorMap $extensions,
-        SimpleSelectorMap $extensionsByExtender,
-        \SplObjectStorage $mediaContexts,
-        \SplObjectStorage $sourceSpecificity,
-        \SplObjectStorage $originals,
-        ExtendMode $mode,
-    ) {
-        $this->selectors = $selectors;
-        $this->extensions = $extensions;
-        $this->extensionsByExtender = $extensionsByExtender;
-        $this->mediaContexts = $mediaContexts;
-        $this->sourceSpecificity = $sourceSpecificity;
-        $this->originals = $originals;
-        $this->mode = $mode;
+        /**
+         * A map from all simple selectors in the stylesheet to the selector lists
+         * that contain them.
+         *
+         * This is used to find which selectors an `@extend` applies to and adjust
+         * them.
+         */
+        private readonly SimpleSelectorMap $selectors,
+        /**
+         * A map from all extended simple selectors to the sources of those
+         * extensions.
+         */
+        private SimpleSelectorMap $extensions,
+        /**
+         * A map from all simple selectors in extenders to the extensions that those
+         * extenders define.
+         */
+        private SimpleSelectorMap $extensionsByExtender,
+        /**
+         * A map from CSS selectors to the media query contexts they're defined in.
+         *
+         * This tracks the contexts in which each selector's style rule is defined.
+         * If a rule is defined at the top level, it doesn't have an entry.
+         */
+        private readonly \SplObjectStorage $mediaContexts,
+        private \SplObjectStorage $sourceSpecificity,
+        private readonly \SplObjectStorage $originals,
+        private readonly ExtendMode $mode
+    )
+    {
     }
 
     public static function create(): self
@@ -506,10 +478,8 @@ final class ConcreteExtensionStore implements ExtensionStore
                 // Find existing selectors to extend.
                 $selectorsForTarget = $this->selectors[$target] ?? null;
                 if ($selectorsForTarget !== null) {
-                    if ($selectorsToExtend === null) {
-                        /** @var ObjectSet<ModifiableBox<SelectorList>> $selectorsToExtend */
-                        $selectorsToExtend = new ObjectSet();
-                    }
+                    /** @var ObjectSet<ModifiableBox<SelectorList>> $selectorsToExtend */
+                    $selectorsToExtend ??= new ObjectSet();
                     $selectorsToExtend->addAll($selectorsForTarget);
                 }
 

@@ -6,22 +6,16 @@ class Less_Tree_Mixin_Call extends Less_Tree {
 
 	/** @var Less_Tree_Selector */
 	public $selector;
-	/** @var array[] */
-	public $arguments;
-	/** @var int */
-	public $index;
-	/** @var array */
-	public $currentFileInfo;
 
-	/** @var bool */
-	public $important;
-
-	public function __construct( $elements, $args, $index, $currentFileInfo, $important = false ) {
+	/**
+     * @param mixed[][] $args
+     * @param int $index
+     * @param mixed[] $currentFileInfo
+     * @param bool $important
+     */
+    public function __construct( $elements, /** @var array[] */
+    public $arguments, public $index, public $currentFileInfo, public $important = false ) {
 		$this->selector = new Less_Tree_Selector( $elements );
-		$this->arguments = $args;
-		$this->index = $index;
-		$this->currentFileInfo = $currentFileInfo;
-		$this->important = $important;
 	}
 
 	/**
@@ -50,9 +44,7 @@ class Less_Tree_Mixin_Call extends Less_Tree {
 		$defTrue = 1;
 		$defFalse = 2;
 		foreach ( $env->frames as $frame ) {
-			$noArgumentsFilter = static function ( $rule ) use ( $env ) {
-				return $rule->matchArgs( [], $env );
-			};
+			$noArgumentsFilter = (static fn($rule) => $rule->matchArgs( [], $env ));
 			$mixins = $frame->find( $this->selector, null, $noArgumentsFilter );
 			if ( !$mixins ) {
 				continue;

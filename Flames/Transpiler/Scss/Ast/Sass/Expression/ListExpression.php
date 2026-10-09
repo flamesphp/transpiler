@@ -22,30 +22,15 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class ListExpression implements Expression
+final readonly class ListExpression implements Expression
 {
-    /**
-     * @var list<Expression>
-     */
-    private readonly array $contents;
-
-    private readonly ListSeparator $separator;
-
-    private readonly FileSpan $span;
-
-    private readonly bool $brackets;
-
     /**
      * ListExpression constructor.
      *
      * @param list<Expression> $contents
      */
-    public function __construct(array $contents, ListSeparator $separator, FileSpan $span, bool $brackets = false)
+    public function __construct(private array $contents, private ListSeparator $separator, private FileSpan $span, private bool $brackets = false)
     {
-        $this->contents = $contents;
-        $this->separator = $separator;
-        $this->span = $span;
-        $this->brackets = $brackets;
     }
 
     /**

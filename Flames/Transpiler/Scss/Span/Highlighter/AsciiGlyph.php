@@ -7,12 +7,12 @@ namespace Flames\Transpiler\Scss\Span\Highlighter;
  */
 final class AsciiGlyph
 {
-    public const horizontalLine = '-';
-    public const verticalLine = '|';
-    public const topLeftCorner = ',';
-    public const bottomLeftCorner = "'";
-    public const cross = '+';
-    public const upEnd = "'";
-    public const downEnd = ',';
-    public const horizontalLineBold = '=';
+    public const string horizontalLine = '-';
+    public const string verticalLine = '|';
+    public const string topLeftCorner = ',';
+    public const string bottomLeftCorner = "'";
+    public const string cross = '+';
+    public const string upEnd = "'";
+    public const string downEnd = ',';
+    public const string horizontalLineBold = '=';
 }

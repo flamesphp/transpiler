@@ -36,10 +36,7 @@ abstract class Less_Configurable {
 	 * @return mixed
 	 */
 	public function getOption( $name, $default = null ) {
-		if ( isset( $this->options[$name] ) ) {
-			return $this->options[$name];
-		}
-		return $default;
+		return $this->options[$name] ?? $default;
 	}
 
 	/**

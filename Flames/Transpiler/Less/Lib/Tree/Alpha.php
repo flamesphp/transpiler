@@ -4,17 +4,14 @@
  * @see less-2.5.3.js#Alpha.prototype
  */
 class Less_Tree_Alpha extends Less_Tree implements Less_Tree_HasValueProperty {
-	/** @var string|Less_Tree */
-	public $value;
-
 	/**
-	 * @param string|Less_Tree $val This receives string or Less_Tree_Variable
-	 * from Less_Parser. In compile(), Less_Tree_Variable is replaced with a
-	 * different node (e.g. Less_Tree_Quoted).
-	 */
-	public function __construct( $val ) {
-		$this->value = $val;
-	}
+     * @param string|Less_Tree $value This receives string or Less_Tree_Variable
+     * from Less_Parser. In compile(), Less_Tree_Variable is replaced with a
+     * different node (e.g. Less_Tree_Quoted).
+     */
+    public function __construct(public $value)
+    {
+    }
 
 	public function accept( $visitor ) {
 		if ( $this->value instanceof Less_Tree ) {

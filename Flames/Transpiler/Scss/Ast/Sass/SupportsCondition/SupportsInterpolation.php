@@ -21,19 +21,16 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class SupportsInterpolation implements SupportsCondition
+final readonly class SupportsInterpolation implements SupportsCondition
 {
-    /**
-     * The expression in the interpolation.
-     */
-    private readonly Expression $expression;
-
-    private readonly FileSpan $span;
-
-    public function __construct(Expression $expression, FileSpan $span)
+    public function __construct(
+        /**
+         * The expression in the interpolation.
+         */
+        private Expression $expression,
+        private FileSpan $span
+    )
     {
-        $this->expression = $expression;
-        $this->span = $span;
     }
 
     public function getExpression(): Expression

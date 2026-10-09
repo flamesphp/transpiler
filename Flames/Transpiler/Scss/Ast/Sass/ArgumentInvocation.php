@@ -21,37 +21,21 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class ArgumentInvocation implements SassNode
+final readonly class ArgumentInvocation implements SassNode
 {
-    /**
-     * @var list<Expression>
-     */
-    private readonly array $positional;
+    private ?Expression $rest;
 
-    /**
-     * @var array<string, Expression>
-     */
-    private readonly array $named;
-
-    private readonly ?Expression $rest;
-
-    private readonly ?Expression $keywordRest;
-
-    private readonly FileSpan $span;
+    private ?Expression $keywordRest;
 
     /**
      * @param list<Expression>          $positional
      * @param array<string, Expression> $named
      */
-    public function __construct(array $positional, array $named, FileSpan $span, ?Expression $rest = null, ?Expression $keywordRest = null)
+    public function __construct(private array $positional, private array $named, private FileSpan $span, ?Expression $rest = null, ?Expression $keywordRest = null)
     {
         assert($keywordRest === null || $rest !== null);
-
-        $this->positional = $positional;
-        $this->named = $named;
         $this->rest = $rest;
         $this->keywordRest = $keywordRest;
-        $this->span = $span;
     }
 
     public static function createEmpty(FileSpan $span): ArgumentInvocation

@@ -4,23 +4,14 @@
  * @see less-2.5.3.js#Attribute.prototype
  */
 class Less_Tree_Attribute extends Less_Tree implements Less_Tree_HasValueProperty {
-	/** @var string|Less_Tree */
-	public $key;
-	/** @var null|string */
-	public $op;
-	/** @var null|string|Less_Tree */
-	public $value;
-
 	/**
 	 * @param string|Less_Tree $key
 	 * @param null|string $op
 	 * @param null|string|Less_Tree $value
 	 */
-	public function __construct( $key, $op, $value ) {
-		$this->key = $key;
-		$this->op = $op;
-		$this->value = $value;
-	}
+	public function __construct(public $key, public $op, public $value)
+    {
+    }
 
 	public function compile( $env ) {
 		// Optimization: Avoid object churn for the common case.

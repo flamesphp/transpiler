@@ -91,26 +91,20 @@ final class SerializeVisitor implements CssVisitor, ValueVisitor, SelectorVisito
      */
     private int $indentation = 0;
 
-    /**
-     * Whether we're emitting an unambiguous representation of the source
-     * structure, as opposed to valid CSS.
-     */
-    private readonly bool $inspect;
-
-    /**
-     * Whether quoted strings should be emitted with quotes.
-     */
-    private readonly bool $quote;
-
     private readonly LoggerInterface $logger;
 
     private readonly bool $compressed;
 
-    public function __construct(bool $inspect = false, bool $quote = true, OutputStyle $style = OutputStyle::EXPANDED, bool $sourceMap = false, ?LoggerInterface $logger = null)
+    public function __construct(/**
+     * Whether we're emitting an unambiguous representation of the source
+     * structure, as opposed to valid CSS.
+     */
+    private readonly bool $inspect = false, /**
+     * Whether quoted strings should be emitted with quotes.
+     */
+    private readonly bool $quote = true, OutputStyle $style = OutputStyle::EXPANDED, bool $sourceMap = false, ?LoggerInterface $logger = null)
     {
         $this->buffer = $sourceMap ? new TrackingSourceMapBuffer() : new SimpleStringBuffer();
-        $this->inspect = $inspect;
-        $this->quote = $quote;
         $this->logger = $logger ?? new QuietLogger();
         $this->compressed = $style === OutputStyle::COMPRESSED;
     }
@@ -1410,7 +1404,7 @@ final class SerializeVisitor implements CssVisitor, ValueVisitor, SelectorVisito
             return null;
         }
 
-        $firstByteCode = \ord($char);
+        $firstByteCode = \ord($char[0]);
         if ($firstByteCode >= 0xF0) {
             $extraBytes = 3; // 4-bytes chars
         } elseif ($firstByteCode >= 0xE0) {

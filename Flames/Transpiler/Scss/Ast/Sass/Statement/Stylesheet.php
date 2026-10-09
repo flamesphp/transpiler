@@ -34,17 +34,11 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 final class Stylesheet extends ParentStatement
 {
-    private readonly bool $plainCss;
-
-    private readonly FileSpan $span;
-
     /**
      * @param Statement[] $children
      */
-    public function __construct(array $children, FileSpan $span, bool $plainCss = false)
+    public function __construct(array $children, private readonly FileSpan $span, private readonly bool $plainCss = false)
     {
-        $this->span = $span;
-        $this->plainCss = $plainCss;
         parent::__construct($children);
     }
 
@@ -80,7 +74,7 @@ final class Stylesheet extends ParentStatement
      */
     public static function parseSass(string $contents, ?LoggerInterface $logger = null, ?UriInterface $sourceUrl = null): self
     {
-        return (new SassParser($contents, $logger, $sourceUrl))->parse();
+        return new SassParser($contents, $logger, $sourceUrl)->parse();
     }
 
     /**
@@ -88,7 +82,7 @@ final class Stylesheet extends ParentStatement
      */
     public static function parseScss(string $contents, ?LoggerInterface $logger = null, ?UriInterface $sourceUrl = null): self
     {
-        return (new ScssParser($contents, $logger, $sourceUrl))->parse();
+        return new ScssParser($contents, $logger, $sourceUrl)->parse();
     }
 
     /**
@@ -96,7 +90,7 @@ final class Stylesheet extends ParentStatement
      */
     public static function parseCss(string $contents, ?LoggerInterface $logger = null, ?UriInterface $sourceUrl = null): self
     {
-        return (new CssParser($contents, $logger, $sourceUrl))->parse();
+        return new CssParser($contents, $logger, $sourceUrl)->parse();
     }
 
     public function __toString(): string

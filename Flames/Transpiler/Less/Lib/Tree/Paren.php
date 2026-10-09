@@ -4,15 +4,12 @@
  */
 class Less_Tree_Paren extends Less_Tree implements Less_Tree_HasValueProperty {
 
-	/** @var Less_Tree */
-	public $value;
-
 	/**
 	 * @param Less_Tree $value
 	 */
-	public function __construct( $value ) {
-		$this->value = $value;
-	}
+	public function __construct(public $value)
+    {
+    }
 
 	public function accept( $visitor ) {
 		$this->value = $visitor->visitObj( $this->value );

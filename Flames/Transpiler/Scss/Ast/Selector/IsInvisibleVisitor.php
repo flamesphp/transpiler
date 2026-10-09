@@ -21,25 +21,18 @@ use Flames\Transpiler\Scss\Visitor\AnySelectorVisitor;
  */
 final class IsInvisibleVisitor extends AnySelectorVisitor
 {
-    /**
-     * Whether to consider selectors with bogus combinators invisible.
-     */
-    private readonly bool $includeBogus;
-
-    public function __construct(bool $includeBogus)
+    public function __construct(
+        /**
+         * Whether to consider selectors with bogus combinators invisible.
+         */
+        private readonly bool $includeBogus
+    )
     {
-        $this->includeBogus = $includeBogus;
     }
 
     public function visitSelectorList(SelectorList $list): bool
     {
-        foreach ($list->getComponents() as $complex) {
-            if (!$this->visitComplexSelector($complex)) {
-                return false;
-            }
-        }
-
-        return true;
+        return array_all($list->getComponents(), fn($complex) => $this->visitComplexSelector($complex));
     }
 
     public function visitComplexSelector(ComplexSelector $complex): bool

@@ -56,7 +56,7 @@ final class CompoundSelector extends Selector
      */
     public static function parse(string $contents, ?LoggerInterface $logger = null, ?UriInterface $url = null, bool $allowParent = true): CompoundSelector
     {
-        return (new SelectorParser($contents, $logger, $url, $allowParent))->parseCompoundSelector();
+        return new SelectorParser($contents, $logger, $url, $allowParent)->parseCompoundSelector();
     }
 
     /**

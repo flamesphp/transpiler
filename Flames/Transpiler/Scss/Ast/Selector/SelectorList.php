@@ -65,7 +65,7 @@ final class SelectorList extends Selector
      */
     public static function parse(string $contents, ?LoggerInterface $logger = null, ?InterpolationMap $interpolationMap = null, ?UriInterface $url = null, bool $allowParent = true, bool $plainCss = false): SelectorList
     {
-        return (new SelectorParser($contents, $logger, $url, $allowParent, $interpolationMap, $plainCss))->parse();
+        return new SelectorParser($contents, $logger, $url, $allowParent, $interpolationMap, $plainCss)->parse();
     }
 
     /**

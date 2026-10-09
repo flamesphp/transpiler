@@ -52,7 +52,7 @@ abstract class AnySelectorVisitor implements SelectorVisitor
     {
         $selector = $pseudo->getSelector();
 
-        return $selector === null ? false : $selector->accept($this);
+        return $selector?->accept($this) ?? false;
     }
 
     public function visitSelectorList(SelectorList $list): bool

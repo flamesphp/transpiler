@@ -8,12 +8,6 @@ class Less_Tree_Element extends Less_Tree implements Less_Tree_HasValueProperty 
 	public $combinator;
 	/** @var bool Whether combinator is null (represented by empty string) or child (single space) */
 	public $combinatorIsEmptyOrWhitespace;
-	/** @var string|Less_Tree */
-	public $value;
-	/** @var int|null */
-	public $index;
-	/** @var array|null */
-	public $currentFileInfo;
 
 	/**
 	 * @param null|string $combinator
@@ -21,15 +15,10 @@ class Less_Tree_Element extends Less_Tree implements Less_Tree_HasValueProperty 
 	 * @param int|null $index
 	 * @param array|null $currentFileInfo
 	 */
-	public function __construct( $combinator, $value, $index = null, $currentFileInfo = null ) {
-		$this->value = $value;
-
+	public function __construct( $combinator, public $value, public $index = null, public $currentFileInfo = null ) {
 		// see less-2.5.3.js#Combinator
 		$this->combinator = $combinator ?? '';
 		$this->combinatorIsEmptyOrWhitespace = ( $combinator === null || trim( $combinator ) === '' );
-
-		$this->index = $index;
-		$this->currentFileInfo = $currentFileInfo;
 	}
 
 	public function accept( $visitor ) {

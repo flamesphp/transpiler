@@ -21,22 +21,13 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class MapExpression implements Expression
+final readonly class MapExpression implements Expression
 {
-    /**
-     * @var list<array{Expression, Expression}>
-     */
-    private readonly array $pairs;
-
-    private readonly FileSpan $span;
-
     /**
      * @param list<array{Expression, Expression}> $pairs
      */
-    public function __construct(array $pairs, FileSpan $span)
+    public function __construct(private array $pairs, private FileSpan $span)
     {
-        $this->pairs = $pairs;
-        $this->span = $span;
     }
 
     /**

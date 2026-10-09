@@ -6,10 +6,6 @@ use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 
 final class SourceFile
 {
-    private readonly string $string;
-
-    private readonly ?UriInterface $sourceUrl;
-
     /**
      * @var list<int>
      */
@@ -32,15 +28,12 @@ final class SourceFile
         return new SourceFile($content, $sourceUrl);
     }
 
-    private function __construct(string $content, ?UriInterface $sourceUrl = null)
+    private function __construct(private readonly string $string, private readonly ?UriInterface $sourceUrl = null)
     {
-        $this->string = $content;
-        $this->sourceUrl = $sourceUrl;
-
         // Extract line starts
         $lineStarts = [0];
 
-        if ($content === '') {
+        if ($this->string === '') {
             $this->lineStarts = $lineStarts;
             return;
         }
@@ -48,8 +41,8 @@ final class SourceFile
         $prev = 0;
 
         while (true) {
-            $crPos = strpos($content, "\r", $prev);
-            $lfPos = strpos($content, "\n", $prev);
+            $crPos = strpos($this->string, "\r", $prev);
+            $lfPos = strpos($this->string, "\n", $prev);
 
             if ($crPos === false && $lfPos === false) {
                 break;
@@ -88,9 +81,7 @@ final class SourceFile
 
     public function span(int $start, ?int $end = null): FileSpan
     {
-        if ($end === null) {
-            $end = \strlen($this->string);
-        }
+        $end ??= \strlen($this->string);
 
         return new ConcreteFileSpan($this, $start, $end);
     }

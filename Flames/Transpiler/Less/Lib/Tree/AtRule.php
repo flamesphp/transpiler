@@ -4,37 +4,28 @@
  * @see less-3.13.1.js#AtRule.prototype
  */
 class Less_Tree_AtRule extends Less_Tree implements Less_Tree_HasValueProperty {
-	/** @var string */
-	public $name;
-	/** @var Less_Tree|null */
-	public $value;
 	/** @var Less_Tree_Ruleset[]|null */
 	public $rules;
-	/** @var int|null */
-	public $index;
-	/** @var bool */
-	public $isReferenced;
-	/** @var bool */
-	public $isRooted;
-	/** @var array|null */
-	public $currentFileInfo;
-	/** @var mixed|null */
-	public $debugInfo;
 
-	public function __construct(
-		$name,
-		$value = null,
+	/**
+     * @param string $name
+     * @param \Less_Tree|null $value
+     * @param int|null $index
+     * @param bool $isReferenced
+     * @param bool $isRooted
+     * @param mixed[]|null $currentFileInfo
+     * @param mixed $debugInfo
+     */
+    public function __construct(
+		public $name,
+		public $value = null,
 		$rules = null,
-		$index = null,
-		$isRooted = false,
-		$currentFileInfo = null,
-		$debugInfo = null,
-		$isReferenced = false
+		public $index = null,
+		public $isRooted = false,
+		public $currentFileInfo = null,
+		public $debugInfo = null,
+		public $isReferenced = false
 	) {
-		$this->name = $name;
-		// TODO: Less.js 3.13 handles `$value instanceof Less_Tree` and creates Anonymous here.
-		$this->value = $value;
-
 		if ( $rules !== null ) {
 			if ( is_array( $rules ) ) {
 				$this->rules = $rules;
@@ -48,12 +39,6 @@ class Less_Tree_AtRule extends Less_Tree implements Less_Tree_HasValueProperty {
 			}
 			// TODO: Less.js 3.13 handles setParent() here
 		}
-
-		$this->index = $index;
-		$this->isRooted = $isRooted;
-		$this->currentFileInfo = $currentFileInfo;
-		$this->debugInfo = $debugInfo;
-		$this->isReferenced = $isReferenced;
 	}
 
 	public function accept( $visitor ) {

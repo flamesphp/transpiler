@@ -22,19 +22,16 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class SupportsAnything implements SupportsCondition
+final readonly class SupportsAnything implements SupportsCondition
 {
-    /**
-     * The contents of the condition.
-     */
-    private readonly Interpolation $contents;
-
-    private readonly FileSpan $span;
-
-    public function __construct(Interpolation $contents, FileSpan $span)
+    public function __construct(
+        /**
+         * The contents of the condition.
+         */
+        private Interpolation $contents,
+        private FileSpan $span
+    )
     {
-        $this->contents = $contents;
-        $this->span = $span;
     }
 
     public function getContents(): Interpolation

@@ -30,11 +30,6 @@ use Flames\Transpiler\Scss\Span\FileSpan;
 final class PseudoSelector extends SimpleSelector
 {
     /**
-     * The name of this selector.
-     */
-    private readonly string $name;
-
-    /**
      * Like {@see name}, but without any vendor prefixes.
      */
     private readonly string $normalizedName;
@@ -43,32 +38,28 @@ final class PseudoSelector extends SimpleSelector
 
     private readonly bool $isSyntacticClass;
 
-    /**
+    private ?int $specificity = null;
+
+    public function __construct(/**
+     * The name of this selector.
+     */
+    private readonly string $name, FileSpan $span, bool $element = false, /**
      * The non-selector argument passed to this selector.
      *
      * This is `null` if there's no argument. If {@see argument} and {@see selector} are
      * both non-`null`, the selector follows the argument.
      */
-    private readonly ?string $argument;
-
-    /**
+    private readonly ?string $argument = null, /**
      * The selector argument passed to this selector.
      *
      * This is `null` if there's no selector. If {@see argument} and {@see selector} are
      * both non-`null`, the selector follows the argument.
      */
-    private readonly ?SelectorList $selector;
-
-    private ?int $specificity = null;
-
-    public function __construct(string $name, FileSpan $span, bool $element = false, ?string $argument = null, ?SelectorList $selector = null)
+    private readonly ?SelectorList $selector = null)
     {
-        $this->name = $name;
-        $this->isClass = !$element && !self::isFakePseudoElement($name);
+        $this->isClass = !$element && !self::isFakePseudoElement($this->name);
         $this->isSyntacticClass = !$element;
-        $this->argument = $argument;
-        $this->selector = $selector;
-        $this->normalizedName = Util::unvendor($name);
+        $this->normalizedName = Util::unvendor($this->name);
         parent::__construct($span);
     }
 
@@ -189,9 +180,7 @@ final class PseudoSelector extends SimpleSelector
 
     public function getSpecificity(): int
     {
-        if ($this->specificity === null) {
-            $this->specificity = $this->computeSpecificity();
-        }
+        $this->specificity ??= $this->computeSpecificity();
 
         return $this->specificity;
     }
@@ -328,7 +317,7 @@ final class PseudoSelector extends SimpleSelector
 
         // Fall back to the logic defined in ExtendUtil, which knows how to
         // compare selector pseudoclasses against raw selectors.
-        return (new CompoundSelector([$this], $this->getSpan()))->isSuperselector(new CompoundSelector([$other], $this->getSpan()));
+        return new CompoundSelector([$this], $this->getSpan())->isSuperselector(new CompoundSelector([$other], $this->getSpan()));
     }
 
     public function accept(SelectorVisitor $visitor)

@@ -3,41 +3,37 @@
  * @private
  */
 class Less_Tree_Mixin_Definition extends Less_Tree_Ruleset {
-	/** @var string */
-	public $name;
 	/** @var Less_Tree_Selector[] */
-	public $selectors;
-	/** @var array[] */
-	public $params;
+	#[\Override]
+    public $selectors;
 	/** @var int */
 	public $arity = 0;
 	/** @var Less_Tree[] */
-	public $rules;
+	#[\Override]
+    public $rules;
 	/** @var array[][] */
-	public $lookups = [];
+	#[\Override]
+    public $lookups = [];
 	/** @var int */
 	public $required = 0;
-	/** @var array */
-	public $frames = [];
-	/** @var Less_Tree_Condition|null */
-	public $condition;
-	/** @var bool */
-	public $variadic;
 	/** @var string[] */
 	public $optionalParameters = [];
 
-	public function __construct( $name, $params, $rules, $condition, $variadic = false, $frames = [] ) {
-		$this->name = $name;
-		$this->selectors = [ new Less_Tree_Selector( [ new Less_Tree_Element( null, $name ) ] ) ];
-
-		$this->params = $params;
-		$this->condition = $condition;
-		$this->variadic = $variadic;
+	/**
+     * @param string $name
+     * @param mixed[][] $params
+     * @param mixed[] $frames
+     * @param \Less_Tree_Condition|null $condition
+     * @param bool $variadic
+     */
+    public function __construct( public $name, /** @var array[] */
+    public $params, $rules, public $condition, public $variadic = false, public $frames = [] ) {
+		$this->selectors = [ new Less_Tree_Selector( [ new Less_Tree_Element( null, $this->name ) ] ) ];
 		$this->rules = $rules;
 
-		if ( $params ) {
-			$this->arity = count( $params );
-			foreach ( $params as $p ) {
+		if ( $this->params ) {
+			$this->arity = count( $this->params );
+			foreach ( $this->params as $p ) {
 				// NOTE: Less.js 3.13.1 does a !p.name check in the second half that we omit, because it is impossible.
 				if ( !isset( $p['name'] ) || !isset( $p['value'] ) ) {
 					$this->required++;
@@ -46,8 +42,6 @@ class Less_Tree_Mixin_Definition extends Less_Tree_Ruleset {
 				}
 			}
 		}
-
-		$this->frames = $frames;
 		$this->SetRulesetIndex();
 	}
 

@@ -21,13 +21,10 @@ use Flames\Transpiler\Scss\Util\Equatable;
  *
  * @internal
  */
-final class PlainCssCallable implements SassCallable, Equatable
+final readonly class PlainCssCallable implements SassCallable, Equatable
 {
-    private readonly string $name;
-
-    public function __construct(string $name)
+    public function __construct(private string $name)
     {
-        $this->name = $name;
     }
 
     public function getName(): string

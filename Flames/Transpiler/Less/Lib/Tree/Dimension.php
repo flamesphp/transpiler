@@ -3,7 +3,7 @@
  * @private
  * @see less-2.5.3.js#Dimension.prototype
  */
-class Less_Tree_Dimension extends Less_Tree implements Less_Tree_HasValueProperty {
+class Less_Tree_Dimension extends Less_Tree implements Less_Tree_HasValueProperty, \Stringable {
 
 	/** @var float */
 	public $value;
@@ -66,8 +66,8 @@ class Less_Tree_Dimension extends Less_Tree implements Less_Tree_HasValuePropert
 		$this->unit->genCSS( $output );
 	}
 
-	public function __toString() {
-		return $this->toCSS();
+	public function __toString(): string {
+		return (string) $this->toCSS();
 	}
 
 	// In an operation between two Dimensions,

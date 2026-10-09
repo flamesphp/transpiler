@@ -17,12 +17,12 @@ use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 /**
  * @internal
  */
-final class CanonicalizeResult
+final readonly class CanonicalizeResult
 {
     public function __construct(
-        public readonly Importer $importer,
-        public readonly UriInterface $canonicalUrl,
-        public readonly UriInterface $originalUrl,
+        public Importer $importer,
+        public UriInterface $canonicalUrl,
+        public UriInterface $originalUrl,
     ) {
     }
 }

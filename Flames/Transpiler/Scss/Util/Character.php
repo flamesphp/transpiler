@@ -23,7 +23,7 @@ final class Character
      * `0b100000` can be bitwise-ORed with uppercase ASCII letters to get their
      * lowercase equivalents.
      */
-    private const ASCII_CASE_BIT = 0x20;
+    private const int ASCII_CASE_BIT = 0x20;
 
     /**
      * Returns whether $character is an ASCII whitespace character.

@@ -16,19 +16,10 @@ use Flames\Transpiler\Scss\Uri\Contracts\UriInterface;
 use Flames\Transpiler\Scss\Uri\Uri;
 use Flames\Transpiler\Scss\Syntax;
 
-final class ImporterResult
+final readonly class ImporterResult
 {
-    private readonly string $contents;
-
-    private readonly ?UriInterface $sourceMapUrl;
-
-    private readonly Syntax $syntax;
-
-    public function __construct(string $contents, Syntax $syntax, ?UriInterface $sourceMapUrl = null)
+    public function __construct(private string $contents, private Syntax $syntax, private ?UriInterface $sourceMapUrl = null)
     {
-        $this->contents = $contents;
-        $this->syntax = $syntax;
-        $this->sourceMapUrl = $sourceMapUrl;
     }
 
     public function getContents(): string

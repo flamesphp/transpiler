@@ -21,49 +21,31 @@ use Flames\Transpiler\Scss\Value\Value;
  *
  * @internal
  */
-final class ArgumentResults
+final readonly class ArgumentResults
 {
-    /**
-     * Arguments passed by position.
-     *
-     * @var list<Value>
-     */
-    private readonly array $positional;
-
-    /**
-     * The {@see AstNode}s that hold the spans for each {@see positional} argument.
-     *
-     * @var list<AstNode>
-     */
-    private readonly array $positionalNodes;
-
-    /**
-     * @var array<string, Value>
-     */
-    private readonly array $named;
-
-    /**
-     * The {@see AstNode}s that hold the spans for each {@see named} argument.
-     *
-     * @var array<string, AstNode>
-     */
-    private readonly array $namedNodes;
-
-    private readonly ListSeparator $separator;
-
     /**
      * @param list<Value>            $positional
      * @param list<AstNode>          $positionalNodes
      * @param array<string, Value>   $named
      * @param array<string, AstNode> $namedNodes
      */
-    public function __construct(array $positional, array $positionalNodes, array $named, array $namedNodes, ListSeparator $separator)
+    public function __construct(
+        /**
+         * Arguments passed by position.
+         */
+        private array $positional,
+        /**
+         * The {@see AstNode}s that hold the spans for each {@see positional} argument.
+         */
+        private array $positionalNodes,
+        private array $named,
+        /**
+         * The {@see AstNode}s that hold the spans for each {@see named} argument.
+         */
+        private array $namedNodes,
+        private ListSeparator $separator
+    )
     {
-        $this->positional = $positional;
-        $this->positionalNodes = $positionalNodes;
-        $this->named = $named;
-        $this->namedNodes = $namedNodes;
-        $this->separator = $separator;
     }
 
     /**

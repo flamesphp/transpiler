@@ -15,14 +15,14 @@ namespace Flames\Transpiler\Scss\SourceMap;
 /**
  * @internal
  */
-final class TargetLineEntry
+final readonly class TargetLineEntry
 {
     /**
      * @param \ArrayObject<int, TargetEntry> $entries
      */
     public function __construct(
-        public readonly int $line,
-        public readonly \ArrayObject $entries,
+        public int $line,
+        public \ArrayObject $entries,
     ) {
     }
 }

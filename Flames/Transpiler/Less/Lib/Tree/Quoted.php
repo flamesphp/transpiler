@@ -3,16 +3,8 @@
  * @private
  */
 class Less_Tree_Quoted extends Less_Tree implements Less_Tree_HasValueProperty {
-	/** @var bool */
-	public $escaped;
-	/** @var string */
-	public $value;
 	/** @var string */
 	public $quote;
-	/** @var int|false */
-	public $index;
-	/** @var array|null */
-	public $currentFileInfo;
 
 	/** @var string */
 	public $variableRegex = '/@\{([\w-]+)\}/';
@@ -20,16 +12,16 @@ class Less_Tree_Quoted extends Less_Tree implements Less_Tree_HasValueProperty {
 	public $propRegex = '/\$\{([\w-]+)\}/';
 
 	/**
-	 * @param string $str
-	 */
-	public function __construct( $str, $content = '', $escaped = true, $index = false, $currentFileInfo = null ) {
-		$this->escaped = $escaped;
-		$this->value = $content;
+     * @param string $str
+     * @param bool $escaped
+     * @param string $content
+     * @param int|false $index
+     * @param mixed[]|null $currentFileInfo
+     */
+    public function __construct( $str, public $value = '', public $escaped = true, public $index = false, public $currentFileInfo = null ) {
 		if ( $str ) {
 			$this->quote = $str[0];
 		}
-		$this->index = $index;
-		$this->currentFileInfo = $currentFileInfo;
 	}
 
 	/**

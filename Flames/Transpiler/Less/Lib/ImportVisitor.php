@@ -4,8 +4,6 @@
  */
 class Less_ImportVisitor extends Less_Visitor {
 
-	/** @var Less_Environment */
-	public $env;
 	/** @var array<array{function:string,args:array}> */
 	public $variableImports = [];
 	/** @var array<string,true> */
@@ -16,11 +14,11 @@ class Less_ImportVisitor extends Less_Visitor {
 	/** @var mixed */
 	public $importItem;
 
-	public function __construct( $env ) {
+	/**
+     * @param \Less_Environment $env
+     */
+    public function __construct( public $env ) {
 		parent::__construct();
-		// NOTE: Upstream creates a new environment/context here. We re-use the main one instead.
-		// This makes Less_Environment->addParsedFile() easier to support (which is custom to Less.php)
-		$this->env = $env;
 		// NOTE: Upstream `importCount` is not here, appears unused.
 		// NOTE: Upstream `isFinished` is not here, we simply call tryRun() once at the end.
 		// NOTE: Upstream `onceFileDetectionMap` is instead Less_Environment->isFileParsed.

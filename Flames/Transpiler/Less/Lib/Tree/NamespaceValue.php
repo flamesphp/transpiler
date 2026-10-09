@@ -5,21 +5,21 @@
  */
 class Less_Tree_NamespaceValue extends Less_Tree {
 
-	/** @var Less_Tree_Mixin_Call|Less_Tree_VariableCall */
-	public $value;
-	/** @var int|null */
-	public $index;
-	/** @var string[] */
-	public $lookups;
-	/** @var array|null */
-	public $currentFileInfo;
-
-	public function __construct( $ruleCall, $lookups, $index = null, $currentFileInfo = null ) {
-		$this->value = $ruleCall;
-		$this->lookups = $lookups;
-		$this->index = $index;
-		$this->currentFileInfo = $currentFileInfo;
-	}
+	/**
+     * @param \Less_Tree_Mixin_Call|\Less_Tree_VariableCall $ruleCall
+     * @param int|null $index
+     * @param string[] $lookups
+     * @param mixed[]|null $currentFileInfo
+     */
+    public function __construct(
+        public $value,
+        /** @var string[] */
+        public $lookups,
+        public $index = null,
+        public $currentFileInfo = null
+    )
+    {
+    }
 
 	public function compile( $env ) {
 		/** @var Less_Tree_Ruleset $rules */
@@ -38,7 +38,7 @@ class Less_Tree_NamespaceValue extends Less_Tree {
 				$rules = $rules->lastDeclaration();
 			} elseif ( $name[0] === '@' ) {
 				if ( ( $name[1] ?? '' ) === '@' ) {
-					$variable = ( new Less_Tree_Variable( substr( $name, 1 ) ) )->compile( $env );
+					$variable =  new Less_Tree_Variable( substr( $name, 1 )  )->compile( $env );
 					$name = "@" . $variable->value;
 				}
 				if ( $rules instanceof Less_Tree_Ruleset ) {
@@ -54,8 +54,8 @@ class Less_Tree_NamespaceValue extends Less_Tree {
 					);
 				}
 			} else {
-				if ( strncmp( $name, '$@', 2 ) === 0 ) {
-					$variable = ( new Less_Tree_Variable( substr( $name, 1 ) ) )->compile( $env );
+				if ( str_starts_with($name, '$@') ) {
+					$variable =  new Less_Tree_Variable( substr( $name, 1 )  )->compile( $env );
 					$name = "$" . $variable->value;
 				} else {
 					$name = $name[0] === '$' ? $name : ( '$' . $name );

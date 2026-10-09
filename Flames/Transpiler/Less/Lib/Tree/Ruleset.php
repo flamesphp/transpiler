@@ -10,14 +10,6 @@ class Less_Tree_Ruleset extends Less_Tree {
 	public $_variables;
 	/** @var array<string,Less_Tree_Declaration[]>|null */
 	public $_properties;
-
-	/** @var null|bool */
-	public $strictImports;
-
-	/** @var Less_Tree_Selector[]|null */
-	public $selectors;
-	/** @var Less_Tree[] */
-	public $rules;
 	/** @var true|null */
 	public $root;
 	/** @var true|null */
@@ -29,7 +21,8 @@ class Less_Tree_Ruleset extends Less_Tree {
 	/** @var true|null */
 	public $multiMedia;
 	/** @var Less_Tree_Extend[] */
-	public $allExtends;
+	#[\Override]
+    public $allExtends;
 
 	/** @var int */
 	public $ruleset_id;
@@ -57,11 +50,8 @@ class Less_Tree_Ruleset extends Less_Tree {
 	 * @param Less_Tree[] $rules
 	 * @param null|bool $strictImports
 	 */
-	public function __construct( $selectors, $rules, $strictImports = null ) {
-		$this->selectors = $selectors;
-		$this->rules = $rules;
+	public function __construct( public $selectors, public $rules, public $strictImports = null ) {
 		$this->lookups = [];
-		$this->strictImports = $strictImports;
 		$this->SetRulesetIndex();
 	}
 

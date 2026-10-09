@@ -30,10 +30,8 @@ final class Converter
 {
     /**
      * Significant 10 bits of IP to detect Zone ID regular expression pattern.
-     *
-     * @var string
      */
-    private const HOST_ADDRESS_BLOCK = "\xfe\x80";
+    private const string HOST_ADDRESS_BLOCK = "\xfe\x80";
 
     public static function compressIp(string $ipAddress): string
     {

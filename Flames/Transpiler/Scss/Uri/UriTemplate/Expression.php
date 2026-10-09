@@ -27,15 +27,15 @@ use function implode;
  * @internal The class exposes the internal representation of an Expression and its usage
  * @link https://www.rfc-editor.org/rfc/rfc6570#section-2.2
  */
-final class Expression
+final readonly class Expression
 {
     /** @var array<VarSpecifier> */
-    private readonly array $varSpecifiers;
+    private array $varSpecifiers;
     /** @var array<string> */
-    public readonly array $variableNames;
-    public readonly string $value;
+    public array $variableNames;
+    public string $value;
 
-    private function __construct(public readonly Operator $operator, VarSpecifier ...$varSpecifiers)
+    private function __construct(public Operator $operator, VarSpecifier ...$varSpecifiers)
     {
         $this->varSpecifiers = $varSpecifiers;
         $this->variableNames = array_unique(
@@ -58,7 +58,7 @@ final class Expression
         $parts = Operator::parseExpression($expression);
 
         return new Expression($parts['operator'], ...array_map(
-            static fn (string $varSpec): VarSpecifier => VarSpecifier::new($varSpec),
+            VarSpecifier::new(...),
             explode(',', $parts['variables'])
         ));
     }

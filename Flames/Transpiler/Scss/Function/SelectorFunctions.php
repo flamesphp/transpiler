@@ -70,26 +70,24 @@ final class SelectorFunctions
 
         $span = EvaluationContext::getCurrent()->getCurrentCallableSpan();
 
-        return ArrayUtil::reduce(array_map(fn(Value $selector) => $selector->assertSelector(), $selectors), function (SelectorList $parent, SelectorList $child) use ($span) {
-            return (new SelectorList(array_map(function (ComplexSelector $complex) use ($span, $parent) {
-                if (\count($complex->getLeadingCombinators()) > 0) {
-                    throw new SassScriptException("Can't append $complex to $parent.");
-                }
+        return ArrayUtil::reduce(array_map(fn(Value $selector) => $selector->assertSelector(), $selectors), fn(SelectorList $parent, SelectorList $child) => new SelectorList(array_map(function (ComplexSelector $complex) use ($span, $parent) {
+            if (\count($complex->getLeadingCombinators()) > 0) {
+                throw new SassScriptException("Can't append $complex to $parent.");
+            }
 
-                $component = $complex->getComponents()[0];
-                $rest = array_slice($complex->getComponents(), 1);
-                $newCompound = self::prependParent($component->getSelector());
+            $component = $complex->getComponents()[0];
+            $rest = array_slice($complex->getComponents(), 1);
+            $newCompound = self::prependParent($component->getSelector());
 
-                if ($newCompound === null) {
-                    throw new SassScriptException("Can't append $complex to $parent.");
-                }
+            if ($newCompound === null) {
+                throw new SassScriptException("Can't append $complex to $parent.");
+            }
 
-                return new ComplexSelector([], [
-                    new ComplexSelectorComponent($newCompound, $component->getCombinators(), $span),
-                    ...$rest,
-                ], $span);
-            }, $child->getComponents()), $span))->nestWithin($parent);
-        })->asSassList();
+            return new ComplexSelector([], [
+                new ComplexSelectorComponent($newCompound, $component->getCombinators(), $span),
+                ...$rest,
+            ], $span);
+        }, $child->getComponents()), $span)->nestWithin($parent))->asSassList();
     }
 
     /**

@@ -24,20 +24,11 @@ use Flames\Transpiler\Scss\Span\FileSpan;
 final class ModifiableCssKeyframeBlock extends ModifiableCssParentNode implements CssKeyframeBlock
 {
     /**
-     * @var CssValue<list<string>>
-     */
-    private readonly CssValue $selector;
-
-    private readonly FileSpan $span;
-
-    /**
      * @param CssValue<list<string>> $selector
      */
-    public function __construct(CssValue $selector, FileSpan $span)
+    public function __construct(private readonly CssValue $selector, private readonly FileSpan $span)
     {
         parent::__construct();
-        $this->selector = $selector;
-        $this->span = $span;
     }
 
     public function getSelector(): CssValue

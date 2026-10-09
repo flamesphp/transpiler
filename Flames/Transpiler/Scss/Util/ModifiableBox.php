@@ -25,16 +25,10 @@ namespace Flames\Transpiler\Scss\Util;
 final class ModifiableBox
 {
     /**
-     * @var T
-     */
-    private mixed $value;
-
-    /**
      * @param T $value
      */
-    public function __construct(mixed $value)
+    public function __construct(private mixed $value)
     {
-        $this->value = $value;
     }
 
     /**

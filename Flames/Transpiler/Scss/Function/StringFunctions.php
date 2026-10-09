@@ -172,9 +172,7 @@ final class StringFunctions
      */
     public static function uniqueId(array $arguments): Value
     {
-        if (self::$previousId === null) {
-            self::$previousId = random_int(0, 36 ** 6);
-        }
+        self::$previousId ??= random_int(0, 36 ** 6);
 
         // Make it difficult to guess the next ID by randomizing the increase.
         self::$previousId += random_int(0, 36) + 1;

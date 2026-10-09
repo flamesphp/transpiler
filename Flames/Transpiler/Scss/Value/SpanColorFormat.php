@@ -17,13 +17,10 @@ use Flames\Transpiler\Scss\Span\FileSpan;
 /**
  * @internal
  */
-final class SpanColorFormat implements ColorFormat
+final readonly class SpanColorFormat implements ColorFormat
 {
-    private readonly FileSpan $span;
-
-    public function __construct(FileSpan $span)
+    public function __construct(private FileSpan $span)
     {
-        $this->span = $span;
     }
 
     public function getOriginal(): string

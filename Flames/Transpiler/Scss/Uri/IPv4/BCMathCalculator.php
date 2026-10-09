@@ -24,8 +24,8 @@ use function str_split;
 
 final class BCMathCalculator implements Calculator
 {
-    private const SCALE = 0;
-    private const CONVERSION_TABLE = [
+    private const int SCALE = 0;
+    private const array CONVERSION_TABLE = [
         '0' => '0', '1' => '1', '2' => '2', '3' => '3',
         '4' => '4', '5' => '5', '6' => '6', '7' => '7',
         '8' => '8', '9' => '9', 'a' => '10', 'b' => '11',

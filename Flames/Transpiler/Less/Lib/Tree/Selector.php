@@ -4,20 +4,12 @@
  */
 class Less_Tree_Selector extends Less_Tree {
 
-	/** @var Less_Tree_Element[] */
-	public $elements;
-	/** @var Less_Tree_Condition|null */
-	public $condition;
-	/** @var Less_Tree_Extend[] */
-	public $extendList = [];
 	/** @var int|null */
 	public $index;
 	/** @var bool */
 	public $evaldCondition = false;
 	/** @var array|null */
 	public $currentFileInfo = [];
-	/** @var null|bool */
-	public $isReferenced;
 	/** @var null|bool */
 	public $mediaEmpty;
 
@@ -41,16 +33,12 @@ class Less_Tree_Selector extends Less_Tree {
 	 * @param array|null $currentFileInfo
 	 * @param bool|null $isReferenced
 	 */
-	public function __construct( $elements, $extendList = [], $condition = null, $index = null, $currentFileInfo = null, $isReferenced = null ) {
-		$this->elements = $elements;
-		$this->elements_len = count( $elements );
-		$this->extendList = $extendList;
-		$this->condition = $condition;
+	public function __construct( public $elements, public $extendList = [], public $condition = null, $index = null, $currentFileInfo = null, public $isReferenced = null ) {
+		$this->elements_len = count( $this->elements );
 		if ( $currentFileInfo ) {
 			$this->currentFileInfo = $currentFileInfo;
 		}
-		$this->isReferenced = $isReferenced;
-		if ( !$condition ) {
+		if ( !$this->condition ) {
 			$this->evaldCondition = true;
 		}
 

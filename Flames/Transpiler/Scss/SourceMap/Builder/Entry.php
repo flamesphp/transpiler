@@ -19,22 +19,19 @@ use Flames\Transpiler\Scss\Span\SourceLocation;
  *
  * @internal
  */
-final class Entry
+final readonly class Entry
 {
-    /**
-     * Span denoting the original location in the input source file
-     */
-    public readonly SourceLocation $source;
-
-    /**
-     * Span indicating the corresponding location in the target file.
-     */
-    public readonly SourceLocation $target;
-
-    public function __construct(SourceLocation $source, SourceLocation $target)
+    public function __construct(
+        /**
+         * Span denoting the original location in the input source file
+         */
+        public SourceLocation $source,
+        /**
+         * Span indicating the corresponding location in the target file.
+         */
+        public SourceLocation $target
+    )
     {
-        $this->source = $source;
-        $this->target = $target;
     }
 
     /**

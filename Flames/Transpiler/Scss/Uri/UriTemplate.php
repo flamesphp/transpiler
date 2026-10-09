@@ -43,10 +43,10 @@ use function class_exists;
  *
  * @phpstan-import-type InputValue from VariableBag
  */
-final class UriTemplate implements Stringable
+final readonly class UriTemplate implements Stringable
 {
-    private readonly Template $template;
-    private readonly VariableBag $defaultVariables;
+    private Template $template;
+    private VariableBag $defaultVariables;
 
     /**
      * @throws SyntaxError if the template syntax is invalid

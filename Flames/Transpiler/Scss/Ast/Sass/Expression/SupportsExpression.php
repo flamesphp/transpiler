@@ -25,13 +25,10 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class SupportsExpression implements Expression
+final readonly class SupportsExpression implements Expression
 {
-    private readonly SupportsCondition $condition;
-
-    public function __construct(SupportsCondition $condition)
+    public function __construct(private SupportsCondition $condition)
     {
-        $this->condition = $condition;
     }
 
     public function getCondition(): SupportsCondition

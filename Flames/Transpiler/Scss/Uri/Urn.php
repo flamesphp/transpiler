@@ -41,7 +41,7 @@ use function strtolower;
  *      f_component: ?string,
  *  }
  */
-final class Urn implements Conditionable, Stringable, JsonSerializable
+final readonly class Urn implements Conditionable, Stringable, JsonSerializable
 {
     /**
      * RFC8141 regular expression URN splitter.
@@ -52,10 +52,8 @@ final class Urn implements Conditionable, Stringable, JsonSerializable
      * are mandatory.
      *
      * @link https://datatracker.ietf.org/doc/html/rfc8141#section-2
-     *
-     * @var string
      */
-    private const REGEXP_URN_PARTS = '/^
+    private const string REGEXP_URN_PARTS = '/^
         urn:
         (?<nid>[a-z0-9](?:[a-z0-9-]{0,30}[a-z0-9])?): # NID
         (?<nss>.*?)                                   # NSS
@@ -68,23 +66,21 @@ final class Urn implements Conditionable, Stringable, JsonSerializable
      * RFC8141 namespace identifier regular expression.
      *
      * @link https://datatracker.ietf.org/doc/html/rfc8141#section-2
-     *
-     * @var string
      */
-    private const REGEX_NID_SEQUENCE = '/^[a-z0-9]([a-z0-9-]{0,30})[a-z0-9]$/xi';
+    private const string REGEX_NID_SEQUENCE = '/^[a-z0-9]([a-z0-9-]{0,30})[a-z0-9]$/xi';
 
     /** @var non-empty-string */
-    private readonly string $uriString;
+    private string $uriString;
     /** @var non-empty-string */
-    private readonly string $nid;
+    private string $nid;
     /** @var non-empty-string */
-    private readonly string $nss;
+    private string $nss;
     /** @var non-empty-string|null */
-    private readonly ?string $rComponent;
+    private ?string $rComponent;
     /** @var non-empty-string|null */
-    private readonly ?string $qComponent;
+    private ?string $qComponent;
     /** @var non-empty-string|null */
-    private readonly ?string $fComponent;
+    private ?string $fComponent;
 
     /**
      * @param Rfc3986Uri|WhatWgUrl|Stringable|string $urn the percent-encoded URN

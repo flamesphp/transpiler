@@ -4,12 +4,6 @@
  */
 class Less_Tree_Extend extends Less_Tree {
 
-	/** @var Less_Tree_Selector */
-	public $selector;
-	/** @var string */
-	public $option;
-	/** @var int */
-	public $index;
 	/** @var Less_Tree_Selector[] */
 	public $selfSelectors = [];
 	/** @var bool */
@@ -30,13 +24,10 @@ class Less_Tree_Extend extends Less_Tree {
 	 * @param string $option
 	 * @param int $index
 	 */
-	public function __construct( $selector, $option, $index ) {
+	public function __construct( public $selector, public $option, public $index ) {
 		static $i = 0;
-		$this->selector = $selector;
-		$this->option = $option;
-		$this->index = $index;
 
-		switch ( $option ) {
+		switch ( $this->option ) {
 			case "all":
 				$this->allowBefore = true;
 				$this->allowAfter = true;

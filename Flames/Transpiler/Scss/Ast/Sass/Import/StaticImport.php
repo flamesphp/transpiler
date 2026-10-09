@@ -21,28 +21,23 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class StaticImport implements Import
+final readonly class StaticImport implements Import
 {
-    /**
-     * The URL for this import.
-     *
-     * This already contains quotes.
-     */
-    private readonly Interpolation $url;
-
-    /**
-     * The modifiers (such as media or supports queries) attached to this import,
-     * or `null` if none are attached.
-     */
-    private readonly ?Interpolation $modifiers;
-
-    private readonly FileSpan $span;
-
-    public function __construct(Interpolation $url, FileSpan $span, ?Interpolation $modifiers = null)
+    public function __construct(
+        /**
+         * The URL for this import.
+         *
+         * This already contains quotes.
+         */
+        private Interpolation $url,
+        private FileSpan $span,
+        /**
+         * The modifiers (such as media or supports queries) attached to this import,
+         * or `null` if none are attached.
+         */
+        private ?Interpolation $modifiers = null
+    )
     {
-        $this->url = $url;
-        $this->span = $span;
-        $this->modifiers = $modifiers;
     }
 
     public function getUrl(): Interpolation

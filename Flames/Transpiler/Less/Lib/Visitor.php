@@ -8,7 +8,7 @@ class Less_Visitor {
 	protected $_visitFnCache = [];
 
 	public function __construct() {
-		$this->_visitFnCache = get_class_methods( get_class( $this ) );
+		$this->_visitFnCache = get_class_methods( static::class );
 		$this->_visitFnCache = array_flip( $this->_visitFnCache );
 	}
 
@@ -29,7 +29,7 @@ class Less_Visitor {
 		//
 		// https://packagist.org/packages/brianhenryie/strauss
 		// https://packagist.org/packages/coenjacobs/mozart
-		$class = get_class( $node );
+		$class = $node::class;
 		$funcName = $funcNames[$class] ??= 'visit' . str_replace( [ '_', '\\' ], '',
 			substr( $class, strpos( $class, 'Less_Tree_' ) + 10 )
 		);

@@ -19,12 +19,12 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class FakeAstNode implements AstNode
+final readonly class FakeAstNode implements AstNode
 {
     /**
      * @var \Closure(): FileSpan
      */
-    private readonly \Closure $callback;
+    private \Closure $callback;
 
     /**
      * @param callable(): FileSpan $callback

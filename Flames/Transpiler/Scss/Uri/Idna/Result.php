@@ -16,13 +16,13 @@ namespace Flames\Transpiler\Scss\Uri\Idna;
 /**
  * @see https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/uidna_8h.html
  */
-final class Result
+final readonly class Result
 {
     private function __construct(
-        private readonly string $domain,
-        private readonly bool $isTransitionalDifferent,
+        private string $domain,
+        private bool $isTransitionalDifferent,
         /** @var array<Error> */
-        private readonly array $errors
+        private array $errors
     ) {
     }
 

@@ -23,26 +23,21 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class VariableExpression implements Expression, SassReference
+final readonly class VariableExpression implements Expression, SassReference
 {
-    /**
-     * The name of this variable, with underscores converted to hyphens.
-     */
-    private readonly string $name;
-
-    /**
-     * The namespace of the variable being referenced, or `null` if it's
-     * referenced without a namespace.
-     */
-    private ?string $namespace;
-
-    private readonly FileSpan $span;
-
-    public function __construct(string $name, FileSpan $span, ?string $namespace = null)
+    public function __construct(
+        /**
+         * The name of this variable, with underscores converted to hyphens.
+         */
+        private string $name,
+        private FileSpan $span,
+        /**
+         * The namespace of the variable being referenced, or `null` if it's
+         * referenced without a namespace.
+         */
+        private ?string $namespace = null
+    )
     {
-        $this->span = $span;
-        $this->name = $name;
-        $this->namespace = $namespace;
     }
 
     public function getName(): string

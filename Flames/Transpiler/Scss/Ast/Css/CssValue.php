@@ -28,22 +28,13 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class CssValue implements AstNode, Equatable
+final readonly class CssValue implements AstNode, Equatable
 {
-    /**
-     * @var T
-     */
-    private readonly mixed $value;
-
-    private readonly FileSpan $span;
-
     /**
      * @param T $value
      */
-    public function __construct(mixed $value, FileSpan $span)
+    public function __construct(private mixed $value, private FileSpan $span)
     {
-        $this->value = $value;
-        $this->span = $span;
     }
 
     /**
@@ -71,7 +62,7 @@ final class CssValue implements AstNode, Equatable
         }
 
         if (\is_array($this->value)) {
-            return implode($this->value);
+            return implode('', $this->value);
         }
 
         return (string) $this->value;

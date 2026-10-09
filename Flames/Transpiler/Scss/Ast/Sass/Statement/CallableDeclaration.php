@@ -28,24 +28,12 @@ abstract class CallableDeclaration extends ParentStatement
 {
     private readonly string $name;
 
-    private readonly string $originalName;
-
-    private readonly ArgumentDeclaration $arguments;
-
-    private readonly ?SilentComment $comment;
-
-    private readonly FileSpan $span;
-
     /**
      * @param Statement[] $children
      */
-    public function __construct(string $originalName, ArgumentDeclaration $arguments, FileSpan $span, array $children, ?SilentComment $comment = null)
+    public function __construct(private readonly string $originalName, private readonly ArgumentDeclaration $arguments, private readonly FileSpan $span, array $children, private readonly ?SilentComment $comment = null)
     {
-        $this->originalName = $originalName;
-        $this->name = str_replace('_', '-', $originalName);
-        $this->arguments = $arguments;
-        $this->comment = $comment;
-        $this->span = $span;
+        $this->name = str_replace('_', '-', $this->originalName);
         parent::__construct($children);
     }
 

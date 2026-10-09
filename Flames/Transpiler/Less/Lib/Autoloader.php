@@ -17,7 +17,7 @@ class Less_Autoloader {
 			return;
 		}
 
-		if ( !spl_autoload_register( [ __CLASS__, 'loadClass' ] ) ) {
+		if ( !spl_autoload_register( self::loadClass(...) ) ) {
 			throw new Exception( 'Unable to register Less_Autoloader::loadClass as an autoloading method.' );
 		}
 
@@ -28,7 +28,7 @@ class Less_Autoloader {
 	 * Unregister the autoloader
 	 */
 	public static function unregister(): void {
-		spl_autoload_unregister( [ __CLASS__, 'loadClass' ] );
+		spl_autoload_unregister( self::loadClass(...) );
 		self::$registered = false;
 	}
 

@@ -22,15 +22,12 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 final class ModifiableCssStylesheet extends ModifiableCssParentNode implements CssStylesheet
 {
-    private readonly FileSpan $span;
-
     /**
      * @param list<ModifiableCssNode> $children
      */
-    public function __construct(FileSpan $span, array $children = [])
+    public function __construct(private readonly FileSpan $span, array $children = [])
     {
         parent::__construct($children);
-        $this->span = $span;
     }
 
     public function getSpan(): FileSpan

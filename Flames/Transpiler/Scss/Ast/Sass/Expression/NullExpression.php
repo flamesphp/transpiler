@@ -21,13 +21,10 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class NullExpression implements Expression
+final readonly class NullExpression implements Expression
 {
-    private readonly FileSpan $span;
-
-    public function __construct(FileSpan $span)
+    public function __construct(private FileSpan $span)
     {
-        $this->span = $span;
     }
 
     public function getSpan(): FileSpan

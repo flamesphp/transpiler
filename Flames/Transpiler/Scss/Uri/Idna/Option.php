@@ -19,18 +19,18 @@ use ReflectionClassConstant;
 /**
  * @see https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/uidna_8h.html
  */
-final class Option
+final readonly class Option
 {
-    private const DEFAULT                    = 0;
-    private const ALLOW_UNASSIGNED           = 1;
-    private const USE_STD3_RULES             = 2;
-    private const CHECK_BIDI                 = 4;
-    private const CHECK_CONTEXTJ             = 8;
-    private const NONTRANSITIONAL_TO_ASCII   = 0x10;
-    private const NONTRANSITIONAL_TO_UNICODE = 0x20;
-    private const CHECK_CONTEXTO             = 0x40;
+    private const int DEFAULT                    = 0;
+    private const int ALLOW_UNASSIGNED           = 1;
+    private const int USE_STD3_RULES             = 2;
+    private const int CHECK_BIDI                 = 4;
+    private const int CHECK_CONTEXTJ             = 8;
+    private const int NONTRANSITIONAL_TO_ASCII   = 0x10;
+    private const int NONTRANSITIONAL_TO_UNICODE = 0x20;
+    private const int CHECK_CONTEXTO             = 0x40;
 
-    private function __construct(private readonly int $value)
+    private function __construct(private int $value)
     {
     }
 

@@ -9,14 +9,15 @@ class Less_SourceMap_Generator extends Less_Configurable {
 	/**
 	 * What version of source map does the generator generate?
 	 */
-	private const VERSION = 3;
+	private const int VERSION = 3;
 
 	/**
 	 * Array of default options
 	 *
 	 * @var array
 	 */
-	protected $defaultOptions = [
+	#[\Override]
+    protected $defaultOptions = [
 			// an optional source root, useful for relocating source files
 			// on a server or removing repeated values in the 'sources' entry.
 			// This value is prepended to the individual entries in the 'source' field.
@@ -63,13 +64,6 @@ class Less_SourceMap_Generator extends Less_Configurable {
 	protected $root;
 
 	/**
-	 * Array of contents map
-	 *
-	 * @var array
-	 */
-	protected $contentsMap = [];
-
-	/**
 	 * File to content map
 	 *
 	 * @var array<string,string>
@@ -85,9 +79,11 @@ class Less_SourceMap_Generator extends Less_Configurable {
 	 * @param array $contentsMap
 	 * @param array $options Array of options
 	 */
-	public function __construct( Less_Tree_Ruleset $root, $contentsMap, $options = [] ) {
+	public function __construct( Less_Tree_Ruleset $root, /**
+     * Array of contents map
+     */
+    protected $contentsMap, $options = [] ) {
 		$this->root = $root;
-		$this->contentsMap = $contentsMap;
 		$this->encoder = new Less_SourceMap_Base64VLQ();
 
 		$this->SetOptions( $options );
@@ -337,7 +333,7 @@ class Less_SourceMap_Generator extends Less_Configurable {
 			$groupedMapEncoded[] = implode( ',', $lineMapEncoded ) . ';';
 		}
 
-		return rtrim( implode( $groupedMapEncoded ), ';' );
+		return rtrim( implode( '', $groupedMapEncoded ), ';' );
 	}
 
 	/**

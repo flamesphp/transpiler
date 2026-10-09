@@ -26,33 +26,24 @@ use Flames\Transpiler\Scss\Span\SourceLocation;
  *
  * @internal
  */
-final class InterpolationMap
+final readonly class InterpolationMap
 {
-    private readonly Interpolation $interpolation;
-
     /**
+     * @param list<SourceLocation> $targetLocations
+     */
+    public function __construct(private Interpolation $interpolation, /**
      * Locations in the generated string.
      *
      * Each of these indicates the location in the generated string that
      * corresponds to the end of the component at the same index of
      * {@see $interpolation->getContents()}. Its length is always one less than
      * {@see $interpolation->getContents()} because the last element always ends the string.
-     *
-     * @var list<SourceLocation>
      */
-    private readonly array $targetLocations;
-
-    /**
-     * @param list<SourceLocation> $targetLocations
-     */
-    public function __construct(Interpolation $interpolation, array $targetLocations)
+    private array $targetLocations)
     {
-        $this->interpolation = $interpolation;
-        $this->targetLocations = $targetLocations;
-
-        $expectedLocations = max(0, \count($interpolation->getContents()) - 1);
-        if (\count($targetLocations) !== $expectedLocations) {
-            $interpolationParts = \count($interpolation->getContents());
+        $expectedLocations = max(0, \count($this->interpolation->getContents()) - 1);
+        if (\count($this->targetLocations) !== $expectedLocations) {
+            $interpolationParts = \count($this->interpolation->getContents());
             throw new \InvalidArgumentException("InterpolationMap must have $expectedLocations targetLocations if the interpolation has $interpolationParts components.");
         }
     }

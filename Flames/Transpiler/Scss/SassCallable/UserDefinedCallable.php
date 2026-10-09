@@ -20,19 +20,10 @@ use Flames\Transpiler\Scss\Evaluation\Environment;
  *
  * @internal
  */
-final class UserDefinedCallable implements SassCallable
+final readonly class UserDefinedCallable implements SassCallable
 {
-    private readonly CallableDeclaration $declaration;
-
-    private readonly Environment $environment;
-
-    private readonly bool $inDependency;
-
-    public function __construct(CallableDeclaration $declaration, Environment $environment, bool $inDependency)
+    public function __construct(private CallableDeclaration $declaration, private Environment $environment, private bool $inDependency)
     {
-        $this->declaration = $declaration;
-        $this->environment = $environment;
-        $this->inDependency = $inDependency;
     }
 
     public function getDeclaration(): CallableDeclaration

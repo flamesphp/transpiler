@@ -40,13 +40,13 @@ namespace Flames\Transpiler\Scss\SourceMap;
 final class Base64VLQ
 {
     // A Base64 VLQ digit can represent 5 bits, so it is base-32.
-    const VLQ_BASE_SHIFT = 5;
+    const int VLQ_BASE_SHIFT = 5;
 
     // A mask of bits for a VLQ digit (11111), 31 decimal.
-    const VLQ_BASE_MASK = 31;
+    const int VLQ_BASE_MASK = 31;
 
     // The continuation bit is the 6th bit.
-    const VLQ_CONTINUATION_BIT = 32;
+    const int VLQ_CONTINUATION_BIT = 32;
 
     /**
      * Returns the VLQ encoded value.

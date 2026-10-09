@@ -26,14 +26,7 @@ final class IsUselessVisitor extends AnySelectorVisitor
         if (\count($complex->getLeadingCombinators()) > 1) {
             return true;
         }
-
-        foreach ($complex->getComponents() as $component) {
-            if (\count($component->getCombinators()) > 1 || $component->getSelector()->accept($this)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($complex->getComponents(), fn($component) => \count($component->getCombinators()) > 1 || $component->getSelector()->accept($this));
     }
 
     public function visitPseudoSelector(PseudoSelector $pseudo): bool

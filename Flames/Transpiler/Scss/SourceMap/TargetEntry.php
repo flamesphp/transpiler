@@ -17,13 +17,13 @@ namespace Flames\Transpiler\Scss\SourceMap;
  *
  * @internal
  */
-final class TargetEntry
+final readonly class TargetEntry
 {
     public function __construct(
-        public readonly int $column,
-        public readonly ?int $sourceUrlId = null,
-        public readonly ?int $sourceLine = null,
-        public readonly ?int $sourceColumn = null,
+        public int $column,
+        public ?int $sourceUrlId = null,
+        public ?int $sourceLine = null,
+        public ?int $sourceColumn = null,
     ) {
     }
 }

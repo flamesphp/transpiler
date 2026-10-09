@@ -21,16 +21,10 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class BooleanExpression implements Expression
+final readonly class BooleanExpression implements Expression
 {
-    private readonly bool $value;
-
-    private readonly FileSpan $span;
-
-    public function __construct(bool $value, FileSpan $span)
+    public function __construct(private bool $value, private FileSpan $span)
     {
-        $this->value = $value;
-        $this->span = $span;
     }
 
     public function getValue(): bool

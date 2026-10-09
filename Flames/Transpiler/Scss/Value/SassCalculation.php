@@ -32,21 +32,6 @@ use Flames\Transpiler\Scss\Warn;
 final class SassCalculation extends Value
 {
     /**
-     * The calculation's name, such as `"calc"`.
-     */
-    private readonly string $name;
-
-    /**
-     * The calculation's arguments.
-     *
-     * Each argument is either a {@see SassNumber}, a {@see SassCalculation}, an unquoted
-     * {@see SassString}, or a {@see CalculationOperation}.
-     *
-     * @var list<object>
-     */
-    private readonly array $arguments;
-
-    /**
      * Creates a new calculation with the given $name and $arguments
      * that will not be simplified.
      *
@@ -789,10 +774,20 @@ WARNING;
      *
      * @param list<object> $arguments
      */
-    private function __construct(string $name, array $arguments)
+    private function __construct(
+        /**
+         * The calculation's name, such as `"calc"`.
+         */
+        private readonly string $name,
+        /**
+         * The calculation's arguments.
+         *
+         * Each argument is either a {@see SassNumber}, a {@see SassCalculation}, an unquoted
+         * {@see SassString}, or a {@see CalculationOperation}.
+         */
+        private readonly array $arguments
+    )
     {
-        $this->name = $name;
-        $this->arguments = $arguments;
     }
 
     public function getName(): string

@@ -34,20 +34,13 @@ class Parser
     protected readonly LoggerInterface $logger;
 
     /**
-     * A map used to map source spans in the text being parsed back to their
-     * original locations in the source file, if this isn't being parsed directly
-     * from source.
-     */
-    private readonly ?InterpolationMap $interpolationMap;
-
-    /**
      * Parses $text as a CSS identifier and returns the result.
      *
      * @throws SassFormatException if parsing fails.
      */
     public static function parseIdentifier(string $text, ?LoggerInterface $logger = null): string
     {
-        return (new Parser($text, $logger))->doParseIdentifier();
+        return new Parser($text, $logger)->doParseIdentifier();
     }
 
     /**
@@ -64,11 +57,15 @@ class Parser
         }
     }
 
-    public function __construct(string $contents, ?LoggerInterface $logger = null, ?UriInterface $sourceUrl = null, ?InterpolationMap $interpolationMap = null)
+    public function __construct(string $contents, ?LoggerInterface $logger = null, ?UriInterface $sourceUrl = null, /**
+     * A map used to map source spans in the text being parsed back to their
+     * original locations in the source file, if this isn't being parsed directly
+     * from source.
+     */
+    private readonly ?InterpolationMap $interpolationMap = null)
     {
         $this->scanner = new StringScanner($contents, $sourceUrl);
         $this->logger = $logger ?? new QuietLogger();
-        $this->interpolationMap = $interpolationMap;
     }
 
     /**
@@ -506,7 +503,7 @@ class Parser
                 break;
             }
 
-            $nextCharCode = \ord($next);
+            $nextCharCode = \ord($next[0]);
 
             if ($next === '\\') {
                 $buffer .= $this->escape();
@@ -951,7 +948,7 @@ class Parser
 
             if (0 === stripos($error->getMessage(), 'expected')) {
                 $span = $this->adjustExceptionSpan($span);
-                $secondarySpans = array_map(fn (FileSpan $span) => $this->adjustExceptionSpan($span), $secondarySpans);
+                $secondarySpans = array_map($this->adjustExceptionSpan(...), $secondarySpans);
             }
 
             throw new MultiSpanSassFormatException($error->getMessage(), $span, $error->primaryLabel, $secondarySpans, $error);

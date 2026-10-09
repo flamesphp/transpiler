@@ -4,20 +4,16 @@
  */
 class Less_Tree_Value extends Less_Tree implements Less_Tree_HasValueProperty {
 
-	/** @var Less_Tree[] */
-	public $value;
-	/** @var int|null */
-	public $index;
 	/** @var array */
 	public $currentFileInfo;
 
 	/**
-	 * @param array<Less_Tree> $value
-	 */
-	public function __construct( $value, $index = null ) {
-		$this->value = $value;
-		$this->index = $index;
-	}
+     * @param array<Less_Tree> $value
+     * @param int|null $index
+     */
+    public function __construct(public $value, public $index = null)
+    {
+    }
 
 	public function accept( $visitor ) {
 		$this->value = $visitor->visitArray( $this->value );

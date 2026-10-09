@@ -18,14 +18,6 @@ class Less_Tree_Import extends Less_Tree {
 
 	/** @var array<string,bool> */
 	public $options;
-	/** @var int */
-	public $index;
-	/** @var Less_Tree_Quoted|Less_Tree_Url */
-	public $path;
-	/** @var Less_Tree_Value */
-	public $features;
-	/** @var array|null */
-	public $currentFileInfo;
 	/** @var bool|null */
 	public $css;
 	/** @var bool|null This is populated by Less_ImportVisitor */
@@ -41,12 +33,14 @@ class Less_Tree_Import extends Less_Tree {
 	 */
 	public $root;
 
-	public function __construct( $path, $features, array $options, $index, $currentFileInfo = null ) {
+	/**
+     * @param int $index
+     * @param \Less_Tree_Quoted|\Less_Tree_Url $path
+     * @param \Less_Tree_Value $features
+     * @param mixed[]|null $currentFileInfo
+     */
+    public function __construct( public $path, public $features, array $options, public $index, public $currentFileInfo = null ) {
 		$this->options = $options + [ 'inline' => false, 'optional' => false, 'multiple' => false ];
-		$this->index = $index;
-		$this->path = $path;
-		$this->features = $features;
-		$this->currentFileInfo = $currentFileInfo;
 
 		if ( isset( $this->options['less'] ) || $this->options['inline'] ) {
 			$this->css = !isset( $this->options['less'] ) || !$this->options['less'] || $this->options['inline'];

@@ -7,32 +7,22 @@
 class Less_Tree_VariableCall extends Less_Tree {
 
 	/** @var string */
-	public $variable;
-	/** @var string */
 	public $type = "VariableCall";
-	/**
-	 * @var int
-	 */
-	private $index;
-	/**
-	 * @var array
-	 */
-	private $currentFileInfo;
 
 	/**
-	 * @param string $variable
-	 */
-	public function __construct( $variable, $index, $currentFileInfo ) {
-		$this->variable = $variable;
-		$this->index = $index;
-		$this->currentFileInfo = $currentFileInfo;
-	}
+     * @param string $variable
+     * @param int $index
+     * @param mixed[] $currentFileInfo
+     */
+    public function __construct(public $variable, private $index, private $currentFileInfo)
+    {
+    }
 
 	public function accept( $visitor ) {
 	}
 
 	public function compile( $env ) {
-		$detachedRuleset = ( new Less_Tree_Variable( $this->variable, $this->index, $this->currentFileInfo ) )
+		$detachedRuleset =  new Less_Tree_Variable( $this->variable, $this->index, $this->currentFileInfo  )
 			->compile( $env );
 
 		if ( !( $detachedRuleset instanceof Less_Tree_DetachedRuleset ) || !$detachedRuleset->ruleset ) {

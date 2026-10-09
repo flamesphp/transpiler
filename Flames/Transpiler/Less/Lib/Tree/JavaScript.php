@@ -5,23 +5,14 @@
  */
 class Less_Tree_JavaScript extends Less_Tree {
 
-	/** @var bool */
-	public $escaped;
-	/** @var string */
-	public $expression;
-	/** @var int */
-	public $index;
-
 	/**
-	 * @param string $string
-	 * @param bool $escaped
-	 * @param int $index
-	 */
-	public function __construct( $string, $escaped, $index ) {
-		$this->escaped = $escaped;
-		$this->expression = $string;
-		$this->index = $index;
-	}
+     * @param string $expression
+     * @param bool $escaped
+     * @param int $index
+     */
+    public function __construct(public $expression, public $escaped, public $index)
+    {
+    }
 
 	public function compile( $env ) {
 		return new Less_Tree_Anonymous( '/* Sorry, can not do JavaScript evaluation in PHP... :( */' );

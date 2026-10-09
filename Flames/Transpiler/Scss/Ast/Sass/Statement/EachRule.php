@@ -29,23 +29,11 @@ use Flames\Transpiler\Scss\Span\FileSpan;
 final class EachRule extends ParentStatement
 {
     /**
-     * @var list<string>
-     */
-    private readonly array $variables;
-
-    private readonly Expression $list;
-
-    private readonly FileSpan $span;
-
-    /**
      * @param list<string> $variables
      * @param Statement[] $children
      */
-    public function __construct(array $variables, Expression $list, array $children, FileSpan $span)
+    public function __construct(private readonly array $variables, private readonly Expression $list, array $children, private readonly FileSpan $span)
     {
-        $this->variables = $variables;
-        $this->list = $list;
-        $this->span = $span;
         parent::__construct($children);
     }
 

@@ -27,33 +27,11 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class VariableDeclaration implements Statement, SassDeclaration
+final readonly class VariableDeclaration implements Statement, SassDeclaration
 {
-    private readonly ?string $namespace;
-
-    private readonly string $name;
-
-    private readonly ?SilentComment $comment;
-
-    private readonly Expression $expression;
-
-    private readonly bool $guarded;
-
-    private readonly bool $global;
-
-    private readonly FileSpan $span;
-
-    public function __construct(string $name, Expression $expression, FileSpan $span, ?string $namespace = null, bool $guarded = false, bool $global = false, ?SilentComment $comment = null)
+    public function __construct(private string $name, private Expression $expression, private FileSpan $span, private ?string $namespace = null, private bool $guarded = false, private bool $global = false, private ?SilentComment $comment = null)
     {
-        $this->name = $name;
-        $this->expression = $expression;
-        $this->span = $span;
-        $this->namespace = $namespace;
-        $this->guarded = $guarded;
-        $this->global = $global;
-        $this->comment = $comment;
-
-        if ($namespace !== null && $global) {
+        if ($this->namespace !== null && $this->global) {
             throw new \InvalidArgumentException("Other modules' members can't be defined with !global.");
         }
     }

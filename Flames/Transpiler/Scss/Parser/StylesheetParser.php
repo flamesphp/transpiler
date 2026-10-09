@@ -284,7 +284,7 @@ abstract class StylesheetParser extends Parser
     {
         $precedingComment = $this->lastSilentComment;
         $this->lastSilentComment = null;
-        $start = $start ?? $this->scanner->getPosition();
+        $start ??= $this->scanner->getPosition();
 
         $name = $this->variableName();
 
@@ -581,7 +581,7 @@ abstract class StylesheetParser extends Parser
      */
     private function styleRule(?InterpolationBuffer $buffer = null, ?int $start = null): StyleRule
     {
-        $start = $start ?? $this->scanner->getPosition();
+        $start ??= $this->scanner->getPosition();
         $interpolation = $this->styleRuleSelector();
 
         if ($buffer !== null) {
@@ -1463,7 +1463,7 @@ abstract class StylesheetParser extends Parser
 
         $content = null;
         if ($contentArguments !== null || $this->lookingAtChildren()) {
-            $contentArguments = $contentArguments ?? ArgumentDeclaration::createEmpty($this->scanner->getEmptySpan());
+            $contentArguments ??= ArgumentDeclaration::createEmpty($this->scanner->getEmptySpan());
             $wasInContentBlock = $this->inContentBlock;
             $this->inContentBlock = true;
 
@@ -2007,7 +2007,7 @@ WARNING;
                     }
                 }
 
-                $spaceExpressions = $spaceExpressions ?? [];
+                $spaceExpressions ??= [];
                 $resolveOperations();
 
                 $spaceExpressions[] = $singleExpression;
@@ -2033,8 +2033,8 @@ WARNING;
 
             $allowSlash = $allowSlash && $operator === BinaryOperator::DIVIDED_BY;
 
-            $operators = $operators ?? [];
-            $operands = $operands ?? [];
+            $operators ??= [];
+            $operands ??= [];
 
             $precedence = $operator->getPrecedence();
 
@@ -2298,7 +2298,7 @@ WARNING;
                         }
                     }
 
-                    $commaExpressions = $commaExpressions ?? [];
+                    $commaExpressions ??= [];
 
                     if ($singleExpression === null) {
                         $this->scanner->error('Expected expression.');
@@ -2313,7 +2313,7 @@ WARNING;
                     break;
 
                 default:
-                    if ($first !== null && \ord($first) >= 0x80) {
+                    if ($first !== null && \ord($first[0]) >= 0x80) {
                         $addSingleExpression($this->identifierLike());
                         break;
                     }
@@ -2494,7 +2494,7 @@ WARNING;
                 return $this->identifierLike();
 
             default:
-                if ($first !== null && \ord($first) >= 0x80) {
+                if ($first !== null && \ord($first[0]) >= 0x80) {
                     return $this->identifierLike();
                 }
 
@@ -3234,7 +3234,7 @@ WARNING;
 
             if ($next === '\\') {
                 $buffer->write($this->escape());
-            } elseif ($next === '!' || $next === '%' || $next === '&' || (\ord($next) >= \ord('*') && \ord($next) <= \ord('~')) || \ord($next) >= 0x80) {
+            } elseif ($next === '!' || $next === '%' || $next === '&' || (\ord($next[0]) >= \ord('*') && \ord($next[0]) <= \ord('~')) || \ord($next[0]) >= 0x80) {
                 $buffer->write($this->scanner->readUtf8Char());
             } elseif ($next === '#') {
                 if ($this->scanner->peekChar(1) === '{') {
@@ -3648,7 +3648,7 @@ WARNING;
                 break;
             }
 
-            if ($next === '_' || $next === '-' || Character::isAlphanumeric($next) || \ord($next) >= 0x80) {
+            if ($next === '_' || $next === '-' || Character::isAlphanumeric($next) || \ord($next[0]) >= 0x80) {
                 $buffer->write($this->scanner->readUtf8Char());
             } elseif ($next === '\\') {
                 $buffer->write($this->escape());

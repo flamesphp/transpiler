@@ -23,21 +23,18 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class DynamicImport implements Import
+final readonly class DynamicImport implements Import
 {
-    /**
-     * The URI of the file to import.
-     *
-     * If this is relative, it's relative to the containing file.
-     */
-    private readonly string $urlString;
-
-    private readonly FileSpan $span;
-
-    public function __construct(string $urlString, FileSpan $span)
+    public function __construct(
+        /**
+         * The URI of the file to import.
+         *
+         * If this is relative, it's relative to the containing file.
+         */
+        private string $urlString,
+        private FileSpan $span
+    )
     {
-        $this->urlString = $urlString;
-        $this->span = $span;
     }
 
     public function getUrl(): UriInterface

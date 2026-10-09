@@ -28,33 +28,8 @@ use Flames\Transpiler\Scss\Parser\InterpolationMap;
  *
  * @internal
  */
-final class AtRootQuery
+final readonly class AtRootQuery
 {
-    /**
-     * Whether the query includes or excludes rules with the specified names.
-     */
-    private readonly bool $include;
-
-    /**
-     * The names of the rules included or excluded by this query.
-     *
-     * There are two special names. "all" indicates that all rules are included
-     * or excluded, and "rule" indicates style rules are included or excluded.
-     *
-     * @var string[]
-     */
-    private readonly array $names;
-
-    /**
-     * Whether this includes or excludes *all* rules.
-     */
-    private readonly bool $all;
-
-    /**
-     * Whether this includes or excludes style rules.
-     */
-    private readonly bool $rule;
-
     /**
      * Parses an at-root query from $contents.
      *
@@ -64,7 +39,7 @@ final class AtRootQuery
      */
     public static function parse(string $contents, ?LoggerInterface $logger = null, ?UriInterface $url = null, ?InterpolationMap $interpolationMap = null): AtRootQuery
     {
-        return (new AtRootQueryParser($contents, $logger, $url, $interpolationMap))->parse();
+        return new AtRootQueryParser($contents, $logger, $url, $interpolationMap)->parse();
     }
 
     /**
@@ -86,12 +61,28 @@ final class AtRootQuery
     /**
      * @param string[] $names
      */
-    private function __construct(array $names, bool $include, bool $all, bool $rule)
+    private function __construct(
+        /**
+         * The names of the rules included or excluded by this query.
+         *
+         * There are two special names. "all" indicates that all rules are included
+         * or excluded, and "rule" indicates style rules are included or excluded.
+         */
+        private array $names,
+        /**
+         * Whether the query includes or excludes rules with the specified names.
+         */
+        private bool $include,
+        /**
+         * Whether this includes or excludes *all* rules.
+         */
+        private bool $all,
+        /**
+         * Whether this includes or excludes style rules.
+         */
+        private bool $rule
+    )
     {
-        $this->include = $include;
-        $this->names = $names;
-        $this->all = $all;
-        $this->rule = $rule;
     }
 
     public function getInclude(): bool

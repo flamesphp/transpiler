@@ -31,9 +31,9 @@ use Flames\Transpiler\Scss\Util\NumberUtil;
  *
  * @template-implements \ArrayAccess<int, mixed>
  */
-final class Number extends Node implements \ArrayAccess, \JsonSerializable
+final class Number extends Node implements \ArrayAccess, \JsonSerializable, \Stringable
 {
-    const PRECISION = 10;
+    const int PRECISION = 10;
 
     /**
      * @see http://www.w3.org/TR/2012/WD-css3-values-20120308/
@@ -73,11 +73,6 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
     ];
 
     /**
-     * @var int|float
-     */
-    private $dimension;
-
-    /**
      * @var string[]
      * @phpstan-var list<string>
      */
@@ -99,7 +94,7 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
      * @phpstan-param list<string>|string $numeratorUnits
      * @phpstan-param list<string>        $denominatorUnits
      */
-    public function __construct($dimension, $numeratorUnits, array $denominatorUnits = [])
+    public function __construct(private $dimension, $numeratorUnits, array $denominatorUnits = [])
     {
         if (is_string($numeratorUnits)) {
             $numeratorUnits = $numeratorUnits ? [$numeratorUnits] : [];
@@ -107,8 +102,6 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
             $denominatorUnits = $numeratorUnits['denominator_units'];
             $numeratorUnits = $numeratorUnits['numerator_units'];
         }
-
-        $this->dimension = $dimension;
         $this->numeratorUnits = $numeratorUnits;
         $this->denominatorUnits = $denominatorUnits;
     }
@@ -196,7 +189,7 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
                 return $this->dimension;
 
             case 2:
-                return array('numerator_units' => $this->numeratorUnits, 'denominator_units' => $this->denominatorUnits);
+                return ['numerator_units' => $this->numeratorUnits, 'denominator_units' => $this->denominatorUnits];
         }
     }
 
@@ -204,7 +197,7 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
      * @return void
      */
     #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): never
     {
         throw new \BadMethodCallException('Number is immutable');
     }
@@ -213,7 +206,7 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
      * @return void
      */
     #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): never
     {
         throw new \BadMethodCallException('Number is immutable');
     }
@@ -381,7 +374,7 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
         try {
             $this->greaterThan($other);
             return true;
-        } catch (SassScriptException $e) {
+        } catch (SassScriptException) {
             return false;
         }
     }
@@ -393,9 +386,7 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
      */
     public function lessThan(Number $other)
     {
-        return $this->coerceUnits($other, function ($num1, $num2) {
-            return $num1 < $num2;
-        });
+        return $this->coerceUnits($other, fn($num1, $num2) => $num1 < $num2);
     }
 
     /**
@@ -405,9 +396,7 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
      */
     public function lessThanOrEqual(Number $other)
     {
-        return $this->coerceUnits($other, function ($num1, $num2) {
-            return $num1 <= $num2;
-        });
+        return $this->coerceUnits($other, fn($num1, $num2) => $num1 <= $num2);
     }
 
     /**
@@ -417,9 +406,7 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
      */
     public function greaterThan(Number $other)
     {
-        return $this->coerceUnits($other, function ($num1, $num2) {
-            return $num1 > $num2;
-        });
+        return $this->coerceUnits($other, fn($num1, $num2) => $num1 > $num2);
     }
 
     /**
@@ -429,9 +416,7 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
      */
     public function greaterThanOrEqual(Number $other)
     {
-        return $this->coerceUnits($other, function ($num1, $num2) {
-            return $num1 >= $num2;
-        });
+        return $this->coerceUnits($other, fn($num1, $num2) => $num1 >= $num2);
     }
 
     /**
@@ -441,9 +426,7 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
      */
     public function plus(Number $other)
     {
-        return $this->coerceNumber($other, function ($num1, $num2) {
-            return $num1 + $num2;
-        });
+        return $this->coerceNumber($other, fn($num1, $num2) => $num1 + $num2);
     }
 
     /**
@@ -453,9 +436,7 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
      */
     public function minus(Number $other)
     {
-        return $this->coerceNumber($other, function ($num1, $num2) {
-            return $num1 - $num2;
-        });
+        return $this->coerceNumber($other, fn($num1, $num2) => $num1 - $num2);
     }
 
     /**
@@ -546,10 +527,8 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
         }
 
         try {
-            return $this->coerceUnits($other, function ($num1, $num2) {
-                return round($num1, self::PRECISION) == round($num2, self::PRECISION);
-            });
-        } catch (SassScriptException $e) {
+            return $this->coerceUnits($other, fn($num1, $num2) => round($num1, self::PRECISION) == round($num2, self::PRECISION));
+        } catch (SassScriptException) {
             return false;
         }
     }
@@ -593,7 +572,7 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
     /**
      * {@inheritdoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->output();
     }
@@ -733,7 +712,7 @@ final class Number extends Node implements \ArrayAccess, \JsonSerializable
      */
     private function multiplyUnits($value, array $numerators1, array $denominators1, array $numerators2, array $denominators2)
     {
-        $newNumerators = array();
+        $newNumerators = [];
 
         foreach ($numerators1 as $numerator) {
             foreach ($denominators2 as $key => $denominator) {

@@ -25,28 +25,13 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class IncludeRule implements Statement, CallableInvocation, SassReference
+final readonly class IncludeRule implements Statement, CallableInvocation, SassReference
 {
-    private readonly ?string $namespace;
+    private string $name;
 
-    private readonly string $name;
-
-    private readonly string $originalName;
-
-    private readonly ArgumentInvocation $arguments;
-
-    private readonly ?ContentBlock $content;
-
-    private readonly FileSpan $span;
-
-    public function __construct(string $originalName, ArgumentInvocation $arguments, FileSpan $span, ?string $namespace = null, ?ContentBlock $content = null)
+    public function __construct(private string $originalName, private ArgumentInvocation $arguments, private FileSpan $span, private ?string $namespace = null, private ?ContentBlock $content = null)
     {
-        $this->originalName = $originalName;
-        $this->name = str_replace('_', '-', $originalName);
-        $this->arguments = $arguments;
-        $this->span = $span;
-        $this->namespace = $namespace;
-        $this->content = $content;
+        $this->name = str_replace('_', '-', $this->originalName);
     }
 
     public function getNamespace(): ?string

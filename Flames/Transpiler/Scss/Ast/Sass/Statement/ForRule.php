@@ -28,26 +28,11 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 final class ForRule extends ParentStatement
 {
-    private readonly string $variable;
-
-    private readonly Expression $from;
-
-    private readonly Expression $to;
-
-    private readonly bool $exclusive;
-
-    private readonly FileSpan $span;
-
     /**
      * @param Statement[] $children
      */
-    public function __construct(string $variable, Expression $from, Expression $to, array $children, FileSpan $span, bool $exclusive = false)
+    public function __construct(private readonly string $variable, private readonly Expression $from, private readonly Expression $to, array $children, private readonly FileSpan $span, private readonly bool $exclusive = false)
     {
-        $this->variable = $variable;
-        $this->from = $from;
-        $this->to = $to;
-        $this->exclusive = $exclusive;
-        $this->span = $span;
         parent::__construct($children);
     }
 

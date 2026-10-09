@@ -19,11 +19,11 @@ use Flames\Transpiler\Scss\SourceMap\SingleMapping;
  *
  * @internal
  */
-final class SerializeResult
+final readonly class SerializeResult
 {
     public function __construct(
-        public readonly string $css,
-        public readonly ?SingleMapping $mapping,
+        public string $css,
+        public ?SingleMapping $mapping,
     ) {
     }
 }

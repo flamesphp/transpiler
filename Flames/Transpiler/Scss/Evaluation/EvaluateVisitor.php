@@ -167,16 +167,9 @@ use Flames\Transpiler\Scss\Span\SimpleSourceLocation;
 class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
 {
     /**
-     * The import cache used to import other stylesheets.
-     */
-    private readonly ImportCache $importCache;
-
-    /**
      * @var array<string, SassCallable>
      */
     private array $builtInFunctions = [];
-
-    private readonly LoggerInterface $logger;
 
     /**
      * A set of message/location pairs for warnings that have been emitted via
@@ -188,16 +181,6 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
      * @var array<string, array<string, true>>
      */
     private array $warningsEmitted = [];
-
-    /**
-     * Whether to avoid emitting warnings for files loaded from dependencies.
-     */
-    private readonly bool $quietDeps;
-
-    /**
-     * Whether to track source map information.
-     */
-    private readonly bool $sourceMap;
 
     /**
      * The current lexical environment.
@@ -368,12 +351,17 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
     /**
      * @param SassCallable[] $functions
      */
-    public function __construct(ImportCache $importCache, array $functions, LoggerInterface $logger, bool $quietDeps = false, bool $sourceMap = false)
+    public function __construct(/**
+     * The import cache used to import other stylesheets.
+     */
+    private readonly ImportCache $importCache, array $functions, private readonly LoggerInterface $logger, /**
+     * Whether to avoid emitting warnings for files loaded from dependencies.
+     */
+    private readonly bool $quietDeps = false, /**
+     * Whether to track source map information.
+     */
+    private readonly bool $sourceMap = false)
     {
-        $this->importCache = $importCache;
-        $this->logger = $logger;
-        $this->quietDeps = $quietDeps;
-        $this->sourceMap = $sourceMap;
         $this->environment = Environment::create();
 
         $sassMetaUri = Uri::new('sass:meta');
@@ -904,7 +892,7 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
                 $parent = $grandParent;
             }
 
-            $innermostContiguous = $innermostContiguous ?? $i;
+            $innermostContiguous ??= $i;
 
             $grandParent = $parent->getParent();
             if ($grandParent === null) {
@@ -1076,13 +1064,11 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
             };
         }
 
-        return $this->environment->scope(function () use ($list, $setVariables, $node) {
-            return $this->handleReturn($list->asList(), function ($element) use ($setVariables, $node) {
-                $setVariables($element);
+        return $this->environment->scope(fn() => $this->handleReturn($list->asList(), function ($element) use ($setVariables, $node) {
+            $setVariables($element);
 
-                return $this->handleReturn($node->getChildren(), fn(Statement $child) => $child->accept($this));
-            });
-        }, true, true);
+            return $this->handleReturn($node->getChildren(), fn(Statement $child) => $child->accept($this));
+        }), true, true);
     }
 
     /**
@@ -1205,9 +1191,7 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
                     }, null, false);
                 }
             },
-            function ($node) {
-                return $node instanceof CssStyleRule;
-            },
+            fn($node) => $node instanceof CssStyleRule,
             $node->hasDeclarations()
         );
 
@@ -1220,20 +1204,12 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
     public function visitForRule(ForRule $node): ?Value
     {
         /** @var SassNumber $fromNumber */
-        $fromNumber = $this->addExceptionSpan($node->getFrom(), function () use ($node) {
-            return $node->getFrom()->accept($this)->assertNumber();
-        });
+        $fromNumber = $this->addExceptionSpan($node->getFrom(), fn() => $node->getFrom()->accept($this)->assertNumber());
         /** @var SassNumber $toNumber */
-        $toNumber = $this->addExceptionSpan($node->getTo(), function () use ($node) {
-            return $node->getTo()->accept($this)->assertNumber();
-        });
+        $toNumber = $this->addExceptionSpan($node->getTo(), fn() => $node->getTo()->accept($this)->assertNumber());
 
-        $from = $this->addExceptionSpan($node->getFrom(), function () use ($fromNumber) {
-            return $fromNumber->assertInt();
-        });
-        $to = $this->addExceptionSpan($node->getTo(), function () use ($toNumber, $fromNumber) {
-            return $toNumber->coerce($fromNumber->getNumeratorUnits(), $fromNumber->getDenominatorUnits())->assertInt();
-        });
+        $from = $this->addExceptionSpan($node->getFrom(), fn() => $fromNumber->assertInt());
+        $to = $this->addExceptionSpan($node->getTo(), fn() => $toNumber->coerce($fromNumber->getNumeratorUnits(), $fromNumber->getDenominatorUnits())->assertInt());
 
         $direction = $from > $to ? -1 : 1;
         if (!$node->isExclusive()) {
@@ -1249,9 +1225,7 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
 
             for ($i = $from; $i !== $to; $i += $direction) {
                 $this->environment->setLocalVariable($node->getVariable(), SassNumber::withUnits($i, $fromNumber->getNumeratorUnits(), $fromNumber->getDenominatorUnits()), $nodeWithSpan);
-                $result = $this->handleReturn($node->getChildren(), function (Statement $child) {
-                    return $child->accept($this);
-                });
+                $result = $this->handleReturn($node->getChildren(), fn(Statement $child) => $child->accept($this));
 
                 if ($result !== null) {
                     return $result;
@@ -1284,11 +1258,7 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
             return null;
         }
 
-        return $this->environment->scope(function () use ($clause) {
-            return $this->handleReturn($clause->getChildren(), function (Statement $child) {
-                return $child->accept($this);
-            });
-        }, $clause->hasDeclarations(), true);
+        return $this->environment->scope(fn() => $this->handleReturn($clause->getChildren(), fn(Statement $child) => $child->accept($this)), $clause->hasDeclarations(), true);
     }
 
     public function visitImportRule(ImportRule $node): ?Value
@@ -1456,15 +1426,13 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
                 return null;
             });
         } else {
-            throw new \LogicException('Unknown callable type ' . get_class($mixin));
+            throw new \LogicException('Unknown callable type ' . $mixin::class);
         }
     }
 
     public function visitIncludeRule(IncludeRule $node): ?Value
     {
-        $mixin = $this->addExceptionSpan($node, function () use ($node) {
-            return $this->environment->getMixin($node->getName());
-        });
+        $mixin = $this->addExceptionSpan($node, fn() => $this->environment->getMixin($node->getName()));
 
         if (str_starts_with($node->getOriginalName(), '--') && $mixin instanceof UserDefinedCallable && !str_starts_with($mixin->getDeclaration()->getOriginalName(), '--')) {
             $this->warn("Sass @mixin names beginning with -- are deprecated for forward-compatibility with plain CSS mixins.\n\nFor details, see https://sass-lang.com/d/css-function-mixin", $node->getNameSpan(), Deprecation::cssFunctionMixin);
@@ -1475,9 +1443,7 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
             $contentCallable = new UserDefinedCallable($node->getContent(), $this->environment->closure(), $this->inDependency);
         }
 
-        $nodeWithSpanWithoutContent = new FakeAstNode(function () use ($node) {
-            return $node->getSpanWithoutContent();
-        });
+        $nodeWithSpanWithoutContent = new FakeAstNode(fn() => $node->getSpanWithoutContent());
 
         $this->applyMixin($mixin, $contentCallable, $node->getArguments(), $node, $nodeWithSpanWithoutContent);
 
@@ -1565,9 +1531,7 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
                 }
 
                 if ($mergedSources !== [] && $node instanceof CssMediaRule) {
-                    return IterableUtil::every($node->getQueries(), function (CssMediaQuery $query) use ($mergedSources) {
-                        return \in_array($query, $mergedSources, true);
-                    });
+                    return IterableUtil::every($node->getQueries(), fn(CssMediaQuery $query) => \in_array($query, $mergedSources, true));
                 }
 
                 return false;
@@ -1652,7 +1616,7 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
         [$selectorText, $selectorMap] = $this->performInterpolationWithMap($node->getSelector(), true);
 
         if ($this->inKeyFrames) {
-            $parsedSelector = (new KeyframeSelectorParser($selectorText, $this->logger, null, $selectorMap))->parse();
+            $parsedSelector = new KeyframeSelectorParser($selectorText, $this->logger, null, $selectorMap)->parse();
             $rule = new ModifiableCssKeyframeBlock(new CssValue($parsedSelector, $node->getSelector()->getSpan()), $node->getSpan());
 
             $this->withParent(
@@ -1662,9 +1626,7 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
                         $child->accept($this);
                     }
                 },
-                function ($node) {
-                    return $node instanceof CssStyleRule;
-                },
+                fn($node) => $node instanceof CssStyleRule,
                 $node->hasDeclarations()
             );
 
@@ -1786,9 +1748,7 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
                     }
                 }
             },
-            function ($node) {
-                return $node instanceof CssStyleRule;
-            },
+            fn($node) => $node instanceof CssStyleRule,
             $node->hasDeclarations()
         );
 
@@ -1810,9 +1770,7 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
         }
 
         if ($condition instanceof SupportsDeclaration) {
-            return $this->withSupportsDeclaration(function () use ($condition) {
-                return sprintf('(%s:%s%s)', $this->evaluateToCss($condition->getName()), $condition->isCustomProperty() ? '' : ' ', $this->evaluateToCss($condition->getValue()));
-            });
+            return $this->withSupportsDeclaration(fn() => sprintf('(%s:%s%s)', $this->evaluateToCss($condition->getName()), $condition->isCustomProperty() ? '' : ' ', $this->evaluateToCss($condition->getValue())));
         }
 
         if ($condition instanceof SupportsFunction) {
@@ -1823,7 +1781,7 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
             return '(' . $this->performInterpolation($condition->getContents()) . ')';
         }
 
-        throw new \InvalidArgumentException('Unknown supports condition type ' . get_class($condition));
+        throw new \InvalidArgumentException('Unknown supports condition type ' . $condition::class);
     }
 
     /**
@@ -1859,9 +1817,7 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
     public function visitVariableDeclaration(VariableDeclaration $node): ?Value
     {
         if ($node->isGuarded()) {
-            $value = $this->addExceptionSpan($node, function () use ($node) {
-                return $this->environment->getVariable($node->getName());
-            });
+            $value = $this->addExceptionSpan($node, fn() => $this->environment->getVariable($node->getName()));
 
             if ($value !== null && $value !== SassNull::create()) {
                 return null;
@@ -1888,9 +1844,7 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
 
     public function visitWarnRule(WarnRule $node): ?Value
     {
-        $value = $this->addExceptionSpan($node, function () use ($node) {
-            return $node->getExpression()->accept($this);
-        });
+        $value = $this->addExceptionSpan($node, fn() => $node->getExpression()->accept($this));
         $this->logger->warn($value instanceof SassString ? $value->getText() : $this->serialize($value, $node->getExpression()), null, null, $this->stackTrace($node->getSpan()));
 
         return null;
@@ -1900,9 +1854,7 @@ class EvaluateVisitor implements StatementVisitor, ExpressionVisitor
     {
         return $this->environment->scope(function () use ($node) {
             while ($node->getCondition()->accept($this)->isTruthy()) {
-                $result = $this->handleReturn($node->getChildren(), function (Statement $child) {
-                    return $child->accept($this);
-                });
+                $result = $this->handleReturn($node->getChildren(), fn(Statement $child) => $child->accept($this));
 
                 if ($result !== null) {
                     return $result;
@@ -2018,9 +1970,7 @@ WARNING;
 
     public function visitVariableExpression(VariableExpression $node): Value
     {
-        $result = $this->addExceptionSpan($node, function () use ($node) {
-            return $this->environment->getVariable($node->getName());
-        });
+        $result = $this->addExceptionSpan($node, fn() => $this->environment->getVariable($node->getName()));
 
         if ($result !== null) {
             return $result;
@@ -2087,9 +2037,7 @@ WARNING;
 
     public function visitListExpression(ListExpression $node): Value
     {
-        return new SassList(array_map(function (Expression $expression) {
-            return $expression->accept($this);
-        }, $node->getContents()), $node->getSeparator(), $node->hasBrackets());
+        return new SassList(array_map(fn(Expression $expression) => $expression->accept($this), $node->getContents()), $node->getSeparator(), $node->hasBrackets());
     }
 
     public function visitMapExpression(MapExpression $node): Value
@@ -2134,9 +2082,7 @@ WARNING;
 
     public function visitFunctionExpression(FunctionExpression $node): Value
     {
-        $function = $this->getStylesheet()->isPlainCss() ? null : $this->addExceptionSpan($node, function () use ($node) {
-            return $this->environment->getFunction($node->getName());
-        });
+        $function = $this->getStylesheet()->isPlainCss() ? null : $this->addExceptionSpan($node, fn() => $this->environment->getFunction($node->getName()));
 
         if ($function === null) {
             if ($node->getNamespace() !== null) {
@@ -2151,9 +2097,7 @@ WARNING;
                     if (
                         $node->getArguments()->getNamed() === []
                         && $node->getArguments()->getRest() === null
-                        && IterableUtil::every($node->getArguments()->getPositional(), function (Expression $argument) {
-                            return $argument->accept(new IsCalculationSafeVisitor());
-                        })
+                        && IterableUtil::every($node->getArguments()->getPositional(), fn(Expression $argument) => $argument->accept(new IsCalculationSafeVisitor()))
                     ) {
                         return $this->visitCalculation($node, true);
                     }
@@ -2188,9 +2132,7 @@ WARNING;
 
         $oldInFunction = $this->inFunction;
         $this->inFunction = true;
-        $result = $this->addErrorSpan($node, function () use ($function, $node) {
-            return $this->runFunctionCallable($node->getArguments(), $function, $node);
-        });
+        $result = $this->addErrorSpan($node, fn() => $this->runFunctionCallable($node->getArguments(), $function, $node));
         $this->inFunction = $oldInFunction;
 
         return $result;
@@ -2207,9 +2149,7 @@ WARNING;
         }
 
         $this->checkCalculationArguments($node);
-        $arguments = array_map(function ($argument) use ($inLegacySassFunction) {
-            return $this->visitCalculationExpression($argument, $inLegacySassFunction);
-        }, $node->getArguments()->getPositional());
+        $arguments = array_map(fn($argument) => $this->visitCalculationExpression($argument, $inLegacySassFunction), $node->getArguments()->getPositional());
 
         if ($this->inSupportsDeclaration) {
             return SassCalculation::unsimplified($node->getName(), $arguments);
@@ -2275,39 +2215,13 @@ WARNING;
             }
         };
 
-        switch (strtolower($node->getName())) {
-            case 'calc':
-            case 'sqrt':
-            case 'sin':
-            case 'cos':
-            case 'tan':
-            case 'asin':
-            case 'acos':
-            case 'atan':
-            case 'abs':
-            case 'exp':
-            case 'sign':
-                $check(1);
-                break;
-            case 'min':
-            case 'max':
-            case 'hypot':
-                $check();
-                break;
-            case 'pow':
-            case 'atan2':
-            case 'log':
-            case 'mod':
-            case 'rem':
-                $check(2);
-                break;
-            case 'round':
-            case 'clamp':
-                $check(3);
-                break;
-            default:
-                throw new \UnexpectedValueException(sprintf('Unknown calculation name "%s".', $node->getName()));
-        }
+        match (strtolower($node->getName())) {
+            'calc', 'sqrt', 'sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'abs', 'exp', 'sign' => $check(1),
+            'min', 'max', 'hypot' => $check(),
+            'pow', 'atan2', 'log', 'mod', 'rem' => $check(2),
+            'round', 'clamp' => $check(3),
+            default => throw new \UnexpectedValueException(sprintf('Unknown calculation name "%s".', $node->getName())),
+        };
     }
 
     /**
@@ -2402,15 +2316,13 @@ WARNING;
 
         if ($node instanceof BinaryOperationExpression) {
             $this->checkWhitespaceAroundCalculationOperator($node);
-            return $this->addExceptionSpan($node, function () use ($node, $inLegacySassFunction) {
-                return SassCalculation::operateInternal(
-                    $this->binaryOperatorToCalculationOperator($node->getOperator(), $node),
-                    $this->visitCalculationExpression($node->getLeft(), $inLegacySassFunction),
-                    $this->visitCalculationExpression($node->getRight(), $inLegacySassFunction),
-                    $inLegacySassFunction,
-                    !$this->inSupportsDeclaration
-                );
-            });
+            return $this->addExceptionSpan($node, fn() => SassCalculation::operateInternal(
+                $this->binaryOperatorToCalculationOperator($node->getOperator(), $node),
+                $this->visitCalculationExpression($node->getLeft(), $inLegacySassFunction),
+                $this->visitCalculationExpression($node->getRight(), $inLegacySassFunction),
+                $inLegacySassFunction,
+                !$this->inSupportsDeclaration
+            ));
         }
 
         if ($node instanceof NumberExpression || $node instanceof VariableExpression || $node instanceof FunctionExpression || $node instanceof IfExpression) {
@@ -2531,9 +2443,7 @@ WARNING;
 
         $oldInFunction = $this->inFunction;
         $this->inFunction = true;
-        $result = $this->addErrorSpan($node, function () use ($function, $node) {
-            return $this->runFunctionCallable($node->getArguments(), $function, $node);
-        });
+        $result = $this->addErrorSpan($node, fn() => $this->runFunctionCallable($node->getArguments(), $function, $node));
         $this->inFunction = $oldInFunction;
 
         return $result;
@@ -2560,78 +2470,75 @@ WARNING;
         $oldCallable = $this->currentCallable;
         $this->currentCallable = $callable;
 
-        $result = $this->withStackFrame($name, $nodeWithSpan, function () use ($callable, $evaluated, $nodeWithSpan, $run) {
+        $result = $this->withStackFrame($name, $nodeWithSpan, 
             // Add an extra closure() call so that modifications to the environment
             // don't affect the underlying environment closure.
-            return $this->withEnvironment($callable->getEnvironment()->closure(), function () use ($callable, $evaluated, $nodeWithSpan, $run) {
-                return $this->environment->scope(function () use ($callable, $evaluated, $nodeWithSpan, $run) {
-                    $this->verifyArguments(\count($evaluated->getPositional()), $evaluated->getNamed(), $callable->getDeclaration()->getArguments(), $nodeWithSpan);
+            fn() => $this->withEnvironment($callable->getEnvironment()->closure(), fn() => $this->environment->scope(function () use ($callable, $evaluated, $nodeWithSpan, $run) {
+            $this->verifyArguments(\count($evaluated->getPositional()), $evaluated->getNamed(), $callable->getDeclaration()->getArguments(), $nodeWithSpan);
 
-                    $declaredArguments = $callable->getDeclaration()->getArguments()->getArguments();
-                    $minLength = min(\count($evaluated->getPositional()), \count($declaredArguments));
+            $declaredArguments = $callable->getDeclaration()->getArguments()->getArguments();
+            $minLength = min(\count($evaluated->getPositional()), \count($declaredArguments));
 
-                    for ($i = 0; $i < $minLength; $i++) {
-                        $this->environment->setLocalVariable($declaredArguments[$i]->getName(), $evaluated->getPositional()[$i], $evaluated->getPositionalNodes()[$i]);
-                    }
+            for ($i = 0; $i < $minLength; $i++) {
+                $this->environment->setLocalVariable($declaredArguments[$i]->getName(), $evaluated->getPositional()[$i], $evaluated->getPositionalNodes()[$i]);
+            }
 
-                    $named = $evaluated->getNamed();
-                    $namedNodes = $evaluated->getNamedNodes();
+            $named = $evaluated->getNamed();
+            $namedNodes = $evaluated->getNamedNodes();
 
-                    for ($i = \count($evaluated->getPositional()); $i < \count($declaredArguments); $i++) {
-                        $argument = $declaredArguments[$i];
+            for ($i = \count($evaluated->getPositional()); $i < \count($declaredArguments); $i++) {
+                $argument = $declaredArguments[$i];
 
-                        if (isset($named[$argument->getName()])) {
-                            $value = $named[$argument->getName()];
-                            unset($named[$argument->getName()]);
-                            $nodeForSpan = $namedNodes[$argument->getName()];
-                        } else {
-                            assert($argument->getDefaultValue() !== null);
-                            $value = $this->withoutSlash($argument->getDefaultValue()->accept($this), $this->expressionNode($argument->getDefaultValue()));
-                            $nodeForSpan = $this->expressionNode($argument->getDefaultValue());
-                        }
+                if (isset($named[$argument->getName()])) {
+                    $value = $named[$argument->getName()];
+                    unset($named[$argument->getName()]);
+                    $nodeForSpan = $namedNodes[$argument->getName()];
+                } else {
+                    assert($argument->getDefaultValue() !== null);
+                    $value = $this->withoutSlash($argument->getDefaultValue()->accept($this), $this->expressionNode($argument->getDefaultValue()));
+                    $nodeForSpan = $this->expressionNode($argument->getDefaultValue());
+                }
 
-                        $this->environment->setLocalVariable($argument->getName(), $value, $nodeForSpan);
-                    }
+                $this->environment->setLocalVariable($argument->getName(), $value, $nodeForSpan);
+            }
 
-                    $argumentList = null;
-                    $restArgument = $callable->getDeclaration()->getArguments()->getRestArgument();
-                    if ($restArgument !== null) {
-                        $rest = array_values(array_slice($evaluated->getPositional(), \count($declaredArguments)));
-                        $argumentList = new SassArgumentList($rest, $named, $evaluated->getSeparator() === ListSeparator::UNDECIDED ? ListSeparator::COMMA : $evaluated->getSeparator());
-                        $this->environment->setLocalVariable($restArgument, $argumentList, $nodeWithSpan);
-                    }
+            $argumentList = null;
+            $restArgument = $callable->getDeclaration()->getArguments()->getRestArgument();
+            if ($restArgument !== null) {
+                $rest = array_values(array_slice($evaluated->getPositional(), \count($declaredArguments)));
+                $argumentList = new SassArgumentList($rest, $named, $evaluated->getSeparator() === ListSeparator::UNDECIDED ? ListSeparator::COMMA : $evaluated->getSeparator());
+                $this->environment->setLocalVariable($restArgument, $argumentList, $nodeWithSpan);
+            }
 
-                    $result = $run();
+            $result = $run();
 
-                    if ($argumentList === null) {
-                        return $result;
-                    }
-                    if ($named === []) {
-                        return $result;
-                    }
-                    if ($argumentList->wereKeywordAccessed()) {
-                        return $result;
-                    }
+            if ($argumentList === null) {
+                return $result;
+            }
+            if ($named === []) {
+                return $result;
+            }
+            if ($argumentList->wereKeywordAccessed()) {
+                return $result;
+            }
 
-                    $unknownNames = array_keys($named);
-                    $lastName = array_pop($unknownNames);
-                    $message = sprintf(
-                        'No argument%s named $%s%s.',
-                        $unknownNames ? 's' : '',
-                        $unknownNames ? implode(', $', $unknownNames) . ' or $' : '',
-                        $lastName
-                    );
+            $unknownNames = array_keys($named);
+            $lastName = array_pop($unknownNames);
+            $message = sprintf(
+                'No argument%s named $%s%s.',
+                $unknownNames ? 's' : '',
+                $unknownNames ? implode(', $', $unknownNames) . ' or $' : '',
+                $lastName
+            );
 
-                    throw new MultiSpanSassRuntimeException(
-                        $message,
-                        $nodeWithSpan->getSpan(),
-                        'invocation',
-                        ['declaration' => $callable->getDeclaration()->getArguments()->getSpanWithName()],
-                        $this->stackTrace($nodeWithSpan->getSpan())
-                    );
-                });
-            });
-        });
+            throw new MultiSpanSassRuntimeException(
+                $message,
+                $nodeWithSpan->getSpan(),
+                'invocation',
+                ['declaration' => $callable->getDeclaration()->getArguments()->getSpanWithName()],
+                $this->stackTrace($nodeWithSpan->getSpan())
+            );
+        })));
 
         $this->currentCallable = $oldCallable;
 
@@ -2706,7 +2613,7 @@ WARNING;
             return new SassString($buffer, false);
         }
 
-        throw new \InvalidArgumentException('Unknown callable type ' . (\is_object($callable) ? get_class($callable) : gettype($callable) ) . '.');
+        throw new \InvalidArgumentException('Unknown callable type ' . (get_debug_type($callable) ) . '.');
     }
 
     private function runBuiltInCallable(ArgumentInvocation $arguments, BuiltInCallable $callable, AstNode $nodeWithSpan): Value
@@ -2748,9 +2655,7 @@ WARNING;
         }
 
         try {
-            $result = $this->addExceptionSpan($nodeWithSpan, function () use ($callback, $positional) {
-                return $callback($positional);
-            });
+            $result = $this->addExceptionSpan($nodeWithSpan, fn() => $callback($positional));
         } catch (SassException $e) {
             throw $e;
         } catch (\Throwable $e) {
@@ -2883,9 +2788,7 @@ WARNING;
         $restNodeForSpan = $this->expressionNode($restArgs);
 
         if ($rest instanceof SassMap) {
-            $this->addRestMap($named, $rest, $restArgs, function ($value) use ($restArgs) {
-                return new ValueExpression($value, $restArgs->getSpan());
-            });
+            $this->addRestMap($named, $rest, $restArgs, fn($value) => new ValueExpression($value, $restArgs->getSpan()));
         } elseif ($rest instanceof SassList) {
             foreach ($rest->asList() as $value) {
                 $positional[] = new ValueExpression($this->withoutSlash($value, $restNodeForSpan), $restArgs->getSpan());
@@ -2909,9 +2812,7 @@ WARNING;
         $keywordRestNodeForSpan = $this->expressionNode($keywordRestArgs);
 
         if ($keywordRest instanceof SassMap) {
-            $this->addRestMap($named, $keywordRest, $keywordRestArgs, function ($value) use ($keywordRestArgs, $keywordRestNodeForSpan) {
-                return new ValueExpression($this->withoutSlash($value, $keywordRestNodeForSpan), $keywordRestArgs->getSpan());
-            });
+            $this->addRestMap($named, $keywordRest, $keywordRestArgs, fn($value) => new ValueExpression($this->withoutSlash($value, $keywordRestNodeForSpan), $keywordRestArgs->getSpan()));
 
             return [$positional, $named];
         }
@@ -3151,9 +3052,7 @@ WARNING;
      */
     private function serialize(Value $value, AstNode $nodeWithSpan, bool $quote = true): string
     {
-        return $this->addExceptionSpan($nodeWithSpan, function () use ($value, $quote) {
-            return $value->toCssString($quote);
-        });
+        return $this->addExceptionSpan($nodeWithSpan, fn() => $value->toCssString($quote));
     }
 
     /**
@@ -3218,9 +3117,7 @@ WARNING;
     private function expressionNode(AstNode $expression): AstNode
     {
         if ($expression instanceof VariableExpression) {
-            return $this->addExceptionSpan($expression, function () use ($expression) {
-                return $this->environment->getVariableNode($expression->getName()) ?? $expression;
-            });
+            return $this->addExceptionSpan($expression, fn() => $this->environment->getVariableNode($expression->getName()) ?? $expression);
         }
 
         return $expression;

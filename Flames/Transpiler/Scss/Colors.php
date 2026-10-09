@@ -30,7 +30,7 @@ final class Colors
      *
      * @var array<string, string>
      */
-    private const CSS_COLORS = [
+    private const array CSS_COLORS = [
         'aliceblue' => '240,248,255',
         'antiquewhite' => '250,235,215',
         'aqua' => '0,255,255',
@@ -206,7 +206,7 @@ final class Colors
             $rgba = explode(',', self::CSS_COLORS[$colorName]);
 
             // only case with opacity is transparent, with opacity=0, so we can intval on opacity also
-            return array_map('intval', $rgba);
+            return array_map(intval(...), $rgba);
         }
 
         return null;
@@ -238,10 +238,6 @@ final class Colors
             }
         }
 
-        if (isset($reverseColorTable[$r][$g][$b])) {
-            return $reverseColorTable[$r][$g][$b];
-        }
-
-        return null;
+        return $reverseColorTable[$r][$g][$b] ?? null;
     }
 }

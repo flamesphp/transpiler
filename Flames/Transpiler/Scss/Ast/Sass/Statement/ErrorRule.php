@@ -24,16 +24,10 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class ErrorRule implements Statement
+final readonly class ErrorRule implements Statement
 {
-    private readonly Expression $expression;
-
-    private readonly FileSpan $span;
-
-    public function __construct(Expression $expression, FileSpan $span)
+    public function __construct(private Expression $expression, private FileSpan $span)
     {
-        $this->expression = $expression;
-        $this->span = $span;
     }
 
     public function getExpression(): Expression

@@ -6,22 +6,12 @@
  */
 class Less_Tree_Declaration extends Less_Tree implements Less_Tree_HasValueProperty {
 
-	/** @var string|array<Less_Tree_Keyword|Less_Tree_Variable> */
-	public $name;
 	/** @var Less_Tree */
 	public $value;
 	/** @var string */
 	public $important;
-	/** @var null|false|string */
-	public $merge;
-	/** @var int|null */
-	public $index;
-	/** @var bool */
-	public $inline;
 	/** @var bool */
 	public $variable;
-	/** @var array|null */
-	public $currentFileInfo;
 
 	/**
 	 * In the upstream `parsed` is stored in `Node`, but Less_Tree_Declaration is the only place
@@ -42,25 +32,20 @@ class Less_Tree_Declaration extends Less_Tree implements Less_Tree_HasValuePrope
 	 * @param bool|null $variable
 	 */
 	public function __construct(
-		$name,
+		public $name,
 		$value = null,
 		$important = null,
-		$merge = null,
-		$index = null,
-		$currentFileInfo = null,
-		$inline = false,
+		public $merge = null,
+		public $index = null,
+		public $currentFileInfo = null,
+		public $inline = false,
 		$variable = null
 	) {
-		$this->name = $name;
 		$this->value = ( $value instanceof Less_Tree )
 			? $value
 			: new Less_Tree_Value( [ $value ? new Less_Tree_Anonymous( $value ) : null ] );
 		$this->important = $important ? ' ' . trim( $important ) : '';
-		$this->merge = $merge;
-		$this->index = $index;
-		$this->currentFileInfo = $currentFileInfo;
-		$this->inline = $inline;
-		$this->variable = $variable ?? ( is_string( $name ) && $name[0] === '@' );
+		$this->variable = $variable ?? ( is_string( $this->name ) && $this->name[0] === '@' );
 	}
 
 	public function accept( $visitor ) {

@@ -40,7 +40,7 @@ final class ExtendUtil
      * Pseudo-selectors that can only meaningfully appear in the first component of
      * a complex selector.
      */
-    private const ROOTISH_PSEUDO_CLASSES = ['root', 'scope', 'host', 'host-context'];
+    private const array ROOTISH_PSEUDO_CLASSES = ['root', 'scope', 'host', 'host-context'];
 
     /**
      * Returns the contents of a {@see SelectorList} that matches only elements that are
@@ -1148,38 +1148,17 @@ final class ExtendUtil
 
                 $componentWithParents = $parents;
                 $componentWithParents[] = new ComplexSelectorComponent($compound2, [], $compound2->getSpan());
-
-                foreach ($selector1->getComponents() as $complex1) {
-                    if (\count($complex1->getLeadingCombinators()) === 0 && self::complexIsSuperselector($complex1->getComponents(), $componentWithParents)) {
-                        return true;
-                    }
-                }
-
-                return false;
+                return array_any($selector1->getComponents(), fn($complex1) => \count($complex1->getLeadingCombinators()) === 0 && self::complexIsSuperselector($complex1->getComponents(), $componentWithParents));
 
             case 'has':
             case 'host':
             case 'host-context':
                 $selectors = self::selectorPseudoArgs($compound2, $pseudo1->getName());
-
-                foreach ($selectors as $selector2) {
-                    if ($selector1->isSuperselector($selector2)) {
-                        return true;
-                    }
-                }
-
-                return false;
+                return array_any($selectors, fn($selector2) => $selector1->isSuperselector($selector2));
 
             case 'slotted':
                 $selectors = self::selectorPseudoArgs($compound2, $pseudo1->getName(), false);
-
-                foreach ($selectors as $selector2) {
-                    if ($selector1->isSuperselector($selector2)) {
-                        return true;
-                    }
-                }
-
-                return false;
+                return array_any($selectors, fn($selector2) => $selector1->isSuperselector($selector2));
 
             case 'not':
                 foreach ($selector1->getComponents() as $complex) {
@@ -1219,14 +1198,7 @@ final class ExtendUtil
 
             case 'current':
                 $selectors = self::selectorPseudoArgs($compound2, $pseudo1->getName());
-
-                foreach ($selectors as $selector2) {
-                    if ($selector1->equals($selector2)) {
-                        return true;
-                    }
-                }
-
-                return false;
+                return array_any($selectors, fn($selector2) => $selector1->equals($selector2));
 
             case 'nth-child':
             case 'nth-last-child':

@@ -24,34 +24,27 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class ComplexSelectorComponent implements Equatable
+final readonly class ComplexSelectorComponent implements Equatable, \Stringable
 {
-    /**
-     * This component's compound selector.
-     */
-    private readonly CompoundSelector $selector;
-
-    /**
-     * This selector's combinators.
-     *
-     * If this is empty, that indicates that it has an implicit descendent
-     * combinator. If it's more than one element, that means it's invalid CSS;
-     * however, we still support this for backwards-compatibility purposes.
-     *
-     * @var list<CssValue<Combinator>>
-     */
-    private readonly array $combinators;
-
-    private readonly FileSpan $span;
-
     /**
      * @param list<CssValue<Combinator>> $combinators
      */
-    public function __construct(CompoundSelector $selector, array $combinators, FileSpan $span)
+    public function __construct(
+        /**
+         * This component's compound selector.
+         */
+        private CompoundSelector $selector,
+        /**
+         * This selector's combinators.
+         *
+         * If this is empty, that indicates that it has an implicit descendent
+         * combinator. If it's more than one element, that means it's invalid CSS;
+         * however, we still support this for backwards-compatibility purposes.
+         */
+        private array $combinators,
+        private FileSpan $span
+    )
     {
-        $this->selector = $selector;
-        $this->combinators = $combinators;
-        $this->span = $span;
     }
 
     public function getSelector(): CompoundSelector

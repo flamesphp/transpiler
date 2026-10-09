@@ -25,21 +25,18 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class ContentRule implements Statement
+final readonly class ContentRule implements Statement
 {
-    /**
-     * The arguments pass to this `@content` rule.
-     *
-     * This will be an empty invocation if `@content` has no arguments.
-     */
-    private readonly ArgumentInvocation $arguments;
-
-    private readonly FileSpan $span;
-
-    public function __construct(ArgumentInvocation $arguments, FileSpan $span)
+    public function __construct(
+        /**
+         * The arguments pass to this `@content` rule.
+         *
+         * This will be an empty invocation if `@content` has no arguments.
+         */
+        private ArgumentInvocation $arguments,
+        private FileSpan $span
+    )
     {
-        $this->arguments = $arguments;
-        $this->span = $span;
     }
 
     public function getArguments(): ArgumentInvocation

@@ -22,16 +22,10 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class ColorExpression implements Expression
+final readonly class ColorExpression implements Expression
 {
-    private readonly SassColor $value;
-
-    private readonly FileSpan $span;
-
-    public function __construct(SassColor $value, FileSpan $span)
+    public function __construct(private SassColor $value, private FileSpan $span)
     {
-        $this->value = $value;
-        $this->span = $span;
     }
 
     public function getValue(): SassColor

@@ -25,30 +25,19 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 final class ModifiableCssStyleRule extends ModifiableCssParentNode implements CssStyleRule
 {
-    /**
-     * A reference to the modifiable selector list provided by the extension
-     * store, which may update it over time as new extensions are applied.
-     *
-     * @var Box<SelectorList>
-     */
-    private readonly Box $selector;
-
     private readonly SelectorList $originalSelector;
-
-    private readonly FileSpan $span;
-
-    private readonly bool $fromPlainCss;
 
     /**
      * @param Box<SelectorList> $selector
      */
-    public function __construct(Box $selector, FileSpan $span, ?SelectorList $originalSelector = null, bool $fromPlainCss = false)
+    public function __construct(/**
+     * A reference to the modifiable selector list provided by the extension
+     * store, which may update it over time as new extensions are applied.
+     */
+    private readonly Box $selector, private readonly FileSpan $span, ?SelectorList $originalSelector = null, private readonly bool $fromPlainCss = false)
     {
         parent::__construct();
-        $this->selector = $selector;
-        $this->originalSelector = $originalSelector ?? $selector->getValue();
-        $this->span = $span;
-        $this->fromPlainCss = $fromPlainCss;
+        $this->originalSelector = $originalSelector ?? $this->selector->getValue();
     }
 
     public function getSelector(): SelectorList

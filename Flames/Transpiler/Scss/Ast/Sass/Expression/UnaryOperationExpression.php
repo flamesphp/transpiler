@@ -21,19 +21,10 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class UnaryOperationExpression implements Expression
+final readonly class UnaryOperationExpression implements Expression
 {
-    private readonly UnaryOperator $operator;
-
-    private readonly Expression $operand;
-
-    private readonly FileSpan $span;
-
-    public function __construct(UnaryOperator $operator, Expression $operand, FileSpan $span)
+    public function __construct(private UnaryOperator $operator, private Expression $operand, private FileSpan $span)
     {
-        $this->operator = $operator;
-        $this->operand = $operand;
-        $this->span = $span;
     }
 
     public function getOperator(): UnaryOperator

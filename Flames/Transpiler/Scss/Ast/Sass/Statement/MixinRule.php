@@ -43,9 +43,7 @@ final class MixinRule extends CallableDeclaration implements SassDeclaration
 
     public function hasContent(): bool
     {
-        if (!isset($this->content)) {
-            $this->content = (new HasContentVisitor())->visitMixinRule($this) === true;
-        }
+        $this->content ??= new HasContentVisitor()->visitMixinRule($this) === true;
 
         return $this->content;
     }

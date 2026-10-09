@@ -24,20 +24,11 @@ use Flames\Transpiler\Scss\Span\FileSpan;
 final class ModifiableCssSupportsRule extends ModifiableCssParentNode implements CssSupportsRule
 {
     /**
-     * @var CssValue<string>
-     */
-    private readonly CssValue $condition;
-
-    private readonly FileSpan $span;
-
-    /**
      * @param CssValue<string> $condition
      */
-    public function __construct(CssValue $condition, FileSpan $span)
+    public function __construct(private readonly CssValue $condition, private readonly FileSpan $span)
     {
         parent::__construct();
-        $this->condition = $condition;
-        $this->span = $span;
     }
 
     public function getCondition(): CssValue

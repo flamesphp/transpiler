@@ -77,7 +77,7 @@ class Less_Tree {
 
 		// TODO: Migrate to passing $env.
 		if ( Less_Parser::$options['numPrecision'] ) {
-			$p = pow( 10, Less_Parser::$options['numPrecision'] );
+			$p = 10 ** Less_Parser::$options['numPrecision'];
 			return round( $value * $p ) / $p;
 		}
 		return $value;
@@ -147,7 +147,7 @@ class Less_Tree {
 			// will enter the the default/false branch of Less_Tree_Condition#compile.
 			// In PHP, `-null` is 0. To ensure parity, preserve the null.
 			return $res !== null ? -$res : null;
-		} elseif ( get_class( $a ) !== get_class( $b ) ) {
+		} elseif ( $a::class !== $b::class ) {
 			return null;
 		}
 
@@ -199,7 +199,7 @@ class Less_Tree {
 	 * Requires php 5.3+
 	 */
 	public static function __set_state( $args ) {
-		$class = get_called_class();
+		$class = static::class;
 		$obj = new $class( null, null, null, null );
 		foreach ( $args as $key => $val ) {
 			$obj->$key = $val;

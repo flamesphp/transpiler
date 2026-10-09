@@ -30,9 +30,9 @@ use const INTL_IDNA_VARIANT_UTS46;
  */
 final class Converter
 {
-    private const REGEXP_IDNA_PATTERN = '/[^\x20-\x7f]/';
-    private const MAX_DOMAIN_LENGTH = 253;
-    private const MAX_LABEL_LENGTH = 63;
+    private const string REGEXP_IDNA_PATTERN = '/[^\x20-\x7f]/';
+    private const int MAX_DOMAIN_LENGTH = 253;
+    private const int MAX_LABEL_LENGTH = 63;
 
     /**
      * General registered name regular expression.
@@ -40,7 +40,7 @@ final class Converter
      * @see https://tools.ietf.org/html/rfc3986#section-3.2.2
      * @see https://regex101.com/r/fptU8V/1
      */
-    private const REGEXP_REGISTERED_NAME = '/
+    private const string REGEXP_REGISTERED_NAME = '/
         (?(DEFINE)
             (?<unreserved>[a-z0-9_~\-])   # . is missing as it is used to separate labels
             (?<sub_delims>[!$&\'()*+,;=])

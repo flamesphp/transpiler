@@ -18,12 +18,12 @@ namespace Flames\Transpiler\Scss\Extend;
  *
  * @internal
  */
-final class ObjectSet implements \IteratorAggregate
+final readonly class ObjectSet implements \IteratorAggregate
 {
     /**
      * @var \SplObjectStorage<T, mixed>
      */
-    private readonly \SplObjectStorage $storage;
+    private \SplObjectStorage $storage;
 
     public function __construct()
     {

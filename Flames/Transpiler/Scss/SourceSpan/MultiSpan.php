@@ -30,15 +30,15 @@ use Flames\Transpiler\Scss\Span\SourceSpan;
  *
  * @internal
  */
-final class MultiSpan implements FileSpan
+final readonly class MultiSpan implements FileSpan
 {
     /**
      * @param array<string, SourceSpan> $secondarySpans
      */
     public function __construct(
-        private readonly FileSpan $primary,
-        private readonly string $primaryLabel,
-        private readonly array $secondarySpans,
+        private FileSpan $primary,
+        private string $primaryLabel,
+        private array $secondarySpans,
     ) {
     }
 

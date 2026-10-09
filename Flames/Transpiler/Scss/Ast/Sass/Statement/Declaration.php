@@ -28,26 +28,17 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 final class Declaration extends ParentStatement
 {
-    private readonly Interpolation $name;
-
     /**
+     * @param Statement[]|null $children
+     */
+    private function __construct(private readonly Interpolation $name, /**
      * The value of this declaration.
      *
      * If {@see getChildren} is `null`, this is never `null`. Otherwise, it may or may
      * not be `null`.
      */
-    private readonly ?Expression $value;
-
-    private readonly FileSpan $span;
-
-    /**
-     * @param Statement[]|null $children
-     */
-    private function __construct(Interpolation $name, ?Expression $value, FileSpan $span, ?array $children = null)
+    private readonly ?Expression $value, private readonly FileSpan $span, ?array $children = null)
     {
-        $this->name = $name;
-        $this->value = $value;
-        $this->span = $span;
         parent::__construct($children);
     }
 

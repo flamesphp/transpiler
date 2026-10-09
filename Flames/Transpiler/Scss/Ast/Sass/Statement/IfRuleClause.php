@@ -23,20 +23,14 @@ use Flames\Transpiler\Scss\Util\IterableUtil;
  */
 abstract class IfRuleClause
 {
-    /**
-     * @var Statement[]
-     */
-    private readonly array $children;
-
     private readonly bool $declarations;
 
     /**
      * @param Statement[] $children
      */
-    public function __construct(array $children)
+    public function __construct(private readonly array $children)
     {
-        $this->children = $children;
-        $this->declarations = IterableUtil::any($children, function (Statement $child) {
+        $this->declarations = IterableUtil::any($this->children, function (Statement $child) {
             if ($child instanceof VariableDeclaration || $child instanceof FunctionRule || $child instanceof MixinRule) {
                 return true;
             }

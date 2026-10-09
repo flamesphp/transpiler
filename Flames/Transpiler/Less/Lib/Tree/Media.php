@@ -8,17 +8,14 @@ class Less_Tree_Media extends Less_Tree {
 	public $features;
 	/** @var Less_Tree_Ruleset[] */
 	public $rules;
-	/** @var int|null */
-	public $index;
-	/** @var array|null */
-	public $currentFileInfo;
 	/** @var bool|null */
 	public $isReferenced;
 
-	public function __construct( $value = [], $features = [], $index = null, $currentFileInfo = null ) {
-		$this->index = $index;
-		$this->currentFileInfo = $currentFileInfo;
-
+	/**
+     * @param int|null $index
+     * @param mixed[]|null $currentFileInfo
+     */
+    public function __construct( $value = [], $features = [], public $index = null, public $currentFileInfo = null ) {
 		$selectors = $this->emptySelectors();
 
 		$this->features = new Less_Tree_Value( $features );

@@ -33,7 +33,7 @@ final class CssParser extends ScssParser
     /**
      * Sass global functions which are shadowing a CSS function are allowed in CSS files.
      */
-    private const CSS_ALLOWED_FUNCTIONS = [
+    private const array CSS_ALLOWED_FUNCTIONS = [
         'rgb' => true, 'rgba' => true, 'hsl' => true, 'hsla' => true, 'grayscale' => true,
         'invert' => true, 'alpha' => true, 'opacity' => true, 'saturate' => true,
         'min' => true, 'max' => true, 'round' => true, 'abs' => true,

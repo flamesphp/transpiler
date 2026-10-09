@@ -24,7 +24,7 @@ class FunctionRegistry
     /**
      * @var array<string, array{overloads: array<string, callable(list<Value>): Value>, url?: string, canonical_name?: string}>
      */
-    private const BUILTIN_FUNCTIONS = [
+    private const array BUILTIN_FUNCTIONS = [
         // sass:color
         'red' => ['overloads' => ['$color' => [ColorFunctions::class, 'red']], 'url' => 'sass:color'],
         'green' => ['overloads' => ['$color' => [ColorFunctions::class, 'green']], 'url' => 'sass:color'],
@@ -153,7 +153,7 @@ class FunctionRegistry
     /**
      * Special meta functions defined directly in the {@see EvaluateVisitor} constructor
      */
-    private const SPECIAL_META_GLOBAL_FUNCTIONS = [
+    private const array SPECIAL_META_GLOBAL_FUNCTIONS = [
         'global-variable-exists',
         'variable-exists',
         'function-exists',

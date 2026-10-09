@@ -28,17 +28,11 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 final class StyleRule extends ParentStatement
 {
-    private readonly Interpolation $selector;
-
-    private readonly FileSpan $span;
-
     /**
      * @param Statement[] $children
      */
-    public function __construct(Interpolation $selector, array $children, FileSpan $span)
+    public function __construct(private readonly Interpolation $selector, array $children, private readonly FileSpan $span)
     {
-        $this->selector = $selector;
-        $this->span = $span;
         parent::__construct($children);
     }
 

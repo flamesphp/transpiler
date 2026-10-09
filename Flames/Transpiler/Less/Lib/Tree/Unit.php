@@ -3,21 +3,21 @@
  * @private
  * @see less-2.5.3.js#Unit.prototype
  */
-class Less_Tree_Unit extends Less_Tree {
+class Less_Tree_Unit extends Less_Tree implements \Stringable {
 
-	/** @var string[] */
-	public $numerator = [];
-	/** @var string[] */
-	public $denominator = [];
 	/** @var string|null */
 	public $backupUnit;
 
-	public function __construct( $numerator = [], $denominator = [], $backupUnit = null ) {
-		$this->numerator = $numerator;
-		$this->denominator = $denominator;
+	/**
+     * @param string[] $numerator
+     * @param string[] $denominator
+     */
+    public function __construct( /** @var string[] */
+    public $numerator = [], /** @var string[] */
+    public $denominator = [], $backupUnit = null ) {
 		sort( $this->numerator );
 		sort( $this->denominator );
-		$this->backupUnit = $backupUnit ?? $numerator[0] ?? null;
+		$this->backupUnit = $backupUnit ?? $this->numerator[0] ?? null;
 	}
 
 	public function clone() {
@@ -48,8 +48,8 @@ class Less_Tree_Unit extends Less_Tree {
 		return $returnStr;
 	}
 
-	public function __toString() {
-		return $this->toString();
+	public function __toString(): string {
+		return (string) $this->toString();
 	}
 
 	/**

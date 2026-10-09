@@ -21,14 +21,13 @@ use Flames\Transpiler\Scss\Visitor\AnySelectorVisitor;
  */
 final class IsBogusVisitor extends AnySelectorVisitor
 {
-    /**
-     * Whether to consider selectors with leading combinators as bogus.
-     */
-    private readonly bool $includeLeadingCombinator;
-
-    public function __construct(bool $includeLeadingCombinator)
+    public function __construct(
+        /**
+         * Whether to consider selectors with leading combinators as bogus.
+         */
+        private readonly bool $includeLeadingCombinator
+    )
     {
-        $this->includeLeadingCombinator = $includeLeadingCombinator;
     }
 
     public function visitComplexSelector(ComplexSelector $complex): bool
@@ -40,14 +39,7 @@ final class IsBogusVisitor extends AnySelectorVisitor
         if (\count($complex->getLeadingCombinators()) > ($this->includeLeadingCombinator ? 0 : 1) || count($complex->getLastComponent()->getCombinators()) !== 0) {
             return true;
         }
-
-        foreach ($complex->getComponents() as $component) {
-            if (\count($component->getCombinators()) > 1 || $component->getSelector()->accept($this)) {
-                return true;
-            }
-        }
-
-        return false;
+        return array_any($complex->getComponents(), fn($component) => \count($component->getCombinators()) > 1 || $component->getSelector()->accept($this));
     }
 
     public function visitPseudoSelector(PseudoSelector $pseudo): bool

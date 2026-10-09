@@ -19,14 +19,14 @@ namespace Flames\Transpiler\Scss;
  */
 final class Type
 {
-    const T_COLOR = 'color';
+    const string T_COLOR = 'color';
     /**
      * @internal
      */
-    const T_KEYWORD = 'keyword';
-    const T_LIST = 'list';
-    const T_MAP = 'map';
-    const T_NULL = 'null';
-    const T_NUMBER = 'number';
-    const T_STRING = 'string';
+    const string T_KEYWORD = 'keyword';
+    const string T_LIST = 'list';
+    const string T_MAP = 'map';
+    const string T_NULL = 'null';
+    const string T_NUMBER = 'number';
+    const string T_STRING = 'string';
 }

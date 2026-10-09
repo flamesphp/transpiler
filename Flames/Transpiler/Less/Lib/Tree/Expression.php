@@ -5,10 +5,6 @@
  */
 class Less_Tree_Expression extends Less_Tree implements Less_Tree_HasValueProperty {
 
-	/** @var Less_Tree[] */
-	public $value = [];
-	/** @var bool */
-	public $noSpacing;
 	/** @var true|null */
 	public $parens = null;
 
@@ -16,10 +12,9 @@ class Less_Tree_Expression extends Less_Tree implements Less_Tree_HasValueProper
 	 * @param Less_Tree[] $value
 	 * @param bool $noSpacing
 	 */
-	public function __construct( $value, $noSpacing = false ) {
-		$this->value = $value;
-		$this->noSpacing = $noSpacing;
-	}
+	public function __construct(public $value, public $noSpacing = false)
+    {
+    }
 
 	public function accept( $visitor ) {
 		$this->value = $visitor->visitArray( $this->value );

@@ -20,19 +20,17 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class Interpolation implements SassNode
+final readonly class Interpolation implements SassNode
 {
     /**
      * @var list<string|Expression>
      */
-    private readonly array $contents;
-
-    private readonly FileSpan $span;
+    private array $contents;
 
     /**
      * @param list<string|Expression> $contents
      */
-    public function __construct(array $contents, FileSpan $span)
+    public function __construct(array $contents, private FileSpan $span)
     {
         for ($i = 0; $i < \count($contents); $i++) {
             // Dart-sass has a validation on the type of elements here. This is useless for us because phpstan supports union types, unlike the Dart type system
@@ -43,7 +41,6 @@ final class Interpolation implements SassNode
         }
 
         $this->contents = $contents;
-        $this->span = $span;
     }
 
     /**

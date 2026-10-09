@@ -24,31 +24,12 @@ use Flames\Transpiler\Scss\Span\FileSpan;
 final class ModifiableCssAtRule extends ModifiableCssParentNode implements CssAtRule
 {
     /**
-     * @var CssValue<string>
-     */
-    private readonly CssValue $name;
-
-    /**
-     * @var CssValue<string>|null
-     */
-    private readonly ?CssValue $value;
-
-    private readonly bool $childless;
-
-    private readonly FileSpan $span;
-
-    /**
      * @param CssValue<string> $name
      * @param CssValue<string>|null $value
      */
-    public function __construct(CssValue $name, FileSpan $span, bool $childless = false, ?CssValue $value = null)
+    public function __construct(private readonly CssValue $name, private readonly FileSpan $span, private readonly bool $childless = false, private readonly ?CssValue $value = null)
     {
         parent::__construct();
-
-        $this->name = $name;
-        $this->value = $value;
-        $this->childless = $childless;
-        $this->span = $span;
     }
 
     public function getName(): CssValue

@@ -13,22 +13,17 @@
 class Less_Tree_NameValue extends Less_Tree implements Less_Tree_HasValueProperty {
 
 	/** @var string */
-	public $name;
-	/** @var string */
-	public $value;
-	/** @var int|null */
-	public $index;
-	/** @var array|null */
-	public $currentFileInfo;
-	/** @var string */
 	public $important = '';
 
-	public function __construct( $name, $value = null, $index = null, $currentFileInfo = null ) {
-		$this->name = $name;
-		$this->value = $value;
-		$this->index = $index;
-		$this->currentFileInfo = $currentFileInfo;
-	}
+	/**
+     * @param string $name
+     * @param string $value
+     * @param int|null $index
+     * @param mixed[]|null $currentFileInfo
+     */
+    public function __construct(public $name, public $value = null, public $index = null, public $currentFileInfo = null)
+    {
+    }
 
 	public function genCSS( $output ) {
 		$output->add(

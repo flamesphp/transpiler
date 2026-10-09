@@ -21,19 +21,10 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class Argument implements SassNode, SassDeclaration
+final readonly class Argument implements SassNode, SassDeclaration
 {
-    private readonly string $name;
-
-    private readonly ?Expression $defaultValue;
-
-    private readonly FileSpan $span;
-
-    public function __construct(string $name, FileSpan $span, ?Expression $defaultValue = null)
+    public function __construct(private string $name, private FileSpan $span, private ?Expression $defaultValue = null)
     {
-        $this->name = $name;
-        $this->defaultValue = $defaultValue;
-        $this->span = $span;
     }
 
     public function getName(): string

@@ -24,7 +24,7 @@ final class Base64
     /**
      * @var array<int, string>
      */
-    private const ENCODING_MAP = [
+    private const array ENCODING_MAP = [
         0 => 'A',
         1 => 'B',
         2 => 'C',

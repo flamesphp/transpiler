@@ -20,11 +20,8 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 class FormatException extends \Exception
 {
-    private readonly FileSpan $span;
-
-    public function __construct(string $message, FileSpan $span, ?\Throwable $previous = null)
+    public function __construct(string $message, private readonly FileSpan $span, ?\Throwable $previous = null)
     {
-        $this->span = $span;
         parent::__construct($message, 0, $previous);
     }
 

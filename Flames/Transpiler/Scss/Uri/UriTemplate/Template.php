@@ -31,19 +31,19 @@ use const PREG_SET_ORDER;
 /**
  * @internal The class exposes the internal representation of a Template and its usage
  */
-final class Template implements Stringable
+final readonly class Template implements Stringable
 {
     /**
      * Expression regular expression pattern.
      */
-    private const REGEXP_EXPRESSION_DETECTOR = '/(?<expression>\{[^}]*})/x';
+    private const string REGEXP_EXPRESSION_DETECTOR = '/(?<expression>\{[^}]*})/x';
 
     /** @var array<Expression> */
-    private readonly array $expressions;
+    private array $expressions;
     /** @var array<string> */
-    public readonly array $variableNames;
+    public array $variableNames;
 
-    private function __construct(public readonly string $value, Expression ...$expressions)
+    private function __construct(public string $value, Expression ...$expressions)
     {
         $this->expressions = $expressions;
         $this->variableNames = array_unique(
@@ -71,9 +71,7 @@ final class Template implements Stringable
 
         return new self($template, ...array_values(
             array_reduce($founds, function (array $carry, array $found): array {
-                if (!isset($carry[$found['expression']])) {
-                    $carry[$found['expression']] = Expression::new($found['expression']);
-                }
+                $carry[$found['expression']] ??= Expression::new($found['expression']);
 
                 return $carry;
             }, [])

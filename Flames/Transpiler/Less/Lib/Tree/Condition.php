@@ -6,21 +6,15 @@ class Less_Tree_Condition extends Less_Tree {
 
 	/** @var string */
 	public $op;
-	/** @var Less_Tree */
-	public $lvalue;
-	/** @var Less_Tree */
-	public $rvalue;
-	/** @var int */
-	public $index;
-	/** @var bool */
-	public $negate;
 
-	public function __construct( $op, $l, $r, $i = 0, $negate = false ) {
+	/**
+     * @param \Less_Tree $l
+     * @param \Less_Tree $r
+     * @param int $i
+     * @param bool $negate
+     */
+    public function __construct( $op, public $lvalue, public $rvalue, public $index = 0, public $negate = false ) {
 		$this->op = trim( $op );
-		$this->lvalue = $l;
-		$this->rvalue = $r;
-		$this->index = $i;
-		$this->negate = $negate;
 	}
 
 	public function accept( $visitor ) {

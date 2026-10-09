@@ -7,13 +7,6 @@
 class Less_Output_Mapped extends Less_Output {
 
 	/**
-	 * The source map generator
-	 *
-	 * @var Less_SourceMap_Generator
-	 */
-	protected $generator;
-
-	/**
 	 * Current line
 	 *
 	 * @var int
@@ -40,9 +33,11 @@ class Less_Output_Mapped extends Less_Output {
 	 * @param array $contentsMap Array of filename to contents map
 	 * @param Less_SourceMap_Generator $generator
 	 */
-	public function __construct( array $contentsMap, $generator ) {
+	public function __construct( array $contentsMap, /**
+     * The source map generator
+     */
+    protected $generator ) {
 		$this->contentsMap = $contentsMap;
-		$this->generator = $generator;
 	}
 
 	/**

@@ -23,8 +23,6 @@ final class SassBoolean extends Value
 
     private static SassBoolean $falseInstance;
 
-    private readonly bool $value;
-
     public static function create(bool $value): SassBoolean
     {
         if ($value) {
@@ -34,9 +32,8 @@ final class SassBoolean extends Value
         return self::$falseInstance ??= new self(false);
     }
 
-    private function __construct(bool $value)
+    private function __construct(private readonly bool $value)
     {
-        $this->value = $value;
     }
 
     public function getValue(): bool

@@ -28,7 +28,7 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class FunctionExpression implements Expression, CallableInvocation, SassReference
+final readonly class FunctionExpression implements Expression, CallableInvocation, SassReference
 {
     /**
      * The name of the function being invoked, with underscores converted to
@@ -36,32 +36,20 @@ final class FunctionExpression implements Expression, CallableInvocation, SassRe
      *
      * If this function is a plain CSS function, use {@see $originalName} instead.
      */
-    private readonly string $name;
+    private string $name;
 
-    /**
+    public function __construct(/**
      * The name of the function being invoked, with underscores left as-is.
      */
-    private readonly string $originalName;
-
-    /**
+    private string $originalName, /**
      * The arguments to pass to the function.
      */
-    private readonly ArgumentInvocation $arguments;
-
-    /**
+    private ArgumentInvocation $arguments, private FileSpan $span, /**
      * The namespace of the function being invoked, or `null` if it's invoked
      * without a namespace.
      */
-    private readonly ?string $namespace;
-
-    private readonly FileSpan $span;
-
-    public function __construct(string $originalName, ArgumentInvocation $arguments, FileSpan $span, ?string $namespace = null)
+    private ?string $namespace = null)
     {
-        $this->span = $span;
-        $this->originalName = $originalName;
-        $this->arguments = $arguments;
-        $this->namespace = $namespace;
         $this->name = str_replace('_', '-', $this->originalName);
     }
 

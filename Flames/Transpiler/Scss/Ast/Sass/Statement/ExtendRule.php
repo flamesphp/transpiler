@@ -24,19 +24,10 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class ExtendRule implements Statement
+final readonly class ExtendRule implements Statement
 {
-    private readonly Interpolation $selector;
-
-    private readonly FileSpan $span;
-
-    private readonly bool $optional;
-
-    public function __construct(Interpolation $selector, FileSpan $span, bool $optional = false)
+    public function __construct(private Interpolation $selector, private FileSpan $span, private bool $optional = false)
     {
-        $this->selector = $selector;
-        $this->span = $span;
-        $this->optional = $optional;
     }
 
     public function getSelector(): Interpolation

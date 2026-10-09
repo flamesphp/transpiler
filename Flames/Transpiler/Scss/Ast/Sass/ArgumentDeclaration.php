@@ -28,25 +28,13 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class ArgumentDeclaration implements SassNode
+final readonly class ArgumentDeclaration implements SassNode
 {
-    /**
-     * @var list<Argument>
-     */
-    private readonly array $arguments;
-
-    private readonly ?string $restArgument;
-
-    private readonly FileSpan $span;
-
     /**
      * @param list<Argument> $arguments
      */
-    public function __construct(array $arguments, FileSpan $span, ?string $restArgument = null)
+    public function __construct(private array $arguments, private FileSpan $span, private ?string $restArgument = null)
     {
-        $this->arguments = $arguments;
-        $this->restArgument = $restArgument;
-        $this->span = $span;
     }
 
     public static function createEmpty(FileSpan $span): ArgumentDeclaration
@@ -64,7 +52,7 @@ final class ArgumentDeclaration implements SassNode
      */
     public static function parse(string $contents, ?LoggerInterface $logger = null, ?UriInterface $url = null): ArgumentDeclaration
     {
-        return (new ScssParser($contents, $logger, $url))->parseArgumentDeclaration();
+        return new ScssParser($contents, $logger, $url)->parseArgumentDeclaration();
     }
 
     public function isEmpty(): bool

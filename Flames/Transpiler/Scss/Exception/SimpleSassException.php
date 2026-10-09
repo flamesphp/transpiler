@@ -22,16 +22,9 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 final class SimpleSassException extends \Exception implements SassException
 {
-    private readonly string $originalMessage;
-
-    private readonly FileSpan $span;
-
-    public function __construct(string $message, FileSpan $span, ?\Throwable $previous = null)
+    public function __construct(private readonly string $originalMessage, private readonly FileSpan $span, ?\Throwable $previous = null)
     {
-        $this->originalMessage = $message;
-        $this->span = $span;
-
-        parent::__construct(ErrorUtil::formatErrorMessage($message, $span, $this->getSassTrace()), 0, $previous);
+        parent::__construct(ErrorUtil::formatErrorMessage($this->originalMessage, $this->span, $this->getSassTrace()), 0, $previous);
     }
 
     public function getOriginalMessage(): string

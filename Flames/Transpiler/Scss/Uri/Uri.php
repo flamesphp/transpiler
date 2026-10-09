@@ -89,25 +89,21 @@ use const FILTER_VALIDATE_IP;
  * @phpstan-import-type ComponentMap from UriString
  * @phpstan-import-type InputComponentMap from UriString
  */
-final class Uri implements Conditionable, UriInterface
+final readonly class Uri implements Conditionable, UriInterface
 {
     /**
      * RFC3986 invalid characters.
      *
      * @link https://tools.ietf.org/html/rfc3986#section-2.2
-     *
-     * @var string
      */
-    private const REGEXP_INVALID_CHARS = '/[\x00-\x1f\x7f]/';
+    private const string REGEXP_INVALID_CHARS = '/[\x00-\x1f\x7f]/';
 
     /**
      * RFC3986 host identified by a registered name regular expression pattern.
      *
      * @link https://tools.ietf.org/html/rfc3986#section-3.2.2
-     *
-     * @var string
      */
-    private const REGEXP_HOST_REGNAME = '/^(
+    private const string REGEXP_HOST_REGNAME = '/^(
         (?<unreserved>[a-z\d_~\-\.])|
         (?<sub_delims>[!$&\'()*+,;=])|
         (?<encoded>%[A-F\d]{2})
@@ -117,19 +113,14 @@ final class Uri implements Conditionable, UriInterface
      * RFC3986 delimiters of the generic URI components regular expression pattern.
      *
      * @link https://tools.ietf.org/html/rfc3986#section-2.2
-     *
-     * @var string
      */
-    private const REGEXP_HOST_GEN_DELIMS = '/[:\/?#\[\]@ ]/'; // Also includes space.
-
+    private const string REGEXP_HOST_GEN_DELIMS = '/[:\/?#\[\]@ ]/'; // Also includes space.
     /**
      * RFC3986 IPvFuture regular expression pattern.
      *
      * @link https://tools.ietf.org/html/rfc3986#section-3.2.2
-     *
-     * @var string
      */
-    private const REGEXP_HOST_IP_FUTURE = '/^
+    private const string REGEXP_HOST_IP_FUTURE = '/^
         v(?<version>[A-F\d])+\.
         (?:
             (?<unreserved>[a-z\d_~\-\.])|
@@ -139,81 +130,65 @@ final class Uri implements Conditionable, UriInterface
 
     /**
      * RFC3986 IPvFuture host and port component.
-     *
-     * @var string
      */
-    private const REGEXP_HOST_PORT = ',^(?<host>(\[.*]|[^:])*)(:(?<port>[^/?#]*))?$,x';
+    private const string REGEXP_HOST_PORT = ',^(?<host>(\[.*]|[^:])*)(:(?<port>[^/?#]*))?$,x';
 
     /**
      * Significant 10 bits of IP to detect Zone ID regular expression pattern.
-     *
-     * @var string
      */
-    private const HOST_ADDRESS_BLOCK = "\xfe\x80";
+    private const string HOST_ADDRESS_BLOCK = "\xfe\x80";
 
     /**
      * Regular expression pattern to for file URI.
      * <volume> contains the volume but not the volume separator.
      * The volume separator may be URL-encoded (`|` as `%7C`) by formatPath(),
      * so we account for that here.
-     *
-     * @var string
      */
-    private const REGEXP_FILE_PATH = ',^(?<delim>/)?(?<volume>[a-zA-Z])(?:[:|\|]|%7C)(?<rest>.*)?,';
+    private const string REGEXP_FILE_PATH = ',^(?<delim>/)?(?<volume>[a-zA-Z])(?:[:|\|]|%7C)(?<rest>.*)?,';
 
     /**
      * Mimetype regular expression pattern.
      *
      * @link https://tools.ietf.org/html/rfc2397
-     *
-     * @var string
      */
-    private const REGEXP_MIMETYPE = ',^\w+/[-.\w]+(?:\+[-.\w]+)?$,';
+    private const string REGEXP_MIMETYPE = ',^\w+/[-.\w]+(?:\+[-.\w]+)?$,';
 
     /**
      * Base64 content regular expression pattern.
      *
      * @link https://tools.ietf.org/html/rfc2397
-     *
-     * @var string
      */
-    private const REGEXP_BINARY = ',(;|^)base64$,';
+    private const string REGEXP_BINARY = ',(;|^)base64$,';
 
     /**
      * Windows filepath regular expression pattern.
      * <root> contains both the volume and volume separator.
-     *
-     * @var string
      */
-    private const REGEXP_WINDOW_PATH = ',^(?<root>[a-zA-Z][:|\|]),';
+    private const string REGEXP_WINDOW_PATH = ',^(?<root>[a-zA-Z][:|\|]),';
 
     /**
      * Maximum number of cached items.
-     *
-     * @var int
      */
-    private const MAXIMUM_CACHED_ITEMS = 100;
+    private const int MAXIMUM_CACHED_ITEMS = 100;
 
     /**
      * All ASCII letters sorted by typical frequency of occurrence.
-     *
-     * @var string
      */
-    private const ASCII = "\x20\x65\x69\x61\x73\x6E\x74\x72\x6F\x6C\x75\x64\x5D\x5B\x63\x6D\x70\x27\x0A\x67\x7C\x68\x76\x2E\x66\x62\x2C\x3A\x3D\x2D\x71\x31\x30\x43\x32\x2A\x79\x78\x29\x28\x4C\x39\x41\x53\x2F\x50\x22\x45\x6A\x4D\x49\x6B\x33\x3E\x35\x54\x3C\x44\x34\x7D\x42\x7B\x38\x46\x77\x52\x36\x37\x55\x47\x4E\x3B\x4A\x7A\x56\x23\x48\x4F\x57\x5F\x26\x21\x4B\x3F\x58\x51\x25\x59\x5C\x09\x5A\x2B\x7E\x5E\x24\x40\x60\x7F\x00\x01\x02\x03\x04\x05\x06\x07\x08\x0B\x0C\x0D\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F";
+    private const string ASCII = "\x20\x65\x69\x61\x73\x6E\x74\x72\x6F\x6C\x75\x64\x5D\x5B\x63\x6D\x70\x27\x0A\x67\x7C\x68\x76\x2E\x66\x62\x2C\x3A\x3D\x2D\x71\x31\x30\x43\x32\x2A\x79\x78\x29\x28\x4C\x39\x41\x53\x2F\x50\x22\x45\x6A\x4D\x49\x6B\x33\x3E\x35\x54\x3C\x44\x34\x7D\x42\x7B\x38\x46\x77\x52\x36\x37\x55\x47\x4E\x3B\x4A\x7A\x56\x23\x48\x4F\x57\x5F\x26\x21\x4B\x3F\x58\x51\x25\x59\x5C\x09\x5A\x2B\x7E\x5E\x24\x40\x60\x7F\x00\x01\x02\x03\x04\x05\x06\x07\x08\x0B\x0C\x0D\x0E\x0F\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1A\x1B\x1C\x1D\x1E\x1F";
 
-    private readonly ?string $scheme;
-    private readonly ?string $user;
-    private readonly ?string $pass;
-    private readonly ?string $userInfo;
-    private readonly ?string $host;
-    private readonly ?int $port;
-    private readonly ?string $authority;
-    private readonly string $path;
-    private readonly ?string $query;
-    private readonly ?string $fragment;
-    private readonly string $uriAsciiString;
-    private readonly string $uriUnicodeString;
-    private readonly ?string $origin;
+    private ?string $scheme;
+    private ?string $user;
+    private ?string $pass;
+    private ?string $userInfo;
+    private ?string $host;
+    private ?int $port;
+    private ?string $authority;
+    private string $path;
+    private ?string $query;
+    private ?string $fragment;
+    private string $uriAsciiString;
+    private string $uriUnicodeString;
+    private ?string $origin;
 
     private function __construct(
         ?string $scheme,
@@ -499,9 +474,7 @@ final class Uri implements Conditionable, UriInterface
             'port' => null, 'path' => '', 'query' => null, 'fragment' => null,
         ];
 
-        if (null === $components['path']) {
-            $components['path'] = '';
-        }
+        $components['path'] ??= '';
 
         return new self(
             $components['scheme'],
@@ -1324,7 +1297,7 @@ final class Uri implements Conditionable, UriInterface
 
                 return $bytes;
             })(),
-            default => throw new TypeError('Unsupported destination type; expected SplFileObject, SplFileInfo, resource or a string; '.(is_object($destination) ? $destination::class : gettype($destination)).' given.'),
+            default => throw new TypeError('Unsupported destination type; expected SplFileObject, SplFileInfo, resource or a string; '.(get_debug_type($destination)).' given.'),
         };
 
         false !== $res || throw new RuntimeException('Unable to write to the destination file.');
@@ -1754,7 +1727,7 @@ final class Uri implements Conditionable, UriInterface
     private static function formatPathWithEmptyBaseQuery(string $path): string
     {
         $targetSegments = self::getSegments($path);
-        $basename = $targetSegments[array_key_last($targetSegments)];
+        $basename = array_last($targetSegments);
 
         return '' === $basename ? './' : $basename;
     }

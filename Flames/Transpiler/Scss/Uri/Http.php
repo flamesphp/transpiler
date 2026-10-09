@@ -31,9 +31,9 @@ use function ltrim;
 /**
  * @phpstan-import-type InputComponentMap from UriString
  */
-final class Http implements Stringable, Psr7UriInterface, JsonSerializable, Conditionable
+final readonly class Http implements Stringable, Psr7UriInterface, JsonSerializable, Conditionable
 {
-    private readonly UriInterface $uri;
+    private UriInterface $uri;
 
     private function __construct(UriInterface $uri)
     {

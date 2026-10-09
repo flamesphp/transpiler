@@ -56,7 +56,7 @@ final class UnitlessSassNumber extends SassNumber
 
     public function withSlash(SassNumber $numerator, SassNumber $denominator): SassNumber
     {
-        return new self($this->getValue(), array($numerator, $denominator));
+        return new self($this->getValue(), [$numerator, $denominator]);
     }
 
     public function hasUnit(string $unit): bool

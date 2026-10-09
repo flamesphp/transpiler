@@ -4,23 +4,18 @@
  * @see less-3.13.1.js#Call.prototype
  */
 class Less_Tree_Call extends Less_Tree {
-	/** @var string */
-	public $name;
-	/** @var Less_Tree[] */
-	public $args;
 	/** @var bool */
 	public $calc;
-	/** @var int */
-	public $index;
-	/** @var array|null */
-	public $currentFileInfo;
 
-	public function __construct( $name, $args, $index, $currentFileInfo = null ) {
-		$this->name = $name;
-		$this->args = $args;
-		$this->calc = $name === 'calc';
-		$this->index = $index;
-		$this->currentFileInfo = $currentFileInfo;
+	/**
+     * @param string $name
+     * @param \Less_Tree[] $args
+     * @param int $index
+     * @param mixed[]|null $currentFileInfo
+     */
+    public function __construct( public $name, /** @var Less_Tree[] */
+    public $args, public $index, public $currentFileInfo = null ) {
+		$this->calc = $this->name === 'calc';
 	}
 
 	public function accept( $visitor ) {

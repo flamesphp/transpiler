@@ -6,13 +6,13 @@
  */
 class Less_Functions {
 
-	/** @var Less_Environment */
-	public $env;
 	/** @var array|null */
 	public $currentFileInfo;
 
-	public function __construct( $env, ?array $currentFileInfo = null ) {
-		$this->env = $env;
+	/**
+     * @param \Less_Environment $env
+     */
+    public function __construct( public $env, ?array $currentFileInfo = null ) {
 		$this->currentFileInfo = $currentFileInfo;
 	}
 
@@ -76,7 +76,7 @@ class Less_Functions {
 
 			$a = self::_number( $a );
 			return new Less_Tree_Color( $rgb, $a, 'rgba' );
-		} catch ( Exception $e ) {
+		} catch ( Exception ) {
 
 		}
 	}
@@ -116,7 +116,7 @@ class Less_Functions {
 			];
 			$a = self::_number( $a );
 			return new Less_Tree_Color( $rgb, $a, 'hsla' );
-		} catch ( Exception $e ) {
+		} catch ( Exception ) {
 
 		}
 	}
@@ -518,13 +518,13 @@ class Less_Functions {
 	 */
 	public function mix( $color1 = null, $color2 = null, $weight = null ) {
 		if ( !$color1 instanceof Less_Tree_Color ) {
-			$type = is_object( $color1 ) ? get_class( $color1 ) : gettype( $color1 );
+			$type = get_debug_type($color1);
 			throw new Less_Exception_Compiler(
 				"The first argument must be a color, $type given" . ( $color1 instanceof Less_Tree_Expression ? ' (did you forgot commas?)' : '' )
 			);
 		}
 		if ( !$color2 instanceof Less_Tree_Color ) {
-			$type = is_object( $color2 ) ? get_class( $color2 ) : gettype( $color2 );
+			$type = get_debug_type($color2);
 			throw new Less_Exception_Compiler(
 				"The second argument must be a color, $type given" . ( $color2 instanceof Less_Tree_Expression ? ' (did you forgot commas?)' : '' )
 			);
@@ -533,7 +533,7 @@ class Less_Functions {
 			$weight = new Less_Tree_Dimension( '50', '%' );
 		}
 		if ( !$weight instanceof Less_Tree_Dimension ) {
-			$type = is_object( $weight ) ? get_class( $weight ) : gettype( $weight );
+			$type = get_debug_type($weight);
 			throw new Less_Exception_Compiler(
 				"The third argument must be a percentage, $type given" . ( $weight instanceof Less_Tree_Expression ? ' (did you forgot commas?)' : '' )
 			);
@@ -709,7 +709,7 @@ class Less_Functions {
 			$fraction = $f->value;
 		}
 
-		return $this->_math( [ Less_Parser::class, 'round' ], null, $n, $fraction );
+		return $this->_math( Less_Parser::round(...), null, $n, $fraction );
 	}
 
 	public function pi() {
@@ -728,7 +728,7 @@ class Less_Functions {
 			throw new Less_Exception_Compiler( 'Arguments must be numbers' );
 		}
 
-		return new Less_Tree_Dimension( pow( $x->value, $y->value ), $x->unit );
+		return new Less_Tree_Dimension( $x->value ** $y->value, $x->unit );
 	}
 
 	// var mathFunctions = [{name:"ce ...
@@ -1257,7 +1257,7 @@ class Less_Functions {
 			);
 		}
 
-		return $this->colorBlend( [ $this, 'colorBlendMultiply' ], $color1, $color2 );
+		return $this->colorBlend( $this->colorBlendMultiply(...), $color1, $color2 );
 	}
 
 	private function colorBlendMultiply( $cb, $cs ) {
@@ -1276,7 +1276,7 @@ class Less_Functions {
 			);
 		}
 
-		return $this->colorBlend( [ $this, 'colorBlendScreen' ], $color1, $color2 );
+		return $this->colorBlend( $this->colorBlendScreen(...), $color1, $color2 );
 	}
 
 	private function colorBlendScreen( $cb, $cs ) {
@@ -1295,7 +1295,7 @@ class Less_Functions {
 			);
 		}
 
-		return $this->colorBlend( [ $this, 'colorBlendOverlay' ], $color1, $color2 );
+		return $this->colorBlend( $this->colorBlendOverlay(...), $color1, $color2 );
 	}
 
 	private function colorBlendOverlay( $cb, $cs ) {
@@ -1317,7 +1317,7 @@ class Less_Functions {
 			);
 		}
 
-		return $this->colorBlend( [ $this, 'colorBlendSoftlight' ], $color1, $color2 );
+		return $this->colorBlend( $this->colorBlendSoftlight(...), $color1, $color2 );
 	}
 
 	private function colorBlendSoftlight( $cb, $cs ) {
@@ -1343,7 +1343,7 @@ class Less_Functions {
 			);
 		}
 
-		return $this->colorBlend( [ $this, 'colorBlendHardlight' ], $color1, $color2 );
+		return $this->colorBlend( $this->colorBlendHardlight(...), $color1, $color2 );
 	}
 
 	private function colorBlendHardlight( $cb, $cs ) {
@@ -1362,7 +1362,7 @@ class Less_Functions {
 			);
 		}
 
-		return $this->colorBlend( [ $this, 'colorBlendDifference' ], $color1, $color2 );
+		return $this->colorBlend( $this->colorBlendDifference(...), $color1, $color2 );
 	}
 
 	private function colorBlendDifference( $cb, $cs ) {
@@ -1381,7 +1381,7 @@ class Less_Functions {
 			);
 		}
 
-		return $this->colorBlend( [ $this, 'colorBlendExclusion' ], $color1, $color2 );
+		return $this->colorBlend( $this->colorBlendExclusion(...), $color1, $color2 );
 	}
 
 	private function colorBlendExclusion( $cb, $cs ) {
@@ -1400,7 +1400,7 @@ class Less_Functions {
 			);
 		}
 
-		return $this->colorBlend( [ $this, 'colorBlendAverage' ], $color1, $color2 );
+		return $this->colorBlend( $this->colorBlendAverage(...), $color1, $color2 );
 	}
 
 	// non-w3c functions:
@@ -1420,7 +1420,7 @@ class Less_Functions {
 			);
 		}
 
-		return $this->colorBlend( [ $this, 'colorBlendNegation' ], $color1, $color2 );
+		return $this->colorBlend( $this->colorBlendNegation(...), $color1, $color2 );
 	}
 
 	private function colorBlendNegation( $cb, $cs ) {

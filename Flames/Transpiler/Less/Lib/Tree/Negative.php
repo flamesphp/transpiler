@@ -4,12 +4,12 @@
  */
 class Less_Tree_Negative extends Less_Tree implements Less_Tree_HasValueProperty {
 
-	/** @var Less_Tree */
-	public $value;
-
-	public function __construct( $node ) {
-		$this->value = $node;
-	}
+	/**
+     * @param \Less_Tree $node
+     */
+    public function __construct(public $value)
+    {
+    }
 
 	/**
 	 * @see Less_Tree::genCSS

@@ -33,11 +33,8 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 abstract class Selector implements AstNode, Equatable
 {
-    private readonly FileSpan $span;
-
-    public function __construct(FileSpan $span)
+    public function __construct(private readonly FileSpan $span)
     {
-        $this->span = $span;
     }
 
     public function getSpan(): FileSpan

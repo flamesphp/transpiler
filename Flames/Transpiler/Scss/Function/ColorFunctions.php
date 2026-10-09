@@ -523,9 +523,7 @@ TXT,
             return $current + ($param > 0 ? $max - $current : $current) * $param / 100;
         };
 
-        $updateRgb = function (int $current, ?float $param) use ($updateValue): int {
-            return NumberUtil::fuzzyRound($updateValue($current, $param, 255));
-        };
+        $updateRgb = (fn(int $current, ?float $param): int => NumberUtil::fuzzyRound($updateValue($current, $param, 255)));
 
         if ($hasRgb) {
             return $color->changeRgb(

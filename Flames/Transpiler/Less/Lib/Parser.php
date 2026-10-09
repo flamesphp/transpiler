@@ -330,7 +330,7 @@ class Less_Parser {
 	 * @phan-return string|float|array<string|float>
 	 */
 	private function getVariableValue( Less_Tree $var ) {
-		switch ( get_class( $var ) ) {
+		switch ( $var::class ) {
 			case Less_Tree_Color::class:
 				return $this->rgb2html( $var->rgb );
 			case Less_Tree_Variable::class:
@@ -384,7 +384,7 @@ class Less_Parser {
 			case Less_Tree_Import::class:
 			case Less_Tree_Ruleset::class:
 			default:
-				throw new Exception( "type missing in switch/case getVariableValue for " . get_class( $var ) );
+				throw new Exception( "type missing in switch/case getVariableValue for " . $var::class );
 		}
 	}
 
@@ -766,7 +766,7 @@ class Less_Parser {
 	 */
 	private function isWhitespace( $offset = 0 ) {
 		// @phan-suppress-next-line PhanParamSuspiciousOrder False positive
-		return strpos( " \t\n\r\v\f", $this->input[$this->pos + $offset] ) !== false;
+		return str_contains( " \t\n\r\v\f", $this->input[$this->pos + $offset] );
 	}
 
 	/**
@@ -868,13 +868,9 @@ class Less_Parser {
 		$i = $this->pos;
 		$loop = true;
 		if ( is_string( $tok ) ) {
-			$testChar = static function ( $char ) use ( $tok ) {
-				return $tok === $char;
-			};
+			$testChar = (static fn($char) => $tok === $char);
 		} else {
-			$testChar = static function ( $char ) use ( $tok ) {
-				return in_array( $char, $tok );
-			};
+			$testChar = (static fn($char) => in_array( $char, $tok ));
 		}
 		do {
 			$nextChar = $this->input[$i];
@@ -2556,13 +2552,9 @@ class Less_Parser {
 		$result = [];
 
 		if ( is_array( $tok ) ) {
-			$testCurrentChar = static function ( $currentChar ) use ( $tok ) {
-				return in_array( $currentChar, $tok );
-			};
+			$testCurrentChar = (static fn($currentChar) => in_array( $currentChar, $tok ));
 		} else {
-			$testCurrentChar = static function ( $currentChar ) use ( $tok ) {
-				return $tok === $currentChar;
-			};
+			$testCurrentChar = (static fn($currentChar) => $tok === $currentChar);
 		}
 
 		if ( $testCurrentChar( $this->input[$this->pos] ) ) {
@@ -3359,7 +3351,7 @@ class Less_Parser {
 	 * @internal For internal use only
 	 */
 	public static function round( $input, $precision = 0 ) {
-		$precision = pow( 10, $precision );
+		$precision = 10 ** $precision;
 		$i = $input * $precision;
 
 		$ceil = ceil( $i );
@@ -3372,7 +3364,7 @@ class Less_Parser {
 	}
 
 	/** @return never */
-	public function Error( $msg ) {
+	public function Error( $msg ): never {
 		throw new Less_Exception_Parser( $msg, null, $this->furthest, $this->env->currentFileInfo );
 	}
 

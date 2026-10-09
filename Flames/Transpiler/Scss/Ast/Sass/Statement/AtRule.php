@@ -26,20 +26,11 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 final class AtRule extends ParentStatement
 {
-    private readonly Interpolation $name;
-
-    private readonly ?Interpolation $value;
-
-    private readonly FileSpan $span;
-
     /**
      * @param Statement[]|null $children
      */
-    public function __construct(Interpolation $name, FileSpan $span, ?Interpolation $value = null, ?array $children = null)
+    public function __construct(private readonly Interpolation $name, private readonly FileSpan $span, private readonly ?Interpolation $value = null, ?array $children = null)
     {
-        $this->name = $name;
-        $this->value = $value;
-        $this->span = $span;
         parent::__construct($children);
     }
 

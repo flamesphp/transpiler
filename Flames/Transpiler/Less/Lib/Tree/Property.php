@@ -5,23 +5,17 @@
  */
 class Less_Tree_Property extends Less_Tree {
 
-	/** @var string */
-	public $name;
-	/** @var int|null */
-	public $index;
-	/** @var array|null */
-	public $currentFileInfo;
 	/** @var bool */
 	public $evaluating = false;
 
 	/**
-	 * @param string $name
-	 */
-	public function __construct( $name, $index = null, $currentFileInfo = null ) {
-		$this->name = $name;
-		$this->index = $index;
-		$this->currentFileInfo = $currentFileInfo;
-	}
+     * @param string $name
+     * @param int|null $index
+     * @param mixed[]|null $currentFileInfo
+     */
+    public function __construct(public $name, public $index = null, public $currentFileInfo = null)
+    {
+    }
 
 	public function compile( $env ) {
 		$name = $this->name;

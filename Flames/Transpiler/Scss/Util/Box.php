@@ -22,19 +22,13 @@ namespace Flames\Transpiler\Scss\Util;
  *
  * @internal
  */
-final class Box implements Equatable
+final readonly class Box implements Equatable
 {
-    /**
-     * @var ModifiableBox<T>
-     */
-    private readonly ModifiableBox $inner;
-
     /**
      * @param ModifiableBox<T> $inner
      */
-    public function __construct(ModifiableBox $inner)
+    public function __construct(private ModifiableBox $inner)
     {
-        $this->inner = $inner;
     }
 
     /**

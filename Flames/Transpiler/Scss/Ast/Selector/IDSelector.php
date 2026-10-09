@@ -24,14 +24,11 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 final class IDSelector extends SimpleSelector
 {
-    /**
+    public function __construct(/**
      * The ID name this selects for.
      */
-    private readonly string $name;
-
-    public function __construct(string $name, FileSpan $span)
+    private readonly string $name, FileSpan $span)
     {
-        $this->name = $name;
         parent::__construct($span);
     }
 

@@ -87,6 +87,6 @@ final class ComplexSassNumber extends SassNumber
 
     public function withSlash(SassNumber $numerator, SassNumber $denominator): SassNumber
     {
-        return new self($this->getValue(), $this->numeratorUnits, $this->denominatorUnits, array($numerator, $denominator));
+        return new self($this->getValue(), $this->numeratorUnits, $this->denominatorUnits, [$numerator, $denominator]);
     }
 }

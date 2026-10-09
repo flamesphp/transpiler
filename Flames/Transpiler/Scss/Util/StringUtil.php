@@ -23,7 +23,7 @@ final class StringUtil
     public static function toSentence(array $iter, string $conjunction = 'and'): string
     {
         if (\count($iter) === 1) {
-            return $iter[array_key_first($iter)];
+            return array_first($iter);
         }
 
         $last = array_pop($iter);

@@ -34,7 +34,7 @@ abstract class SassNumber extends Value
     /**
      * @see https://www.w3.org/TR/css-values-3/
      */
-    private const CONVERSIONS = [
+    private const array CONVERSIONS = [
         'in' => [
             'in' => 1.0,
             'pc' => 6.0,
@@ -69,7 +69,7 @@ abstract class SassNumber extends Value
      * A map from human-readable names of unit types to the convertible units that
      * fall into those types.
      */
-    private const UNITS_BY_TYPE = [
+    private const array UNITS_BY_TYPE = [
         'length' => ['in', 'cm', 'pc', 'mm', 'q', 'pt', 'px'],
         'angle' => ['deg', 'grad', 'rad', 'turn'],
         'time' => ['s', 'ms'],
@@ -80,7 +80,7 @@ abstract class SassNumber extends Value
     /**
      * A map from units to the human-readable names of those unit types.
      */
-    private const TYPES_BY_UNIT = [
+    private const array TYPES_BY_UNIT = [
         'in' => 'length',
         'cm' => 'length',
         'pc' => 'length',
@@ -101,23 +101,19 @@ abstract class SassNumber extends Value
         'dppx' => 'pixel density',
     ];
 
-    private readonly float $value;
-
-    /**
-     * The representation of this number as two slash-separated numbers, if it has one.
-     *
-     * @var array{SassNumber, SassNumber}|null
-     * @internal
-     */
-    private readonly ?array $asSlash;
-
     /**
      * @param array{SassNumber, SassNumber}|null $asSlash
      */
-    protected function __construct(float $value, ?array $asSlash = null)
+    protected function __construct(
+        private readonly float $value,
+        /**
+         * The representation of this number as two slash-separated numbers, if it has one.
+         *
+         * @internal
+         */
+        private readonly ?array $asSlash = null
+    )
     {
-        $this->value = $value;
-        $this->asSlash = $asSlash;
     }
 
     /**
@@ -614,7 +610,7 @@ abstract class SassNumber extends Value
             //
             // see: https://github.com/php/php-src/commit/b3e26c3036a54e9821ea7119c26cdabe484fe36d
             // see: https://github.com/scssphp/scssphp/issues/752#issuecomment-2423857568
-            return SassBoolean::create($this->coerceUnits($other, [NumberUtil::class, 'fuzzyGreaterThan']));
+            return SassBoolean::create($this->coerceUnits($other, NumberUtil::fuzzyGreaterThan(...)));
         }
 
         throw new SassScriptException("Undefined operation \"$this > $other\".");
@@ -937,7 +933,7 @@ abstract class SassNumber extends Value
      */
     protected function multiplyUnits(float $value, array $otherNumerators, array $otherDenominators): SassNumber
     {
-        $newNumerators = array();
+        $newNumerators = [];
 
         foreach ($this->getNumeratorUnits() as $numerator) {
             foreach ($otherDenominators as $key => $denominator) {
@@ -1036,8 +1032,8 @@ abstract class SassNumber extends Value
     public function unitSuggestion(string $name, ?string $unit = null): string
     {
         $result = "\$$name"
-            . implode(array_map(fn($unit) => " * 1$unit", $this->getDenominatorUnits()))
-            . implode(array_map(fn($unit) => " / 1$unit", $this->getNumeratorUnits()))
+            . implode('', array_map(fn($unit) => " * 1$unit", $this->getDenominatorUnits()))
+            . implode('', array_map(fn($unit) => " / 1$unit", $this->getNumeratorUnits()))
             . ($unit === null ? '' : " * 1$unit");
 
         return $this->getNumeratorUnits() === [] ? $result : "calc($result)";

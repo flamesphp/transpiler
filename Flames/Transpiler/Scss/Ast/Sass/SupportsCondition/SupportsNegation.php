@@ -20,19 +20,16 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class SupportsNegation implements SupportsCondition
+final readonly class SupportsNegation implements SupportsCondition
 {
-    /**
-     * The condition that's been negated.
-     */
-    private readonly SupportsCondition $condition;
-
-    private readonly FileSpan $span;
-
-    public function __construct(SupportsCondition $condition, FileSpan $span)
+    public function __construct(
+        /**
+         * The condition that's been negated.
+         */
+        private SupportsCondition $condition,
+        private FileSpan $span
+    )
     {
-        $this->condition = $condition;
-        $this->span = $span;
     }
 
     public function getCondition(): SupportsCondition

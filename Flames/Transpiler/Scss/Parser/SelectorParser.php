@@ -45,19 +45,12 @@ final class SelectorParser extends Parser
     /**
      * Pseudo-class selectors that take unadorned selectors as arguments.
      */
-    private const SELECTOR_PSEUDO_CLASSES = ['not', 'is', 'matches', 'where', 'current', 'any', 'has', 'host', 'host-context'];
+    private const array SELECTOR_PSEUDO_CLASSES = ['not', 'is', 'matches', 'where', 'current', 'any', 'has', 'host', 'host-context'];
 
     /**
      * Pseudo-element selectors that take unadorned selectors as arguments.
      */
-    private const SELECTOR_PSEUDO_ELEMENTS = ['slotted'];
-
-    private readonly bool $allowParent;
-
-    /**
-     * Whether to parse the selector as plain CSS.
-     */
-    private readonly bool $plainCss;
+    private const array SELECTOR_PSEUDO_ELEMENTS = ['slotted'];
 
     /**
      * Creates a parser that parses CSS selectors.
@@ -68,10 +61,11 @@ final class SelectorParser extends Parser
      * If $plainCss is `true`, this will parse the selector as a plain CSS
      * selector rather than a Sass selector.
      */
-    public function __construct(string $contents, ?LoggerInterface $logger = null, ?UriInterface $url = null, bool $allowParent = true, ?InterpolationMap $interpolationMap = null, bool $plainCss = false)
+    public function __construct(string $contents, ?LoggerInterface $logger = null, ?UriInterface $url = null, private readonly bool $allowParent = true, ?InterpolationMap $interpolationMap = null, /**
+     * Whether to parse the selector as plain CSS.
+     */
+    private readonly bool $plainCss = false)
     {
-        $this->allowParent = $allowParent;
-        $this->plainCss = $plainCss;
         parent::__construct($contents, $logger, $url, $interpolationMap);
     }
 

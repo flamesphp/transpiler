@@ -23,30 +23,20 @@ use Flames\Transpiler\Scss\Span\FileSpan;
 final class ModifiableCssImport extends ModifiableCssNode implements CssImport
 {
     /**
-     * The URL being imported.
-     *
-     * This includes quotes.
-     *
-     * @var CssValue<string>
-     */
-    private readonly CssValue $url;
-
-    /**
-     * @var CssValue<string>|null
-     */
-    private readonly ?CssValue $modifiers;
-
-    private readonly FileSpan $span;
-
-    /**
      * @param CssValue<string> $url
      * @param CssValue<string>|null $modifiers
      */
-    public function __construct(CssValue $url, FileSpan $span, ?CssValue $modifiers = null)
+    public function __construct(
+        /**
+         * The URL being imported.
+         *
+         * This includes quotes.
+         */
+        private readonly CssValue $url,
+        private readonly FileSpan $span,
+        private readonly ?CssValue $modifiers = null
+    )
     {
-        $this->url = $url;
-        $this->modifiers = $modifiers;
-        $this->span = $span;
     }
 
     public function getUrl(): CssValue

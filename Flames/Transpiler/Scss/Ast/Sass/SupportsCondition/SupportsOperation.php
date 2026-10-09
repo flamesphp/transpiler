@@ -20,28 +20,21 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class SupportsOperation implements SupportsCondition
+final readonly class SupportsOperation implements SupportsCondition
 {
-    /**
-     * The left-hand operand.
-     */
-    private readonly SupportsCondition $left;
-
-    /**
-     * The right-hand operand.
-     */
-    private readonly SupportsCondition $right;
-
-    private readonly string $operator;
-
-    private readonly FileSpan $span;
-
-    public function __construct(SupportsCondition $left, SupportsCondition $right, string $operator, FileSpan $span)
+    public function __construct(
+        /**
+         * The left-hand operand.
+         */
+        private SupportsCondition $left,
+        /**
+         * The right-hand operand.
+         */
+        private SupportsCondition $right,
+        private string $operator,
+        private FileSpan $span
+    )
     {
-        $this->left = $left;
-        $this->right = $right;
-        $this->operator = $operator;
-        $this->span = $span;
     }
 
     public function getLeft(): SupportsCondition

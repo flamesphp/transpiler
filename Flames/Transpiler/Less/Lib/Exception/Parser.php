@@ -5,20 +5,6 @@
  */
 class Less_Exception_Parser extends Exception {
 
-	/**
-	 * The current file
-	 *
-	 * @var array
-	 */
-	public $currentFile;
-
-	/**
-	 * The current parser index
-	 *
-	 * @var int
-	 */
-	public $index;
-
 	/** @var string */
 	public $finalMessage = '';
 
@@ -32,11 +18,14 @@ class Less_Exception_Parser extends Exception {
 	 * @param array|null $currentFile The file
 	 * @param int $code The exception code
 	 */
-	public function __construct( $message = null, ?Exception $previous = null, $index = null, $currentFile = null, $code = 0 ) {
+	public function __construct( $message = null, ?Exception $previous = null, /**
+     * The current parser index
+     */
+    public $index = null, /**
+     * The current file
+     */
+    public $currentFile = null, $code = 0 ) {
 		parent::__construct( $message, $code, $previous );
-
-		$this->currentFile = $currentFile;
-		$this->index = $index;
 
 		$this->genMessage();
 	}

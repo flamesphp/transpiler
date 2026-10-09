@@ -22,13 +22,10 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class LoudComment implements Statement
+final readonly class LoudComment implements Statement
 {
-    private readonly Interpolation $text;
-
-    public function __construct(Interpolation $text)
+    public function __construct(private Interpolation $text)
     {
-        $this->text = $text;
     }
 
     public function getText(): Interpolation

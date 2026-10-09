@@ -22,19 +22,10 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  *
  * @internal
  */
-final class NumberExpression implements Expression
+final readonly class NumberExpression implements Expression
 {
-    private readonly float $value;
-
-    private readonly FileSpan $span;
-
-    private readonly ?string $unit;
-
-    public function __construct(float $value, FileSpan $span, ?string $unit = null)
+    public function __construct(private float $value, private FileSpan $span, private ?string $unit = null)
     {
-        $this->value = $value;
-        $this->span = $span;
-        $this->unit = $unit;
     }
 
     public function getValue(): float

@@ -21,27 +21,9 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 final class SimpleSassRuntimeException extends \Exception implements SassRuntimeException
 {
-    /**
-     * @var string
-     * @readonly
-     */
-    private $originalMessage;
-
-    /**
-     * @var FileSpan
-     * @readonly
-     */
-    private $span;
-
-    private readonly Trace $sassTrace;
-
-    public function __construct(string $message, FileSpan $span, Trace $sassTrace, ?\Throwable $previous = null)
+    public function __construct(private readonly string $originalMessage, private readonly FileSpan $span, private readonly Trace $sassTrace, ?\Throwable $previous = null)
     {
-        $this->originalMessage = $message;
-        $this->span = $span;
-        $this->sassTrace = $sassTrace;
-
-        parent::__construct(ErrorUtil::formatErrorMessage($message, $span, $this->sassTrace), 0, $previous);
+        parent::__construct(ErrorUtil::formatErrorMessage($this->originalMessage, $this->span, $this->sassTrace), 0, $previous);
     }
 
     /**

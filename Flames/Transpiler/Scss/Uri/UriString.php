@@ -62,7 +62,7 @@ final class UriString
      *
      * @var ComponentMap
      */
-    private const URI_COMPONENTS = [
+    private const array URI_COMPONENTS = [
         'scheme' => null, 'user' => null, 'pass' => null, 'host' => null,
         'port' => null, 'path' => '', 'query' => null, 'fragment' => null,
     ];
@@ -72,7 +72,7 @@ final class UriString
      *
      * @var array<string, array<string>>
      */
-    private const URI_SHORTCUTS = [
+    private const array URI_SHORTCUTS = [
         '' => ['path' => ''],
         '#' => ['fragment' => ''],
         '?' => ['query' => ''],
@@ -84,25 +84,20 @@ final class UriString
 
     /**
      * Range of invalid characters in URI 3986 string.
-     *
-     * @var string
      */
-    private const REGEXP_VALID_URI_RFC3986_CHARS = '/^(?:[A-Za-z0-9\-._~:\/?#[\]@!$&\'()*+,;=%]|%[0-9A-Fa-f]{2})*$/';
+    private const string REGEXP_VALID_URI_RFC3986_CHARS = '/^(?:[A-Za-z0-9\-._~:\/?#[\]@!$&\'()*+,;=%]|%[0-9A-Fa-f]{2})*$/';
 
     /**
      * Range of invalid characters in URI 3987 string.
-     *
-     * @var string
      */
-    private const REGEXP_INVALID_URI_RFC3987_CHARS = '/[\x00-\x1f\x7f\s]/';
+    private const string REGEXP_INVALID_URI_RFC3987_CHARS = '/[\x00-\x1f\x7f\s]/';
 
     /**
      * RFC3986 regular expression URI splitter.
      *
      * @link https://tools.ietf.org/html/rfc3986#appendix-B
-     * @var string
      */
-    private const REGEXP_URI_PARTS = ',^
+    private const string REGEXP_URI_PARTS = ',^
         (?<scheme>(?<scontent>[^:/?\#]+):)?    # URI scheme component
         (?<authority>//(?<acontent>[^/?\#]*))? # URI authority part
         (?<path>[^?\#]*)                       # URI path component
@@ -114,17 +109,15 @@ final class UriString
      * URI scheme regular expression.
      *
      * @link https://tools.ietf.org/html/rfc3986#section-3.1
-     * @var string
      */
-    private const REGEXP_URI_SCHEME = '/^([a-z][a-z\d+.-]*)?$/i';
+    private const string REGEXP_URI_SCHEME = '/^([a-z][a-z\d+.-]*)?$/i';
 
     /**
      * IPvFuture regular expression.
      *
      * @link https://tools.ietf.org/html/rfc3986#section-3.2.2
-     * @var string
      */
-    private const REGEXP_IP_FUTURE = '/^
+    private const string REGEXP_IP_FUTURE = '/^
         v(?<version>[A-F0-9])+\.
         (?:
             (?<unreserved>[a-z0-9_~\-\.])|
@@ -136,9 +129,8 @@ final class UriString
      * General registered name regular expression.
      *
      * @link https://tools.ietf.org/html/rfc3986#section-3.2.2
-     * @var string
      */
-    private const REGEXP_REGISTERED_NAME = '/(?(DEFINE)
+    private const string REGEXP_REGISTERED_NAME = '/(?(DEFINE)
         (?<unreserved>[a-z0-9_~\-])   # . is missing as it is used to separate labels
         (?<sub_delims>[!$&\'()*+,;=])
         (?<encoded>%[A-F0-9]{2})
@@ -150,9 +142,8 @@ final class UriString
      * Invalid characters in host regular expression.
      *
      * @link https://tools.ietf.org/html/rfc3986#section-3.2.2
-     * @var string
      */
-    private const REGEXP_INVALID_HOST_CHARS = '/
+    private const string REGEXP_INVALID_HOST_CHARS = '/
         [:\/?#\[\]@ ]  # gen-delims characters as well as the space character
     /ix';
 
@@ -160,41 +151,32 @@ final class UriString
      * Invalid path for URI without scheme and authority regular expression.
      *
      * @link https://tools.ietf.org/html/rfc3986#section-3.3
-     * @var string
      */
-    private const REGEXP_INVALID_PATH = ',^(([^/]*):)(.*)?/,';
+    private const string REGEXP_INVALID_PATH = ',^(([^/]*):)(.*)?/,';
 
     /**
      * Host and Port splitter regular expression.
-     *
-     * @var string
      */
-    private const REGEXP_HOST_PORT = ',^(?<host>\[.*\]|[^:]*)(:(?<port>.*))?$,';
+    private const string REGEXP_HOST_PORT = ',^(?<host>\[.*\]|[^:]*)(:(?<port>.*))?$,';
 
     /**
      * IDN Host detector regular expression.
-     *
-     * @var string
      */
-    private const REGEXP_IDN_PATTERN = '/[^\x20-\x7f]/';
+    private const string REGEXP_IDN_PATTERN = '/[^\x20-\x7f]/';
 
     /** @var array<string,int> */
-    private const DOT_SEGMENTS = ['.' => 1, '..' => 1];
+    private const array DOT_SEGMENTS = ['.' => 1, '..' => 1];
 
     /**
      * Only the address block fe80::/10 can have a Zone ID attach to
      * let's detect the link local significant 10 bits.
-     *
-     * @var string
      */
-    private const ZONE_ID_ADDRESS_BLOCK = "\xfe\x80";
+    private const string ZONE_ID_ADDRESS_BLOCK = "\xfe\x80";
 
     /**
      * Maximum number of host cached.
-     *
-     * @var int
      */
-    private const MAXIMUM_HOST_CACHED = 100;
+    private const int MAXIMUM_HOST_CACHED = 100;
 
     /**
      * Generate an IRI string representation (RFC3987) from its parsed representation
@@ -479,7 +461,7 @@ final class UriString
 
         $oldSegments = explode('/', $path);
         $newPath = implode('/', array_reduce($oldSegments, $reducer(...), []));
-        if (isset(self::DOT_SEGMENTS[$oldSegments[array_key_last($oldSegments)]])) {
+        if (isset(self::DOT_SEGMENTS[array_last($oldSegments)])) {
             $newPath .= '/';
         }
 

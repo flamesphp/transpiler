@@ -24,14 +24,11 @@ use Flames\Transpiler\Scss\Visitor\ValueVisitor;
  */
 final class SassFunction extends Value
 {
-    private readonly SassCallable $callable;
-
     /**
      * @internal
      */
-    public function __construct(SassCallable $callable)
+    public function __construct(private readonly SassCallable $callable)
     {
-        $this->callable = $callable;
     }
 
     /**

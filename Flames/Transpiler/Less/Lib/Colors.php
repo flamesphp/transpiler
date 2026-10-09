@@ -6,7 +6,7 @@
  */
 class Less_Colors {
 
-	private const COLORS = [
+	private const array COLORS = [
 		'aliceblue' => '#f0f8ff',
 		'antiquewhite' => '#faebd7',
 		'aqua' => '#00ffff',

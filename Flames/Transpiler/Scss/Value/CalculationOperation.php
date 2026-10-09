@@ -18,31 +18,26 @@ use Flames\Transpiler\Scss\Util\Equatable;
 /**
  * A binary operation that can appear in a {@see SassCalculation}.
  */
-final class CalculationOperation implements Equatable, \Stringable
+final readonly class CalculationOperation implements Equatable, \Stringable
 {
-    private readonly CalculationOperator $operator;
-
-    /**
-     * The left-hand operand.
-     *
-     * This is either a {@see SassNumber}, a {@see SassCalculation}, an unquoted
-     * {@see SassString}, or a {@see CalculationOperation}.
-     */
-    private readonly object $left;
-
-    /**
-     * The right-hand operand.
-     *
-     * This is either a {@see SassNumber}, a {@see SassCalculation}, an unquoted
-     * {@see SassString}, or a {@see CalculationOperation}.
-     */
-    private readonly object $right;
-
-    public function __construct(CalculationOperator $operator, object $left, object $right)
+    public function __construct(
+        private CalculationOperator $operator,
+        /**
+         * The left-hand operand.
+         *
+         * This is either a {@see SassNumber}, a {@see SassCalculation}, an unquoted
+         * {@see SassString}, or a {@see CalculationOperation}.
+         */
+        private object $left,
+        /**
+         * The right-hand operand.
+         *
+         * This is either a {@see SassNumber}, a {@see SassCalculation}, an unquoted
+         * {@see SassString}, or a {@see CalculationOperation}.
+         */
+        private object $right
+    )
     {
-        $this->operator = $operator;
-        $this->left = $left;
-        $this->right = $right;
     }
 
     public function getOperator(): CalculationOperator

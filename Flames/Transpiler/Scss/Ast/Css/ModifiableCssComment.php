@@ -22,14 +22,8 @@ use Flames\Transpiler\Scss\Span\FileSpan;
  */
 final class ModifiableCssComment extends ModifiableCssNode implements CssComment
 {
-    private readonly string $text;
-
-    private readonly FileSpan $span;
-
-    public function __construct(string $text, FileSpan $span)
+    public function __construct(private readonly string $text, private readonly FileSpan $span)
     {
-        $this->text = $text;
-        $this->span = $span;
     }
 
     public function getText(): string

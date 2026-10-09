@@ -19,5 +19,5 @@ namespace Flames\Transpiler\Scss;
  */
 final class Version
 {
-    const VERSION = '2.1.0';
+    const string VERSION = '2.1.0';
 }
